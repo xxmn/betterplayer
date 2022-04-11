@@ -24,6 +24,15 @@ internal class CacheDataSourceFactory(
             defaultDatasourceFactory.createDataSource(),
             FileDataSource(),
             CacheDataSink(betterPlayerCache, maxFileSize),
+
+
+            // FLAG_BLOCK_ON_CACHE:
+            //A flag indicating whether we will block reads if the cache key is locked.
+            // If unset then data is read from upstream if the cache key is locked, regardless of whether the data is cached.
+
+            // FLAG_IGNORE_CACHE_ON_ERROR:
+            // A flag indicating whether the cache is bypassed following any cache related error.
+            // If set then cache related exceptions may be thrown for one cycle of open, read and close calls. Subsequent cycles of these calls will then bypass the cache.
             CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR,
             null
         )
