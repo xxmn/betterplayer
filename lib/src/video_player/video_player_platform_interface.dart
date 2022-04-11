@@ -45,8 +45,7 @@ abstract class VideoPlayerPlatform {
       try {
         instance._verifyProvidesDefaultImplementations();
       } catch (_) {
-        throw AssertionError(
-            'Platform interfaces must not be implemented with `implements`');
+        throw AssertionError('Platform interfaces must not be implemented with `implements`');
       }
     }
     _instance = instance;
@@ -66,8 +65,7 @@ abstract class VideoPlayerPlatform {
   }
 
   /// Creates an instance of a video player and returns its textureId.
-  Future<int?> create(
-      {BetterPlayerBufferingConfiguration? bufferingConfiguration}) {
+  Future<int?> create({BetterPlayerBufferingConfiguration? bufferingConfiguration}) {
     throw UnimplementedError('create() has not been implemented.');
   }
 
@@ -117,8 +115,7 @@ abstract class VideoPlayerPlatform {
   }
 
   /// Sets the video track parameters (used to select quality of the video)
-  Future<void> setTrackParameters(
-      int? textureId, int? width, int? height, int? bitrate) {
+  Future<void> setTrackParameters(int? textureId, int? width, int? height, int? bitrate) {
     throw UnimplementedError('setTrackParameters() has not been implemented.');
   }
 
@@ -138,21 +135,17 @@ abstract class VideoPlayerPlatform {
   }
 
   ///Enables PiP mode.
-  Future<void> enablePictureInPicture(int? textureId, double? top, double? left,
-      double? width, double? height) {
-    throw UnimplementedError(
-        'enablePictureInPicture() has not been implemented.');
+  Future<void> enablePictureInPicture(int? textureId, double? top, double? left, double? width, double? height) {
+    throw UnimplementedError('enablePictureInPicture() has not been implemented.');
   }
 
   ///Disables PiP mode.
   Future<void> disablePictureInPicture(int? textureId) {
-    throw UnimplementedError(
-        'disablePictureInPicture() has not been implemented.');
+    throw UnimplementedError('disablePictureInPicture() has not been implemented.');
   }
 
   Future<bool?> isPictureInPictureEnabled(int? textureId) {
-    throw UnimplementedError(
-        'isPictureInPictureEnabled() has not been implemented.');
+    throw UnimplementedError('isPictureInPictureEnabled() has not been implemented.');
   }
 
   Future<void> setAudioTrack(int? textureId, String? name, int? index) {
@@ -207,6 +200,7 @@ class DataSource {
   DataSource({
     required this.sourceType,
     this.uri,
+    this.audioUri,
     this.formatHint,
     this.asset,
     this.package,
@@ -221,6 +215,7 @@ class DataSource {
     this.imageUrl,
     this.notificationChannelName,
     this.overriddenDuration,
+    this.start,
     this.licenseUrl,
     this.certificateUrl,
     this.drmHeaders,
@@ -243,6 +238,7 @@ class DataSource {
   /// This will be in different formats depending on the [DataSourceType] of
   /// the original video.
   final String? uri;
+  final String? audioUri;
 
   /// **Android only**. Will override the platform's generic file format
   /// detection with whatever is set here.
@@ -292,6 +288,7 @@ class DataSource {
   final String? notificationChannelName;
 
   final Duration? overriddenDuration;
+  final int? start;
 
   final String? licenseUrl;
 
@@ -326,7 +323,7 @@ class DataSource {
 
   @override
   String toString() {
-    return 'DataSource{sourceType: $sourceType, uri: $uri certificateUrl: $certificateUrl, formatHint:'
+    return 'DataSource{sourceType: $sourceType, uri: $uri, audioUrl: $audioUri, certificateUrl: $certificateUrl, formatHint:'
         ' $formatHint, asset: $asset, package: $package, headers: $headers,'
         ' useCache: $useCache,maxCacheSize: $maxCacheSize, maxCacheFileSize: '
         '$maxCacheFileSize, showNotification: $showNotification, title: $title,'
@@ -420,11 +417,7 @@ class VideoEvent {
   }
 
   @override
-  int get hashCode =>
-      eventType.hashCode ^
-      duration.hashCode ^
-      size.hashCode ^
-      buffered.hashCode;
+  int get hashCode => eventType.hashCode ^ duration.hashCode ^ size.hashCode ^ buffered.hashCode;
 }
 
 /// Type of the event.
@@ -517,10 +510,7 @@ class DurationRange {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DurationRange &&
-          runtimeType == other.runtimeType &&
-          start == other.start &&
-          end == other.end;
+      other is DurationRange && runtimeType == other.runtimeType && start == other.start && end == other.end;
 
   @override
   int get hashCode => start.hashCode ^ end.hashCode;

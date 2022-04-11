@@ -40,18 +40,16 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
           'minBufferMs': bufferingConfiguration.minBufferMs,
           'maxBufferMs': bufferingConfiguration.maxBufferMs,
           'bufferForPlaybackMs': bufferingConfiguration.bufferForPlaybackMs,
-          'bufferForPlaybackAfterRebufferMs':
-              bufferingConfiguration.bufferForPlaybackAfterRebufferMs,
+          'bufferForPlaybackAfterRebufferMs': bufferingConfiguration.bufferForPlaybackAfterRebufferMs,
         },
       );
 
-      response = responseLinkedHashMap != null
-          ? Map<String, dynamic>.from(responseLinkedHashMap)
-          : null;
+      response = responseLinkedHashMap != null ? Map<String, dynamic>.from(responseLinkedHashMap) : null;
     }
     return response?['textureId'] as int?;
   }
 
+  /// todo: asset 类型不支持audio、video 分离
   @override
   Future<void> setDataSource(int? textureId, DataSource dataSource) async {
     Map<String, dynamic>? dataSourceDescription;
@@ -70,6 +68,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
+          'start': dataSource.start,
           'activityName': dataSource.activityName
         };
         break;
@@ -77,6 +76,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
         dataSourceDescription = <String, dynamic>{
           'key': dataSource.key,
           'uri': dataSource.uri,
+          'audioUri': dataSource.audioUri,
           'formatHint': dataSource.rawFormalHint,
           'headers': dataSource.headers,
           'useCache': dataSource.useCache,
@@ -89,6 +89,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
+          'start': dataSource.start,
           'licenseUrl': dataSource.licenseUrl,
           'certificateUrl': dataSource.certificateUrl,
           'drmHeaders': dataSource.drmHeaders,
@@ -101,6 +102,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
         dataSourceDescription = <String, dynamic>{
           'key': dataSource.key,
           'uri': dataSource.uri,
+          'audioUri': dataSource.audioUri,
           'useCache': false,
           'maxCacheSize': 0,
           'maxCacheFileSize': 0,
@@ -110,6 +112,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
+          'start': dataSource.start,
           'activityName': dataSource.activityName,
           'clearKey': dataSource.clearKey
         };
@@ -175,8 +178,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
   }
 
   @override
-  Future<void> setTrackParameters(
-      int? textureId, int? width, int? height, int? bitrate) {
+  Future<void> setTrackParameters(int? textureId, int? width, int? height, int? bitrate) {
     return _channel.invokeMethod<void>(
       'setTrackParameters',
       <String, dynamic>{
@@ -223,8 +225,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
   }
 
   @override
-  Future<void> enablePictureInPicture(int? textureId, double? top, double? left,
-      double? width, double? height) async {
+  Future<void> enablePictureInPicture(int? textureId, double? top, double? left, double? width, double? height) async {
     return _channel.invokeMethod<void>(
       'enablePictureInPicture',
       <String, dynamic>{
@@ -319,9 +320,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
 
   @override
   Stream<VideoEvent> videoEventsFor(int? textureId) {
-    return _eventChannelFor(textureId)
-        .receiveBroadcastStream()
-        .map((dynamic event) {
+    return _eventChannelFor(textureId).receiveBroadcastStream().map((dynamic event) {
       late Map<dynamic, dynamic> map;
       if (event is Map) {
         map = event;

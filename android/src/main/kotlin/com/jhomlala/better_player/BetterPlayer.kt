@@ -35,6 +35,8 @@ import com.google.android.exoplayer2.drm.LocalMediaDrmCallback
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ClippingMediaSource
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.BitmapCallback
 import androidx.work.OneTimeWorkRequest
@@ -87,7 +89,6 @@ internal class BetterPlayer(
     private var exoPlayerEventListener: Player.Listener? = null
     private var bitmap: Bitmap? = null
     private var mediaSession: MediaSessionCompat? = null
-    private var drmSessionManager: DrmSessionManager? = null
     private val workManager: WorkManager
     private val workerObserverMap: HashMap<UUID, Observer<WorkInfo?>>
     private val customDefaultLoadControl: CustomDefaultLoadControl =
@@ -116,6 +117,7 @@ internal class BetterPlayer(
         context: Context,
         key: String?,
         dataSource: String?,
+        audioSource: String?,
         formatHint: String?,
         result: MethodChannel.Result,
         headers: Map<String, String>?,
@@ -123,6 +125,7 @@ internal class BetterPlayer(
         maxCacheSize: Long,
         maxCacheFileSize: Long,
         overriddenDuration: Long,
+        start: Long,
         licenseUrl: String?,
         drmHeaders: Map<String, String>?,
         cacheKey: String?,
@@ -130,9 +133,85 @@ internal class BetterPlayer(
     ) {
         this.key = key
         isInitialized = false
-        val uri = Uri.parse(dataSource)
+        val mediaSource = _buildMedia(
+            dataSource,
+            audioSource,
+            headers,
+            formatHint,
+            useCache,
+            cacheKey,
+            maxCacheSize,
+            maxCacheFileSize,
+            licenseUrl,
+            drmHeaders,
+            clearKey,
+            context
+        )
+        var clippingMediaSource =
+            if (start > 0L && overriddenDuration > 0L) {
+                ClippingMediaSource(mediaSource, start*1000, start*1000 + overriddenDuration * 1000)
+            } else if(start > 0L){
+                ClippingMediaSource(mediaSource, start*1000, C.TIME_END_OF_SOURCE)
+            }else if(overriddenDuration > 0L){
+                ClippingMediaSource(mediaSource, 0, overriddenDuration * 1000)
+            }else{
+                mediaSource
+            }
+        exoPlayer!!.setMediaSource(clippingMediaSource)
+        exoPlayer.prepare()
+        result.success(null)
+    }
+
+    private fun _buildMedia(
+        dataSource: String?,
+        audioSource: String?,
+        headers: Map<String, String>?,
+        formatHint: String?,
+        useCache: Boolean,
+        cacheKey: String?,
+        maxCacheSize: Long,
+        maxCacheFileSize: Long,
+        licenseUrl: String?,
+        drmHeaders: Map<String, String>?,
+        clearKey: String?,
+        context: Context
+    ) : MediaSource {
         var dataSourceFactory: DataSource.Factory?
+        val uri = Uri.parse(dataSource)
         val userAgent = getUserAgent(headers)
+        if (isHTTP(uri)) {
+            dataSourceFactory = getDataSourceFactory(userAgent, headers)
+            if (useCache && maxCacheSize > 0 && maxCacheFileSize > 0) {
+                dataSourceFactory = CacheDataSourceFactory(
+                    context,
+                    maxCacheSize,
+                    maxCacheFileSize,
+                    dataSourceFactory
+                )
+            }
+        } else {
+            dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
+        }
+
+        var drmSessionManager = _buildDrmSessionManager(licenseUrl, drmHeaders, clearKey)
+        var videoMediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, cacheKey, drmSessionManager, context)
+
+        if (audioSource != null && audioSource.isNotEmpty()) {
+            val audioUri = Uri.parse(audioSource)
+            var audioMediaSource = buildMediaSource(audioUri, dataSourceFactory, null, null, null, context)
+            return MergingMediaSource(videoMediaSource, audioMediaSource)
+        }else{
+            return videoMediaSource
+        }
+
+    }
+
+    private fun _buildDrmSessionManager(
+        licenseUrl: String?,
+        drmHeaders: Map<String, String>?,
+        clearKey: String?
+    ) : DrmSessionManager? {
+        var drmSessionManager: DrmSessionManager? = null
         if (licenseUrl != null && licenseUrl.isNotEmpty()) {
             val httpMediaDrmCallback =
                 HttpMediaDrmCallback(licenseUrl, DefaultHttpDataSource.Factory())
@@ -178,28 +257,7 @@ internal class BetterPlayer(
         } else {
             drmSessionManager = null
         }
-        if (isHTTP(uri)) {
-            dataSourceFactory = getDataSourceFactory(userAgent, headers)
-            if (useCache && maxCacheSize > 0 && maxCacheFileSize > 0) {
-                dataSourceFactory = CacheDataSourceFactory(
-                    context,
-                    maxCacheSize,
-                    maxCacheFileSize,
-                    dataSourceFactory
-                )
-            }
-        } else {
-            dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
-        }
-        val mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, cacheKey, context)
-        if (overriddenDuration != 0L) {
-            val clippingMediaSource = ClippingMediaSource(mediaSource, 0, overriddenDuration * 1000)
-            exoPlayer!!.setMediaSource(clippingMediaSource)
-        } else {
-            exoPlayer!!.setMediaSource(mediaSource)
-        }
-        exoPlayer.prepare()
-        result.success(null)
+        return drmSessionManager
     }
 
     fun setupPlayerNotification(
@@ -440,6 +498,7 @@ internal class BetterPlayer(
         mediaDataSourceFactory: DataSource.Factory,
         formatHint: String?,
         cacheKey: String?,
+        drmSessionManager: DrmSessionManager?,
         context: Context
     ): MediaSource {
         val type: Int

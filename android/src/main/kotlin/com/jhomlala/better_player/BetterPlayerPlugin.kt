@@ -234,6 +234,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         val key = getParameter(dataSource, KEY_PARAMETER, "")
         val headers: Map<String, String> = getParameter(dataSource, HEADERS_PARAMETER, HashMap())
         val overriddenDuration: Number = getParameter(dataSource, OVERRIDDEN_DURATION_PARAMETER, 0)
+        val start: Number = getParameter(dataSource, START_PARAMETER, 0)
         if (dataSource[ASSET_PARAMETER] != null) {
             val asset = getParameter(dataSource, ASSET_PARAMETER, "")
             val assetLookupKey: String = if (dataSource[PACKAGE_PARAMETER] != null) {
@@ -251,12 +252,14 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 key,
                 "asset:///$assetLookupKey",
                 null,
+                null,
                 result,
                 headers,
                 false,
                 0L,
                 0L,
                 overriddenDuration.toLong(),
+                start.toLong(),
                 null,
                 null, null, null
             )
@@ -268,6 +271,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
             val maxCacheSize = maxCacheSizeNumber.toLong()
             val maxCacheFileSize = maxCacheFileSizeNumber.toLong()
             val uri = getParameter(dataSource, URI_PARAMETER, "")
+            val audioUri = getParameter<String?>(dataSource, AUDIO_URI_PARAMETER, null)
             val cacheKey = getParameter<String?>(dataSource, CACHE_KEY_PARAMETER, null)
             val formatHint = getParameter<String?>(dataSource, FORMAT_HINT_PARAMETER, null)
             val licenseUrl = getParameter<String?>(dataSource, LICENSE_URL_PARAMETER, null)
@@ -278,6 +282,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 flutterState!!.applicationContext,
                 key,
                 uri,
+                audioUri,
                 formatHint,
                 result,
                 headers,
@@ -285,6 +290,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 maxCacheSize,
                 maxCacheFileSize,
                 overriddenDuration.toLong(),
+                start.toLong(),
                 licenseUrl,
                 drmHeaders,
                 cacheKey,
@@ -491,6 +497,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         private const val ASSET_PARAMETER = "asset"
         private const val PACKAGE_PARAMETER = "package"
         private const val URI_PARAMETER = "uri"
+        private const val AUDIO_URI_PARAMETER = "audioUri"
         private const val FORMAT_HINT_PARAMETER = "formatHint"
         private const val TEXTURE_ID_PARAMETER = "textureId"
         private const val LOOPING_PARAMETER = "looping"
@@ -506,6 +513,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         private const val IMAGE_URL_PARAMETER = "imageUrl"
         private const val NOTIFICATION_CHANNEL_NAME_PARAMETER = "notificationChannelName"
         private const val OVERRIDDEN_DURATION_PARAMETER = "overriddenDuration"
+        private const val START_PARAMETER = "start"
         private const val NAME_PARAMETER = "name"
         private const val INDEX_PARAMETER = "index"
         private const val LICENSE_URL_PARAMETER = "licenseUrl"
