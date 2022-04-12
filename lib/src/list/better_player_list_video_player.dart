@@ -21,8 +21,7 @@ class BetterPlayerListVideoPlayer extends StatefulWidget {
   ///Flag to determine if video should be auto paused
   final bool autoPause;
 
-  final BetterPlayerListVideoPlayerController?
-      betterPlayerListVideoPlayerController;
+  final BetterPlayerListVideoPlayerController? betterPlayerListVideoPlayerController;
 
   const BetterPlayerListVideoPlayer(
     this.dataSource, {
@@ -32,17 +31,15 @@ class BetterPlayerListVideoPlayer extends StatefulWidget {
     this.autoPause = true,
     this.betterPlayerListVideoPlayerController,
     Key? key,
-  })  : assert(playFraction >= 0.0 && playFraction <= 1.0,
-            "Play fraction can't be null and must be between 0.0 and 1.0"),
+  })  : assert(
+            playFraction >= 0.0 && playFraction <= 1.0, "Play fraction can't be null and must be between 0.0 and 1.0"),
         super(key: key);
 
   @override
-  _BetterPlayerListVideoPlayerState createState() =>
-      _BetterPlayerListVideoPlayerState();
+  _BetterPlayerListVideoPlayerState createState() => _BetterPlayerListVideoPlayerState();
 }
 
-class _BetterPlayerListVideoPlayerState
-    extends State<BetterPlayerListVideoPlayer>
+class _BetterPlayerListVideoPlayerState extends State<BetterPlayerListVideoPlayer>
     with AutomaticKeepAliveClientMixin<BetterPlayerListVideoPlayer> {
   BetterPlayerController? _betterPlayerController;
   bool _isDisposing = false;
@@ -55,13 +52,11 @@ class _BetterPlayerListVideoPlayerState
         playerVisibilityChangedBehavior: onVisibilityChanged,
       ),
       betterPlayerDataSource: widget.dataSource,
-      betterPlayerPlaylistConfiguration:
-          const BetterPlayerPlaylistConfiguration(),
+      betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(),
     );
 
     if (widget.betterPlayerListVideoPlayerController != null) {
-      widget.betterPlayerListVideoPlayerController!
-          .setBetterPlayerController(_betterPlayerController);
+      widget.betterPlayerListVideoPlayerController!.setBetterPlayerController(_betterPlayerController);
     }
   }
 
@@ -76,8 +71,7 @@ class _BetterPlayerListVideoPlayerState
   Widget build(BuildContext context) {
     super.build(context);
     return AspectRatio(
-      aspectRatio: _betterPlayerController!.getAspectRatio() ??
-          BetterPlayerUtils.calculateAspectRatio(context),
+      aspectRatio: _betterPlayerController!.getAspectRatio() ?? BetterPlayerUtils.calculateAspectRatio(context),
       child: BetterPlayer(
         key: Key("${_getUniqueKey()}_player"),
         controller: _betterPlayerController!,
