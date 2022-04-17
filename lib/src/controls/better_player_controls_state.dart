@@ -19,6 +19,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
   VideoPlayerValue? get latestValue;
 
   bool controlsNotVisible = true;
+  bool isLocked = false;
 
   void cancelAndRestartTimer();
 
@@ -475,6 +476,15 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget> extends State
         betterPlayerController?.postEvent(BetterPlayerEvent(BetterPlayerEventType.controlsHiddenStart));
       }
       controlsNotVisible = notVisible;
+    });
+  }
+
+  void setLocked(bool locked) {
+    setState(() {
+      if (locked) {
+        betterPlayerController?.postEvent(BetterPlayerEvent(BetterPlayerEventType.controlsLockStart));
+      }
+      isLocked = locked;
     });
   }
 }

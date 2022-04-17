@@ -74,6 +74,7 @@ class BetterPlayerControlsConfiguration {
 
   ///Time to hide controls
   final Duration controlsHideTime;
+  final Duration lockedHideTime;
 
   ///Parameter used to build custom controls
   final Widget Function(
@@ -164,7 +165,7 @@ class BetterPlayerControlsConfiguration {
   final Color overflowModalTextColor;
 
   const BetterPlayerControlsConfiguration({
-    this.controlBarColor = Colors.black87,
+    this.controlBarColor = Colors.black45,
     this.textColor = Colors.white,
     this.iconsColor = Colors.white,
     this.playIcon = Icons.play_arrow_outlined,
@@ -188,6 +189,7 @@ class BetterPlayerControlsConfiguration {
     this.progressBarBufferedColor = Colors.white70,
     this.progressBarBackgroundColor = Colors.white60,
     this.controlsHideTime = const Duration(milliseconds: 300),
+    this.lockedHideTime = const Duration(milliseconds: 300),
     this.customControlsBuilder,
     this.playerTheme,
     this.showControls = true,

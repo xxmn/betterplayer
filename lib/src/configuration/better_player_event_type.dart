@@ -11,6 +11,8 @@ enum BetterPlayerEventType {
   finished,
   exception,
   controlsVisible,
+  controlsLockStart,
+  controlsLockEnd,
   controlsHiddenStart,
   controlsHiddenEnd,
   setSpeed,

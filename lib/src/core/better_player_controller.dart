@@ -219,9 +219,12 @@ class BetterPlayerController {
 
   ///Setup new data source in Better Player.
   Future setupDataSource(BetterPlayerDataSource betterPlayerDataSource) async {
-    postEvent(BetterPlayerEvent(BetterPlayerEventType.setupDataSource, parameters: <String, dynamic>{
-      _dataSourceParameter: betterPlayerDataSource,
-    }));
+    postEvent(
+      BetterPlayerEvent(
+        BetterPlayerEventType.setupDataSource,
+        parameters: <String, dynamic>{_dataSourceParameter: betterPlayerDataSource},
+      ),
+    );
     _postControllerEvent(BetterPlayerControllerEvent.setupDataSource);
     _hasCurrentDataSourceStarted = false;
     _hasCurrentDataSourceInitialized = false;
@@ -617,7 +620,11 @@ class BetterPlayerController {
     await videoPlayerController!.seekTo(moment);
 
     _postEvent(
-        BetterPlayerEvent(BetterPlayerEventType.seekTo, parameters: <String, dynamic>{_durationParameter: moment}));
+      BetterPlayerEvent(
+        BetterPlayerEventType.seekTo,
+        parameters: <String, dynamic>{_durationParameter: moment},
+      ),
+    );
 
     final Duration? currentDuration = videoPlayerController!.value.duration;
     if (currentDuration == null) {

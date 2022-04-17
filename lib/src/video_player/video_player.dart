@@ -68,7 +68,7 @@ class VideoPlayerValue {
   final bool isBuffering;
 
   /// The current volume of the playback.
-  final double volume;
+  double volume;
 
   /// The current speed of the playback
   final double speed;
@@ -206,6 +206,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     unawaited(_applyVolume());
 
     void eventListener(VideoEvent event) {
+      // print("eventListener, event.eventType: ${event.eventType}");
       if (_isDisposed) {
         return;
       }
