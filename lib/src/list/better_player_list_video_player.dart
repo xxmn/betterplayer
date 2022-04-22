@@ -21,7 +21,7 @@ class BPListVideoPlayer extends StatefulWidget {
   ///Flag to determine if video should be auto paused
   final bool autoPause;
 
-  final BPListVideoPlayerController? betterPlayerListVideoPlayerController;
+  final BPListVideoPlayerController? bpListVideoPlayerController;
 
   const BPListVideoPlayer(
     this.dataSource, {
@@ -29,7 +29,7 @@ class BPListVideoPlayer extends StatefulWidget {
     this.playFraction = 0.6,
     this.autoPlay = true,
     this.autoPause = true,
-    this.betterPlayerListVideoPlayerController,
+    this.bpListVideoPlayerController,
     Key? key,
   })  : assert(
             playFraction >= 0.0 && playFraction <= 1.0, "Play fraction can't be null and must be between 0.0 and 1.0"),
@@ -40,26 +40,26 @@ class BPListVideoPlayer extends StatefulWidget {
 }
 
 class _BPListVideoPlayerState extends State<BPListVideoPlayer> with AutomaticKeepAliveClientMixin<BPListVideoPlayer> {
-  BPController? _betterPlayerController;
+  BPController? _bpController;
   bool _isDisposing = false;
 
   @override
   void initState() {
     super.initState();
-    _betterPlayerController = BPController(
+    _bpController = BPController(
       widget.configuration.copyWith(playerVisibilityChangedBehavior: onVisibilityChanged),
-      betterPlayerDataSource: widget.dataSource,
-      betterPlayerPlaylistConfiguration: const BPPlaylistConfiguration(),
+      bpDataSource: widget.dataSource,
+      bpPlaylistConfiguration: const BPPlaylistConfiguration(),
     );
 
-    if (widget.betterPlayerListVideoPlayerController != null) {
-      widget.betterPlayerListVideoPlayerController!.setBPController(_betterPlayerController);
+    if (widget.bpListVideoPlayerController != null) {
+      widget.bpListVideoPlayerController!.setBPController(_bpController);
     }
   }
 
   @override
   void dispose() {
-    _betterPlayerController!.dispose();
+    _bpController!.dispose();
     _isDisposing = true;
     super.dispose();
   }
@@ -68,24 +68,24 @@ class _BPListVideoPlayerState extends State<BPListVideoPlayer> with AutomaticKee
   Widget build(BuildContext context) {
     super.build(context);
     return AspectRatio(
-      aspectRatio: _betterPlayerController!.getAspectRatio() ?? BPUtils.calculateAspectRatio(context),
+      aspectRatio: _bpController!.getAspectRatio() ?? BPUtils.calculateAspectRatio(context),
       child: BP(
         key: Key("${_getUniqueKey()}_player"),
-        controller: _betterPlayerController!,
+        controller: _bpController!,
       ),
     );
   }
 
   void onVisibilityChanged(double visibleFraction) async {
-    final bool? isPlaying = _betterPlayerController!.isPlaying();
-    final bool? initialized = _betterPlayerController!.isVideoInitialized();
+    final bool? isPlaying = _bpController!.isPlaying();
+    final bool? initialized = _bpController!.isVideoInitialized();
     if (visibleFraction >= widget.playFraction) {
       if (widget.autoPlay && initialized! && !isPlaying! && !_isDisposing) {
-        _betterPlayerController!.play();
+        _bpController!.play();
       }
     } else {
       if (widget.autoPause && initialized! && isPlaying! && !_isDisposing) {
-        _betterPlayerController!.pause();
+        _bpController!.pause();
       }
     }
   }

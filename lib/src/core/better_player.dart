@@ -17,23 +17,23 @@ class BP extends StatefulWidget {
 
   factory BP.network(
     String url, {
-    BPConfiguration? betterPlayerConfiguration,
+    BPConfiguration? bpConfiguration,
   }) =>
       BP(
         controller: BPController(
-          betterPlayerConfiguration ?? const BPConfiguration(),
-          betterPlayerDataSource: BPDataSource(BPDataSourceType.network, url),
+          bpConfiguration ?? const BPConfiguration(),
+          bpDataSource: BPDataSource(BPDataSourceType.network, url),
         ),
       );
 
   factory BP.file(
     String url, {
-    BPConfiguration? betterPlayerConfiguration,
+    BPConfiguration? bpConfiguration,
   }) =>
       BP(
         controller: BPController(
-          betterPlayerConfiguration ?? const BPConfiguration(),
-          betterPlayerDataSource: BPDataSource(BPDataSourceType.file, url),
+          bpConfiguration ?? const BPConfiguration(),
+          bpDataSource: BPDataSource(BPDataSourceType.file, url),
         ),
       );
 
@@ -46,7 +46,7 @@ class BP extends StatefulWidget {
 }
 
 class _BPState extends State<BP> with WidgetsBindingObserver {
-  BPConfiguration get _betterPlayerConfiguration => widget.controller.betterPlayerConfiguration;
+  BPConfiguration get _bpConfiguration => widget.controller.bpConfiguration;
 
   bool _isFullScreen = false;
 
@@ -103,8 +103,8 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
       Wakelock.disable();
       _navigatorState.maybePop();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-      SystemChrome.setPreferredOrientations(_betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
+          overlays: _bpConfiguration.systemOverlaysAfterFullScreen);
+      SystemChrome.setPreferredOrientations(_bpConfiguration.deviceOrientationsAfterFullScreen);
     }
 
     WidgetsBinding.instance!.removeObserver(this);
@@ -195,7 +195,7 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
   ) {
     final controllerProvider = BPControllerProvider(controller: widget.controller, child: _buildPlayer());
 
-    final routePageBuilder = _betterPlayerConfiguration.routePageBuilder;
+    final routePageBuilder = _bpConfiguration.routePageBuilder;
     if (routePageBuilder == null) {
       return _defaultRoutePageBuilder(context, animation, secondaryAnimation, controllerProvider);
     }
@@ -211,7 +211,7 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    if (_betterPlayerConfiguration.autoDetectFullscreenDeviceOrientation == true) {
+    if (_bpConfiguration.autoDetectFullscreenDeviceOrientation == true) {
       final aspectRatio = widget.controller.videoPlayerController?.value.aspectRatio ?? 1.0;
       List<DeviceOrientation> deviceOrientations;
       if (aspectRatio < 1.0) {
@@ -222,11 +222,11 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
       await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
       await SystemChrome.setPreferredOrientations(
-        widget.controller.betterPlayerConfiguration.deviceOrientationsOnFullScreen,
+        widget.controller.bpConfiguration.deviceOrientationsOnFullScreen,
       );
     }
 
-    if (!_betterPlayerConfiguration.allowedScreenSleep) {
+    if (!_bpConfiguration.allowedScreenSleep) {
       Wakelock.enable();
     }
 
@@ -239,12 +239,12 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
     Wakelock.disable();
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-    await SystemChrome.setPreferredOrientations(_betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
+        overlays: _bpConfiguration.systemOverlaysAfterFullScreen);
+    await SystemChrome.setPreferredOrientations(_bpConfiguration.deviceOrientationsAfterFullScreen);
   }
 
   Widget _buildPlayer() {
-    var sections = widget.controller.betterPlayerDataSource?.sections;
+    var sections = widget.controller.bpDataSource?.sections;
     return sections == null ? _buildPlayerNoVideoSections() : _buildPlayerHasVideoSections(sections);
   }
 

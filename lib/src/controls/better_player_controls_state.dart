@@ -191,7 +191,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
   }
 
   void _showSubtitlesSelectionWidget() {
-    final subtitles = List.of(bpController!.betterPlayerSubtitlesSourceList);
+    final subtitles = List.of(bpController!.bpSubtitlesSourceList);
     final noneSubtitlesElementExists =
         subtitles.firstWhereOrNull((source) => source.type == BPSubtitlesSourceType.none) != null;
     if (!noneSubtitlesElementExists) {
@@ -202,7 +202,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget _buildSubtitlesSourceRow(BPSubtitlesSource subtitlesSource) {
-    final selectedSourceType = bpController!.betterPlayerSubtitlesSource;
+    final selectedSourceType = bpController!.bpSubtitlesSource;
     final bool isSelected = (subtitlesSource == selectedSourceType) ||
         (subtitlesSource.type == BPSubtitlesSourceType.none && subtitlesSource.type == selectedSourceType!.type);
 
@@ -240,8 +240,8 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
   ///Resolution selection is used for normal videos
   void _showQualitiesSelectionWidget() {
     // HLS / DASH
-    final List<String> asmsTrackNames = bpController!.betterPlayerDataSource!.asmsTrackNames ?? [];
-    final List<BPAsmsTrack> asmsTracks = bpController!.betterPlayerAsmsTracks;
+    final List<String> asmsTrackNames = bpController!.bpDataSource!.asmsTrackNames ?? [];
+    final List<BPAsmsTrack> asmsTracks = bpController!.bpAsmsTracks;
     final List<Widget> children = [];
     for (var index = 0; index < asmsTracks.length; index++) {
       final track = asmsTracks[index];
@@ -256,7 +256,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     }
 
     // normal videos
-    final resolutions = bpController!.betterPlayerDataSource!.resolutions;
+    final resolutions = bpController!.bpDataSource!.resolutions;
     resolutions?.forEach((key, value) {
       children.add(_buildResolutionSelectionRow(key, value));
     });
@@ -277,7 +277,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     final String mimeType = (track.mimeType ?? '').replaceAll('video/', '');
     final String trackName = preferredName ?? "${width}x$height ${BPUtils.formatBitrate(bitrate)} $mimeType";
 
-    final BPAsmsTrack? selectedTrack = bpController!.betterPlayerAsmsTrack;
+    final BPAsmsTrack? selectedTrack = bpController!.bpAsmsTrack;
     final bool isSelected = selectedTrack != null && selectedTrack == track;
 
     return BPMaterialClickableWidget(
@@ -308,7 +308,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget _buildResolutionSelectionRow(String name, String url) {
-    final bool isSelected = url == bpController!.betterPlayerDataSource!.url;
+    final bool isSelected = url == bpController!.bpDataSource!.url;
     return BPMaterialClickableWidget(
       onTap: () {
         Navigator.of(context).pop();
@@ -338,9 +338,9 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
 
   void _showAudioTracksSelectionWidget() {
     //HLS / DASH
-    final List<BPAsmsAudioTrack>? asmsTracks = bpController!.betterPlayerAsmsAudioTracks;
+    final List<BPAsmsAudioTrack>? asmsTracks = bpController!.bpAsmsAudioTracks;
     final List<Widget> children = [];
-    final BPAsmsAudioTrack? selectedAsmsAudioTrack = bpController!.betterPlayerAsmsAudioTrack;
+    final BPAsmsAudioTrack? selectedAsmsAudioTrack = bpController!.bpAsmsAudioTrack;
     if (asmsTracks != null) {
       for (var index = 0; index < asmsTracks.length; index++) {
         final bool isSelected = selectedAsmsAudioTrack != null && selectedAsmsAudioTrack == asmsTracks[index];
@@ -405,7 +405,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     showCupertinoModalPopup<void>(
       barrierColor: Colors.transparent,
       context: context,
-      useRootNavigator: bpController?.betterPlayerConfiguration.useRootNavigator ?? false,
+      useRootNavigator: bpController?.bpConfiguration.useRootNavigator ?? false,
       builder: (context) {
         return SafeArea(
           top: false,
@@ -432,7 +432,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
       context: context,
-      useRootNavigator: bpController?.betterPlayerConfiguration.useRootNavigator ?? false,
+      useRootNavigator: bpController?.bpConfiguration.useRootNavigator ?? false,
       builder: (context) {
         return SafeArea(
           top: false,

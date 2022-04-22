@@ -20,7 +20,7 @@ class BPWithControls extends StatefulWidget {
 }
 
 class _BPWithControlsState extends State<BPWithControls> {
-  BPSubtitlesCfg get subtitlesConfiguration => widget.controller!.betterPlayerConfiguration.subtitlesConfiguration;
+  BPSubtitlesCfg get subtitlesConfiguration => widget.controller!.bpConfiguration.subtitlesConfiguration;
 
   BPControlsCfg get controlsConfiguration => widget.controller!.bpControlsCfg;
 
@@ -67,12 +67,11 @@ class _BPWithControlsState extends State<BPWithControls> {
 
     double? aspectRatio;
     if (bpController.isFullScreen) {
-      if (bpController.betterPlayerConfiguration.autoDetectFullscreenDeviceOrientation ||
-          bpController.betterPlayerConfiguration.autoDetectFullscreenAspectRatio) {
+      if (bpController.bpConfiguration.autoDetectFullscreenDeviceOrientation ||
+          bpController.bpConfiguration.autoDetectFullscreenAspectRatio) {
         aspectRatio = bpController.videoPlayerController?.value.aspectRatio ?? 1.0;
       } else {
-        aspectRatio =
-            bpController.betterPlayerConfiguration.fullScreenAspectRatio ?? BPUtils.calculateAspectRatio(context);
+        aspectRatio = bpController.bpConfiguration.fullScreenAspectRatio ?? BPUtils.calculateAspectRatio(context);
       }
     } else {
       aspectRatio = bpController.getAspectRatio();
@@ -81,14 +80,14 @@ class _BPWithControlsState extends State<BPWithControls> {
     aspectRatio ??= 16 / 9;
     final innerContainer = Container(
       width: double.infinity,
-      color: bpController.betterPlayerConfiguration.controlsConfiguration.backgroundColor,
+      color: bpController.bpConfiguration.controlsConfiguration.backgroundColor,
       child: AspectRatio(
         aspectRatio: aspectRatio,
         child: _buildPlayerWithControls(bpController, context),
       ),
     );
 
-    if (bpController.betterPlayerConfiguration.expandToFill) {
+    if (bpController.bpConfiguration.expandToFill) {
       return Center(child: innerContainer);
     } else {
       return innerContainer;
@@ -96,19 +95,19 @@ class _BPWithControlsState extends State<BPWithControls> {
   }
 
   Container _buildPlayerWithControls(BPController bpController, BuildContext context) {
-    final configuration = bpController.betterPlayerConfiguration;
+    final configuration = bpController.bpConfiguration;
     var rotation = configuration.rotation;
 
     if (!(rotation <= 360 && rotation % 90 == 0)) {
       BPUtils.log("Invalid rotation provided. Using rotation = 0");
       rotation = 0;
     }
-    if (bpController.betterPlayerDataSource == null) {
+    if (bpController.bpDataSource == null) {
       return Container();
     }
     _initialized = true;
 
-    final bool placeholderOnTop = bpController.betterPlayerConfiguration.placeholderOnTop;
+    final bool placeholderOnTop = bpController.bpConfiguration.placeholderOnTop;
     // ignore: avoid_unnecessary_containers
     return Container(
       child: Stack(
@@ -122,10 +121,10 @@ class _BPWithControlsState extends State<BPWithControls> {
               bpController.getFit(),
             ),
           ),
-          bpController.betterPlayerConfiguration.overlay ?? Container(),
+          bpController.bpConfiguration.overlay ?? Container(),
           BPSubtitlesDrawer(
             bpController: bpController,
-            betterPlayerSubtitlesConfiguration: subtitlesConfiguration,
+            bpSubtitlesConfiguration: subtitlesConfiguration,
             subtitles: bpController.subtitlesLines,
             playerVisibilityStream: playerVisibilityStreamController.stream,
           ),
@@ -137,9 +136,7 @@ class _BPWithControlsState extends State<BPWithControls> {
   }
 
   Widget _buildPlaceholder(BPController bpController) {
-    return bpController.betterPlayerDataSource!.placeholder ??
-        bpController.betterPlayerConfiguration.placeholder ??
-        Container();
+    return bpController.bpDataSource!.placeholder ?? bpController.bpConfiguration.placeholder ?? Container();
   }
 
   Widget _buildControls(
@@ -216,7 +213,7 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
   @override
   void initState() {
     super.initState();
-    if (!widget.bpController.betterPlayerConfiguration.showPlaceholderUntilPlay) {
+    if (!widget.bpController.bpConfiguration.showPlaceholderUntilPlay) {
       _started = true;
     } else {
       _started = widget.bpController.hasCurrentDataSourceStarted;

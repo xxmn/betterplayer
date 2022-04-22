@@ -4,16 +4,16 @@ import 'package:better_player/better_player.dart';
 ///Controller used to manage playlist player.
 class BPPlaylistController {
   ///List of data sources set for playlist.
-  final List<BPDataSource> _betterPlayerDataSourceList;
+  final List<BPDataSource> _bpDataSourceList;
 
   //General configuration of Better Player
-  final BPConfiguration betterPlayerConfiguration;
+  final BPConfiguration bpConfiguration;
 
   ///Playlist configuration of Better Player
-  final BPPlaylistConfiguration betterPlayerPlaylistConfiguration;
+  final BPPlaylistConfiguration bpPlaylistConfiguration;
 
   ///BPController instance
-  BPController? _betterPlayerController;
+  BPController? _bpController;
 
   ///Currently playing data source index
   int _currentDataSourceIndex = 0;
@@ -25,29 +25,29 @@ class BPPlaylistController {
   bool _changingToNextVideo = false;
 
   BPPlaylistController(
-    this._betterPlayerDataSourceList, {
-    this.betterPlayerConfiguration = const BPConfiguration(),
-    this.betterPlayerPlaylistConfiguration = const BPPlaylistConfiguration(),
-  }) : assert(_betterPlayerDataSourceList.isNotEmpty, "Better Player data source list can't be empty") {
+    this._bpDataSourceList, {
+    this.bpConfiguration = const BPConfiguration(),
+    this.bpPlaylistConfiguration = const BPPlaylistConfiguration(),
+  }) : assert(_bpDataSourceList.isNotEmpty, "Better Player data source list can't be empty") {
     _setup();
   }
 
   ///Initialize controller and listeners.
   void _setup() {
-    _betterPlayerController ??= BPController(
-      betterPlayerConfiguration,
-      betterPlayerPlaylistConfiguration: betterPlayerPlaylistConfiguration,
+    _bpController ??= BPController(
+      bpConfiguration,
+      bpPlaylistConfiguration: bpPlaylistConfiguration,
     );
 
-    var initialStartIndex = betterPlayerPlaylistConfiguration.initialStartIndex;
-    if (initialStartIndex >= _betterPlayerDataSourceList.length) {
+    var initialStartIndex = bpPlaylistConfiguration.initialStartIndex;
+    if (initialStartIndex >= _bpDataSourceList.length) {
       initialStartIndex = 0;
     }
 
     _currentDataSourceIndex = initialStartIndex;
     setupDataSource(_currentDataSourceIndex);
-    _betterPlayerController!.addEventsListener(_handleEvent);
-    _nextVideoTimeStreamSubscription = _betterPlayerController!.nextVideoTimeStream.listen((time) {
+    _bpController!.addEventsListener(_handleEvent);
+    _nextVideoTimeStreamSubscription = _bpController!.nextVideoTimeStream.listen((time) {
       if (time != null && time == 0) {
         _onVideoChange();
       }
@@ -57,9 +57,9 @@ class BPPlaylistController {
   /// Setup new data source list. Pauses currently played video and init new data
   /// source list. Previous data source list will be removed.
   void setupDataSourceList(List<BPDataSource> dataSourceList) {
-    _betterPlayerController?.pause();
-    _betterPlayerDataSourceList.clear();
-    _betterPlayerDataSourceList.addAll(dataSourceList);
+    _bpController?.pause();
+    _bpDataSourceList.clear();
+    _bpDataSourceList.addAll(dataSourceList);
     _setup();
   }
 
@@ -73,8 +73,8 @@ class BPPlaylistController {
     if (nextDataSourceId == -1) {
       return;
     }
-    if (_betterPlayerController!.isFullScreen) {
-      _betterPlayerController!.exitFullScreen();
+    if (_bpController!.isFullScreen) {
+      _bpController!.exitFullScreen();
     }
     _changingToNextVideo = true;
     setupDataSource(nextDataSourceId);
@@ -84,30 +84,30 @@ class BPPlaylistController {
 
   ///Handle BPEvent from BPController. Used to control
   ///startup of next video timer.
-  void _handleEvent(BPEvent betterPlayerEvent) {
-    if (betterPlayerEvent.betterPlayerEventType == BPEventType.finished) {
+  void _handleEvent(BPEvent bpEvent) {
+    if (bpEvent.bpEventType == BPEventType.finished) {
       if (_getNextDataSourceIndex() != -1) {
-        _betterPlayerController!.startNextVideoTimer();
+        _bpController!.startNextVideoTimer();
       }
     }
   }
 
-  ///Setup data source with index based on [_betterPlayerDataSourceList] provided
+  ///Setup data source with index based on [_bpDataSourceList] provided
   ///in constructor. Index must
   void setupDataSource(int index) {
     assert(
-        index >= 0 && index < _betterPlayerDataSourceList.length,
+        index >= 0 && index < _bpDataSourceList.length,
         "Index must be greater than 0 and less than size of data source "
         "list - 1");
     if (index <= _dataSourceLength) {
       _currentDataSourceIndex = index;
-      _betterPlayerController!.setupDataSource(_betterPlayerDataSourceList[index]);
+      _bpController!.setupDataSource(_bpDataSourceList[index]);
     }
   }
 
   ///Get index of next data source. If current index is less than
-  ///[_betterPlayerDataSourceList] size then next element will be picked, otherwise
-  ///if loops is enabled then first element of [_betterPlayerDataSourceList] will
+  ///[_bpDataSourceList] size then next element will be picked, otherwise
+  ///if loops is enabled then first element of [_bpDataSourceList] will
   ///be picked, otherwise -1 will be returned, indicating that player should
   ///stop changing videos.
   int _getNextDataSourceIndex() {
@@ -115,7 +115,7 @@ class BPPlaylistController {
     if (currentIndex + 1 < _dataSourceLength) {
       return currentIndex + 1;
     } else {
-      if (betterPlayerPlaylistConfiguration.loopVideos) {
+      if (bpPlaylistConfiguration.loopVideos) {
         return 0;
       } else {
         return -1;
@@ -123,14 +123,14 @@ class BPPlaylistController {
     }
   }
 
-  ///Get index of currently played source, based on [_betterPlayerDataSourceList]
+  ///Get index of currently played source, based on [_bpDataSourceList]
   int get currentDataSourceIndex => _currentDataSourceIndex;
 
-  ///Get size of [_betterPlayerDataSourceList]
-  int get _dataSourceLength => _betterPlayerDataSourceList.length;
+  ///Get size of [_bpDataSourceList]
+  int get _dataSourceLength => _bpDataSourceList.length;
 
   ///Get BPController instance
-  BPController? get bpController => _betterPlayerController;
+  BPController? get bpController => _bpController;
 
   ///Cleanup BPPlaylistController
   void dispose() {

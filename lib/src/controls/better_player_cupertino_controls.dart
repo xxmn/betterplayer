@@ -39,7 +39,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   bool _wasLoading = false;
 
   VideoPlayerController? _controller;
-  BPController? _betterPlayerController;
+  BPController? _bpController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
   BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
@@ -48,7 +48,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   VideoPlayerValue? get latestValue => _latestValue;
 
   @override
-  BPController? get bpController => _betterPlayerController;
+  BPController? get bpController => _bpController;
 
   @override
   BPControlsCfg get bpControlsCfg => _controlsConfiguration;
@@ -60,7 +60,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
   ///Builds main widget of the controls.
   Widget _buildMainWidget() {
-    _betterPlayerController = BPController.of(context);
+    _bpController = BPController.of(context);
 
     if (_latestValue?.hasError == true) {
       return Container(
@@ -69,8 +69,8 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       );
     }
 
-    _betterPlayerController = BPController.of(context);
-    _controller = _betterPlayerController!.videoPlayerController;
+    _bpController = BPController.of(context);
+    _controller = _bpController!.videoPlayerController;
     final backgroundColor = _controlsConfiguration.controlBarColor;
     final iconColor = _controlsConfiguration.iconsColor;
     final orientation = MediaQuery.of(context).orientation;
@@ -78,7 +78,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
         ? _controlsConfiguration.controlBarHeight
         : _controlsConfiguration.controlBarHeight + 10;
     const buttonPadding = 10.0;
-    final isFullScreen = _betterPlayerController?.isFullScreen == true;
+    final isFullScreen = _bpController?.isFullScreen == true;
 
     _wasLoading = isLoading(_latestValue);
     final controlsColumn = Column(children: <Widget>[
@@ -136,11 +136,11 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
   @override
   void didChangeDependencies() {
-    final _oldController = _betterPlayerController;
-    _betterPlayerController = BPController.of(context);
-    _controller = _betterPlayerController!.videoPlayerController;
+    final _oldController = _bpController;
+    _bpController = BPController.of(context);
+    _controller = _bpController!.videoPlayerController;
 
-    if (_oldController != _betterPlayerController) {
+    if (_oldController != _bpController) {
       _dispose();
       _initialize();
     }
@@ -170,7 +170,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
             decoration: BoxDecoration(
               color: backgroundColor,
             ),
-            child: _betterPlayerController!.isLiveStream()
+            child: _bpController!.isLiveStream()
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -211,7 +211,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   Widget _buildLiveWidget() {
     return Expanded(
       child: Text(
-        _betterPlayerController!.translations.controlsLive,
+        _bpController!.translations.controlsLive,
         style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
       ),
     );
@@ -239,7 +239,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
             decoration: BoxDecoration(color: backgroundColor),
             child: Center(
               child: Icon(
-                _betterPlayerController!.isFullScreen
+                _bpController!.isFullScreen
                     ? _controlsConfiguration.fullscreenDisableIcon
                     : _controlsConfiguration.fullscreenEnableIcon,
                 color: iconColor,
@@ -521,13 +521,13 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
   Widget _buildNextVideoWidget() {
     return StreamBuilder<int?>(
-      stream: _betterPlayerController!.nextVideoTimeStream,
+      stream: _bpController!.nextVideoTimeStream,
       builder: (context, snapshot) {
         final time = snapshot.data;
         if (time != null && time > 0) {
           return InkWell(
             onTap: () {
-              _betterPlayerController!.playNextVideo();
+              _bpController!.playNextVideo();
             },
             child: Align(
               alignment: Alignment.bottomRight,
@@ -540,7 +540,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(
-                    "${_betterPlayerController!.translations.controlsNextVideoIn} $time ...",
+                    "${_bpController!.translations.controlsNextVideoIn} $time ...",
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
@@ -566,7 +566,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
     _updateState();
 
-    if ((_controller!.value.isPlaying) || _betterPlayerController!.betterPlayerConfiguration.autoPlay) {
+    if ((_controller!.value.isPlaying) || _bpController!.bpConfiguration.autoPlay) {
       _startHideTimer();
     }
 
@@ -575,7 +575,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
         changePlayerControlsNotVisible(false);
       });
     }
-    _controlsVisibilityStreamSubscription = _betterPlayerController!.controlsVisibilityStream.listen((state) {
+    _controlsVisibilityStreamSubscription = _bpController!.controlsVisibilityStream.listen((state) {
       changePlayerControlsNotVisible(!state);
 
       if (!controlsNotVisible) {
@@ -586,7 +586,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
-    _betterPlayerController!.toggleFullScreen();
+    _bpController!.toggleFullScreen();
     _expandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
       setState(() {
         cancelAndRestartTimer();
@@ -600,7 +600,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
         padding: const EdgeInsets.only(right: 12.0),
         child: BPCupertinoVideoProgressBar(
           _controller,
-          _betterPlayerController,
+          _bpController,
           onDragStart: () {
             _hideTimer?.cancel();
           },
@@ -630,27 +630,27 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
     if (_controller!.value.isPlaying) {
       changePlayerControlsNotVisible(false);
       _hideTimer?.cancel();
-      _betterPlayerController!.pause();
+      _bpController!.pause();
     } else {
       cancelAndRestartTimer();
 
       if (!_controller!.value.initialized) {
-        if (_betterPlayerController!.betterPlayerDataSource?.liveStream == true) {
-          _betterPlayerController!.play();
-          _betterPlayerController!.cancelNextVideoTimer();
+        if (_bpController!.bpDataSource?.liveStream == true) {
+          _bpController!.play();
+          _bpController!.cancelNextVideoTimer();
         }
       } else {
         if (isFinished) {
-          _betterPlayerController!.seekTo(const Duration());
+          _bpController!.seekTo(const Duration());
         }
-        _betterPlayerController!.play();
-        _betterPlayerController!.cancelNextVideoTimer();
+        _bpController!.play();
+        _bpController!.cancelNextVideoTimer();
       }
     }
   }
 
   void _startHideTimer() {
-    if (_betterPlayerController!.controlsAlwaysVisible) {
+    if (_bpController!.controlsAlwaysVisible) {
       return;
     }
     _hideTimer = Timer(const Duration(seconds: 3), () {
@@ -672,14 +672,14 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   }
 
   void _onPlayerHide() {
-    _betterPlayerController!.toggleControlsVisibility(!controlsNotVisible);
+    _bpController!.toggleControlsVisibility(!controlsNotVisible);
     widget.onControlsVisibilityChanged(!controlsNotVisible);
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder = _betterPlayerController!.betterPlayerConfiguration.errorBuilder;
+    final errorBuilder = _bpController!.bpConfiguration.errorBuilder;
     if (errorBuilder != null) {
-      return errorBuilder(context, _betterPlayerController!.videoPlayerController!.value.errorDescription);
+      return errorBuilder(context, _bpController!.videoPlayerController!.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
       return Center(
@@ -692,16 +692,16 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
               size: 42,
             ),
             Text(
-              _betterPlayerController!.translations.generalDefaultError,
+              _bpController!.translations.generalDefaultError,
               style: textStyle,
             ),
             if (_controlsConfiguration.enableRetry)
               TextButton(
                 onPressed: () {
-                  _betterPlayerController!.retryDataSource();
+                  _bpController!.retryDataSource();
                 },
                 child: Text(
-                  _betterPlayerController!.translations.generalRetry,
+                  _bpController!.translations.generalRetry,
                   style: textStyle.copyWith(fontWeight: FontWeight.bold),
                 ),
               )
@@ -729,13 +729,13 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
     double buttonPadding,
   ) {
     return FutureBuilder<bool>(
-      future: _betterPlayerController!.isPictureInPictureSupported(),
+      future: _bpController!.isPictureInPictureSupported(),
       builder: (context, snapshot) {
         final isPipSupported = snapshot.data ?? false;
-        if (isPipSupported && _betterPlayerController!.betterPlayerGlobalKey != null) {
+        if (isPipSupported && _bpController!.bpGlobalKey != null) {
           return GestureDetector(
             onTap: () {
-              bpController!.enablePictureInPicture(bpController!.betterPlayerGlobalKey!);
+              bpController!.enablePictureInPicture(bpController!.bpGlobalKey!);
             },
             child: AnimatedOpacity(
               opacity: controlsNotVisible ? 0.0 : 1.0,

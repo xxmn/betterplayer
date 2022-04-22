@@ -42,7 +42,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   bool _displayTapped = false;
   bool _wasLoading = false;
   VideoPlayerController? _controller;
-  BPController? _betterPlayerController;
+  BPController? _bpController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
   BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
@@ -51,7 +51,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   VideoPlayerValue? get latestValue => _latestValue;
 
   @override
-  BPController? get bpController => _betterPlayerController;
+  BPController? get bpController => _bpController;
 
   @override
   BPControlsCfg get bpControlsCfg => _controlsConfiguration;
@@ -70,7 +70,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
         child: _buildErrorWidget(),
       );
     }
-    var myDrag = MyDrag(bpController: _betterPlayerController, size: MediaQuery.of(context).size, isLocked: isLocked);
+    var myDrag = MyDrag(bpController: _bpController, size: MediaQuery.of(context).size, isLocked: isLocked);
 
     return GestureDetector(
       onTap: () {
@@ -116,12 +116,12 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   @override
   void didChangeDependencies() {
-    final _oldController = _betterPlayerController;
-    _betterPlayerController = BPController.of(context);
-    _controller = _betterPlayerController!.videoPlayerController;
+    final _oldController = _bpController;
+    _bpController = BPController.of(context);
+    _controller = _bpController!.videoPlayerController;
     _latestValue = _controller!.value;
 
-    if (_oldController != _betterPlayerController) {
+    if (_oldController != _bpController) {
       _dispose();
       _initialize();
     }
@@ -177,9 +177,9 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder = _betterPlayerController!.betterPlayerConfiguration.errorBuilder;
+    final errorBuilder = _bpController!.bpConfiguration.errorBuilder;
     if (errorBuilder != null) {
-      return errorBuilder(context, _betterPlayerController!.videoPlayerController!.value.errorDescription);
+      return errorBuilder(context, _bpController!.videoPlayerController!.value.errorDescription);
     } else {
       final textStyle = TextStyle(color: _controlsConfiguration.textColor);
       return Center(
@@ -192,16 +192,16 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
               size: 42,
             ),
             Text(
-              _betterPlayerController!.translations.generalDefaultError,
+              _bpController!.translations.generalDefaultError,
               style: textStyle,
             ),
             if (_controlsConfiguration.enableRetry)
               TextButton(
                 onPressed: () {
-                  _betterPlayerController!.retryDataSource();
+                  _bpController!.retryDataSource();
                 },
                 child: Text(
-                  _betterPlayerController!.translations.generalRetry,
+                  _bpController!.translations.generalRetry,
                   style: textStyle.copyWith(fontWeight: FontWeight.bold),
                 ),
               )
@@ -246,7 +246,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   Widget _buildPipButton() {
     return BPMaterialClickableWidget(
       onTap: () {
-        bpController!.enablePictureInPicture(bpController!.betterPlayerGlobalKey!);
+        bpController!.enablePictureInPicture(bpController!.bpGlobalKey!);
       },
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -263,7 +263,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       future: bpController!.isPictureInPictureSupported(),
       builder: (context, snapshot) {
         final bool isPipSupported = snapshot.data ?? false;
-        if (isPipSupported && _betterPlayerController!.betterPlayerGlobalKey != null) {
+        if (isPipSupported && _bpController!.bpGlobalKey != null) {
           return AnimatedOpacity(
             opacity: hideStuff ? 0.0 : 1.0,
             duration: bpControlsCfg.controlsHideTime,
@@ -321,7 +321,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // if (_controlsConfiguration.enablePlayPause) _buildPlayPause(_controller!) else const SizedBox(),
-                  if (_betterPlayerController!.isLiveStream())
+                  if (_bpController!.isLiveStream())
                     _buildLiveWidget()
                   else
                     _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(width: 1),
@@ -332,7 +332,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                 ],
               ),
             ),
-            if (_betterPlayerController!.isLiveStream())
+            if (_bpController!.isLiveStream())
               const SizedBox()
             else
               _controlsConfiguration.enableProgressBar ? _buildProgressBar() : const SizedBox(),
@@ -344,7 +344,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   Widget _buildLiveWidget() {
     return Text(
-      _betterPlayerController!.translations.controlsLive,
+      _bpController!.translations.controlsLive,
       style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
     );
   }
@@ -362,7 +362,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(
               child: Icon(
-                _betterPlayerController!.isFullScreen
+                _bpController!.isFullScreen
                     ? _controlsConfiguration.fullscreenDisableIcon
                     : _controlsConfiguration.fullscreenEnableIcon,
                 color: _controlsConfiguration.iconsColor,
@@ -394,7 +394,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       color: _controlsConfiguration.controlBarColor,
       width: double.infinity,
       height: double.infinity,
-      child: _betterPlayerController?.isLiveStream() == true
+      child: _bpController?.isLiveStream() == true
           ? const SizedBox()
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -499,13 +499,13 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   Widget _buildNextVideoWidget() {
     return StreamBuilder<int?>(
-      stream: _betterPlayerController!.nextVideoTimeStream,
+      stream: _bpController!.nextVideoTimeStream,
       builder: (context, snapshot) {
         final time = snapshot.data;
         if (time != null && time > 0) {
           return BPMaterialClickableWidget(
             onTap: () {
-              _betterPlayerController!.playNextVideo();
+              _bpController!.playNextVideo();
             },
             child: Align(
               alignment: Alignment.bottomRight,
@@ -518,7 +518,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(
-                    "${_betterPlayerController!.translations.controlsNextVideoIn} $time...",
+                    "${_bpController!.translations.controlsNextVideoIn} $time...",
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
@@ -539,10 +539,10 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       onTap: () {
         cancelAndRestartTimer();
         if (_latestValue!.volume == 0) {
-          _betterPlayerController!.setVolume(_latestVolume ?? 0.5);
+          _bpController!.setVolume(_latestVolume ?? 0.5);
         } else {
           _latestVolume = controller!.value.volume;
-          _betterPlayerController!.setVolume(0.0);
+          _bpController!.setVolume(0.0);
         }
       },
       child: AnimatedOpacity(
@@ -657,7 +657,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
     _updateState();
 
-    if ((_controller!.value.isPlaying) || _betterPlayerController!.betterPlayerConfiguration.autoPlay) {
+    if ((_controller!.value.isPlaying) || _bpController!.bpConfiguration.autoPlay) {
       _startHideTimer();
     }
 
@@ -667,7 +667,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       });
     }
 
-    _controlsVisibilityStreamSubscription = _betterPlayerController!.controlsVisibilityStream.listen(
+    _controlsVisibilityStreamSubscription = _bpController!.controlsVisibilityStream.listen(
       (state) {
         // debugPrint("in controls VisibilityStream.listen");
         changePlayerControlsNotVisible(!state);
@@ -680,7 +680,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
-    _betterPlayerController!.toggleFullScreen();
+    _bpController!.toggleFullScreen();
     _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
       setState(() {
         cancelAndRestartTimer();
@@ -698,23 +698,23 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
     if (_controller!.value.isPlaying) {
       changePlayerControlsNotVisible(false);
       _hideTimer?.cancel();
-      _betterPlayerController!.pause();
+      _bpController!.pause();
     } else {
       cancelAndRestartTimer();
 
       if (!_controller!.value.initialized) {
       } else {
         if (isFinished) {
-          _betterPlayerController!.seekTo(const Duration());
+          _bpController!.seekTo(const Duration());
         }
-        _betterPlayerController!.play();
-        _betterPlayerController!.cancelNextVideoTimer();
+        _bpController!.play();
+        _bpController!.cancelNextVideoTimer();
       }
     }
   }
 
   void _startHideTimer() {
-    if (_betterPlayerController!.controlsAlwaysVisible) {
+    if (_bpController!.controlsAlwaysVisible) {
       return;
     }
     _hideTimer = Timer(const Duration(milliseconds: 3000), () {
@@ -727,7 +727,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       if (!controlsNotVisible || isVideoFinished(_controller!.value) || _wasLoading || isLoading(_controller!.value)) {
         setState(() {
           _latestValue = _controller!.value;
-          if (isVideoFinished(_latestValue) && _betterPlayerController?.isLiveStream() == false) {
+          if (isVideoFinished(_latestValue) && _bpController?.isLiveStream() == false) {
             // debugPrint("in _updateState, controlsNotVisible: $controlsNotVisible");
             changePlayerControlsNotVisible(false);
           }
@@ -744,7 +744,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: BPMaterialVideoProgressBar(
           _controller,
-          _betterPlayerController,
+          _bpController,
           onDragStart: () {
             _hideTimer?.cancel();
           },
@@ -766,7 +766,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   void _onPlayerHide(String from) {
     // debugPrint("in _on Player hidde from: ${from}, controlsNotVisible: ${controlsNotVisible}");
-    _betterPlayerController!.toggleControlsVisibility(!controlsNotVisible);
+    _bpController!.toggleControlsVisibility(!controlsNotVisible);
     widget.onControlsVisibilityChanged(!controlsNotVisible);
   }
 

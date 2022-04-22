@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 
 ///Special version of Better Player used to play videos in playlist.
 class BPPlaylist extends StatefulWidget {
-  final List<BPDataSource> betterPlayerDataSourceList;
-  final BPConfiguration betterPlayerConfiguration;
-  final BPPlaylistConfiguration betterPlayerPlaylistConfiguration;
+  final List<BPDataSource> bpDataSourceList;
+  final BPConfiguration bpConfiguration;
+  final BPPlaylistConfiguration bpPlaylistConfiguration;
 
   const BPPlaylist({
     Key? key,
-    required this.betterPlayerDataSourceList,
-    required this.betterPlayerConfiguration,
-    required this.betterPlayerPlaylistConfiguration,
+    required this.bpDataSourceList,
+    required this.bpConfiguration,
+    required this.bpPlaylistConfiguration,
   }) : super(key: key);
 
   @override
@@ -23,19 +23,19 @@ class BPPlaylist extends StatefulWidget {
 
 ///State of BPPlaylist, used to access BPPlaylistController.
 class BPPlaylistState extends State<BPPlaylist> {
-  BPPlaylistController? _betterPlayerPlaylistController;
+  BPPlaylistController? _bpPlaylistController;
 
-  BPController? get _betterPlayerController => _betterPlayerPlaylistController!.bpController;
+  BPController? get _bpController => _bpPlaylistController!.bpController;
 
   ///Get BPPlaylistController
-  BPPlaylistController? get betterPlayerPlaylistController => _betterPlayerPlaylistController;
+  BPPlaylistController? get bpPlaylistController => _bpPlaylistController;
 
   @override
   void initState() {
-    _betterPlayerPlaylistController = BPPlaylistController(
-      widget.betterPlayerDataSourceList,
-      betterPlayerConfiguration: widget.betterPlayerConfiguration,
-      betterPlayerPlaylistConfiguration: widget.betterPlayerPlaylistConfiguration,
+    _bpPlaylistController = BPPlaylistController(
+      widget.bpDataSourceList,
+      bpConfiguration: widget.bpConfiguration,
+      bpPlaylistConfiguration: widget.bpPlaylistConfiguration,
     );
     super.initState();
   }
@@ -43,16 +43,16 @@ class BPPlaylistState extends State<BPPlaylist> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: _betterPlayerController!.getAspectRatio() ?? BPUtils.calculateAspectRatio(context),
+      aspectRatio: _bpController!.getAspectRatio() ?? BPUtils.calculateAspectRatio(context),
       child: BP(
-        controller: _betterPlayerController!,
+        controller: _bpController!,
       ),
     );
   }
 
   @override
   void dispose() {
-    _betterPlayerPlaylistController!.dispose();
+    _bpPlaylistController!.dispose();
     super.dispose();
   }
 }
