@@ -1,4 +1,4 @@
-///Configuration class used to setup better buffering experience or setup custom
+///Cfg class used to setup better buffering experience or setup custom
 ///load settings. Currently used only in Android.
 class BPBufferingCfg {
   ///Constants values are from the offical exoplayer documentation

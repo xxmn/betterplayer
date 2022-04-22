@@ -29,19 +29,19 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
 
   @override
   Future<int?> create({
-    BPBufferingCfg? bufferingConfiguration,
+    BPBufferingCfg? bufferingCfg,
   }) async {
     late final Map<String, dynamic>? response;
-    if (bufferingConfiguration == null) {
+    if (bufferingCfg == null) {
       response = await _channel.invokeMapMethod<String, dynamic>('create');
     } else {
       final responseLinkedHashMap = await _channel.invokeMethod<Map?>(
         'create',
         <String, dynamic>{
-          'minBufferMs': bufferingConfiguration.minBufferMs,
-          'maxBufferMs': bufferingConfiguration.maxBufferMs,
-          'bufferForPlaybackMs': bufferingConfiguration.bufferForPlaybackMs,
-          'bufferForPlaybackAfterRebufferMs': bufferingConfiguration.bufferForPlaybackAfterRebufferMs,
+          'minBufferMs': bufferingCfg.minBufferMs,
+          'maxBufferMs': bufferingCfg.maxBufferMs,
+          'bufferForPlaybackMs': bufferingCfg.bufferForPlaybackMs,
+          'bufferForPlaybackAfterRebufferMs': bufferingCfg.bufferForPlaybackAfterRebufferMs,
         },
       );
 

@@ -1,4 +1,4 @@
-///Configuration of notification which is displayed once user moves app to
+///Cfg of notification which is displayed once user moves app to
 ///background.
 class BPNotificationCfg {
   ///Is player controls notification enabled

@@ -19,12 +19,12 @@ class BPMaterialControls extends StatefulWidget {
   final Function(bool visbility) onControlsVisibilityChanged;
 
   ///Controls config
-  final BPControlsCfg controlsConfiguration;
+  final BPControlsCfg controlsCfg;
 
   const BPMaterialControls({
     Key? key,
     required this.onControlsVisibilityChanged,
-    required this.controlsConfiguration,
+    required this.controlsCfg,
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   BPController? _bpController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
-  BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
+  BPControlsCfg get _controlsCfg => widget.controlsCfg;
 
   @override
   VideoPlayerValue? get latestValue => _latestValue;
@@ -54,7 +54,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   BPController? get bpController => _bpController;
 
   @override
-  BPControlsCfg get bpControlsCfg => _controlsConfiguration;
+  BPControlsCfg get bpControlsCfg => _controlsCfg;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       child: Center(
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 0.7,
-          duration: _controlsConfiguration.lockedHideTime,
+          duration: _controlsCfg.lockedHideTime,
           child: Center(
             child: Container(
               decoration: BoxDecoration(
@@ -149,7 +149,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                 icon: Icon(
                   Icons.lock_open_rounded,
                   size: 24,
-                  color: _controlsConfiguration.iconsColor,
+                  color: _controlsCfg.iconsColor,
                 ),
               ),
             ),
@@ -177,25 +177,25 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder = _bpController!.bpConfiguration.errorBuilder;
+    final errorBuilder = _bpController!.bpCfg.errorBuilder;
     if (errorBuilder != null) {
       return errorBuilder(context, _bpController!.videoPlayerController!.value.errorDescription);
     } else {
-      final textStyle = TextStyle(color: _controlsConfiguration.textColor);
+      final textStyle = TextStyle(color: _controlsCfg.textColor);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.warning,
-              color: _controlsConfiguration.iconsColor,
+              color: _controlsCfg.iconsColor,
               size: 42,
             ),
             Text(
               _bpController!.translations.generalDefaultError,
               style: textStyle,
             ),
-            if (_controlsConfiguration.enableRetry)
+            if (_controlsCfg.enableRetry)
               TextButton(
                 onPressed: () {
                   _bpController!.retryDataSource();
@@ -216,18 +216,18 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       return const SizedBox();
     }
     return Container(
-      child: (_controlsConfiguration.enableOverflowMenu)
+      child: (_controlsCfg.enableOverflowMenu)
           ? AnimatedOpacity(
               opacity: controlsNotVisible ? 0.0 : 1.0,
-              duration: _controlsConfiguration.controlsHideTime,
+              duration: _controlsCfg.controlsHideTime,
               onEnd: () => _onPlayerHide("_buildTopBar->AnimatedOpacity->onEnd"),
               child: Container(
-                height: _controlsConfiguration.controlBarHeight,
+                height: _controlsCfg.controlBarHeight,
                 width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (_controlsConfiguration.enablePip)
+                    if (_controlsCfg.enablePip)
                       _buildPipButtonWrapperWidget(
                         controlsNotVisible,
                         () => _onPlayerHide("_buildPipButtonWrapperWidget onPlayerHide"),
@@ -293,8 +293,8 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Icon(
-          _controlsConfiguration.overflowMenuIcon,
-          color: _controlsConfiguration.iconsColor,
+          _controlsCfg.overflowMenuIcon,
+          color: _controlsCfg.iconsColor,
         ),
       ),
     );
@@ -306,10 +306,10 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
     }
     return AnimatedOpacity(
       opacity: controlsNotVisible ? 0.0 : 1.0,
-      duration: _controlsConfiguration.controlsHideTime,
+      duration: _controlsCfg.controlsHideTime,
       onEnd: () => _onPlayerHide("_buildBottomBar->AnimatedOpacity->onEnd"),
       child: Container(
-        height: _controlsConfiguration.controlBarHeight + 20.0,
+        height: _controlsCfg.controlBarHeight + 20.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -320,22 +320,22 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // if (_controlsConfiguration.enablePlayPause) _buildPlayPause(_controller!) else const SizedBox(),
+                  // if (_controlsCfg.enablePlayPause) _buildPlayPause(_controller!) else const SizedBox(),
                   if (_bpController!.isLiveStream())
                     _buildLiveWidget()
                   else
-                    _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(width: 1),
+                    _controlsCfg.enableProgressText ? _buildPosition() : const SizedBox(width: 1),
                   _buildSectionTitle(),
                   const Spacer(),
-                  // if (_controlsConfiguration.enableMute) _buildMuteButton(_controller) else const SizedBox(),
-                  if (_controlsConfiguration.enableFullscreen) _buildExpandButton() else const SizedBox(),
+                  // if (_controlsCfg.enableMute) _buildMuteButton(_controller) else const SizedBox(),
+                  if (_controlsCfg.enableFullscreen) _buildExpandButton() else const SizedBox(),
                 ],
               ),
             ),
             if (_bpController!.isLiveStream())
               const SizedBox()
             else
-              _controlsConfiguration.enableProgressBar ? _buildProgressBar() : const SizedBox(),
+              _controlsCfg.enableProgressBar ? _buildProgressBar() : const SizedBox(),
           ],
         ),
       ),
@@ -345,7 +345,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   Widget _buildLiveWidget() {
     return Text(
       _bpController!.translations.controlsLive,
-      style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
+      style: TextStyle(color: _controlsCfg.liveTextColor, fontWeight: FontWeight.bold),
     );
   }
 
@@ -356,16 +356,14 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
         onTap: _onExpandCollapse,
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
+          duration: _controlsCfg.controlsHideTime,
           child: Container(
-            height: _controlsConfiguration.controlBarHeight,
+            height: _controlsCfg.controlBarHeight,
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(
               child: Icon(
-                _bpController!.isFullScreen
-                    ? _controlsConfiguration.fullscreenDisableIcon
-                    : _controlsConfiguration.fullscreenEnableIcon,
-                color: _controlsConfiguration.iconsColor,
+                _bpController!.isFullScreen ? _controlsCfg.fullscreenDisableIcon : _controlsCfg.fullscreenEnableIcon,
+                color: _controlsCfg.iconsColor,
               ),
             ),
           ),
@@ -382,7 +380,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       child: Center(
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
+          duration: _controlsCfg.controlsHideTime,
           child: _buildMiddleRow(),
         ),
       ),
@@ -391,7 +389,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
   Widget _buildMiddleRow() {
     return Container(
-      color: _controlsConfiguration.controlBarColor,
+      color: _controlsCfg.controlBarColor,
       width: double.infinity,
       height: double.infinity,
       child: _bpController?.isLiveStream() == true
@@ -404,16 +402,16 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
                     icon: Icon(
                       Icons.lock_rounded,
                       size: 24,
-                      color: _controlsConfiguration.iconsColor,
+                      color: _controlsCfg.iconsColor,
                     ),
                     onClicked: () {
                       setLocked(true);
                     },
                   ),
                 ),
-                if (_controlsConfiguration.enableSkips) Expanded(child: _buildSkipButton()) else const SizedBox(),
+                if (_controlsCfg.enableSkips) Expanded(child: _buildSkipButton()) else const SizedBox(),
                 Expanded(child: _buildReplayButton(_controller!)),
-                if (_controlsConfiguration.enableSkips) Expanded(child: _buildForwardButton()) else const SizedBox(),
+                if (_controlsCfg.enableSkips) Expanded(child: _buildForwardButton()) else const SizedBox(),
               ],
             ),
     );
@@ -445,9 +443,9 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   Widget _buildSkipButton() {
     return _buildHitAreaClickableButton(
       icon: Icon(
-        _controlsConfiguration.skipBackIcon,
+        _controlsCfg.skipBackIcon,
         size: 24,
-        color: _controlsConfiguration.iconsColor,
+        color: _controlsCfg.iconsColor,
       ),
       onClicked: skipBack,
     );
@@ -456,9 +454,9 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   Widget _buildForwardButton() {
     return _buildHitAreaClickableButton(
       icon: Icon(
-        _controlsConfiguration.skipForwardIcon,
+        _controlsCfg.skipForwardIcon,
         size: 24,
-        color: _controlsConfiguration.iconsColor,
+        color: _controlsCfg.iconsColor,
       ),
       onClicked: skipForward,
     );
@@ -471,12 +469,12 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
           ? Icon(
               Icons.replay,
               size: 42,
-              color: _controlsConfiguration.iconsColor,
+              color: _controlsCfg.iconsColor,
             )
           : Icon(
-              controller.value.isPlaying ? _controlsConfiguration.pauseIcon : _controlsConfiguration.playIcon,
+              controller.value.isPlaying ? _controlsCfg.pauseIcon : _controlsCfg.playIcon,
               size: 42,
-              color: _controlsConfiguration.iconsColor,
+              color: _controlsCfg.iconsColor,
             ),
       onClicked: () {
         if (isFinished) {
@@ -510,9 +508,9 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                margin: EdgeInsets.only(bottom: _controlsConfiguration.controlBarHeight + 20, right: 24),
+                margin: EdgeInsets.only(bottom: _controlsCfg.controlBarHeight + 20, right: 24),
                 decoration: BoxDecoration(
-                  color: _controlsConfiguration.controlBarColor,
+                  color: _controlsCfg.controlBarColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Padding(
@@ -547,16 +545,14 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
       },
       child: AnimatedOpacity(
         opacity: controlsNotVisible ? 0.0 : 1.0,
-        duration: _controlsConfiguration.controlsHideTime,
+        duration: _controlsCfg.controlsHideTime,
         child: ClipRect(
           child: Container(
-            height: _controlsConfiguration.controlBarHeight,
+            height: _controlsCfg.controlBarHeight,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Icon(
-              (_latestValue != null && _latestValue!.volume > 0)
-                  ? _controlsConfiguration.muteIcon
-                  : _controlsConfiguration.unMuteIcon,
-              color: _controlsConfiguration.iconsColor,
+              (_latestValue != null && _latestValue!.volume > 0) ? _controlsCfg.muteIcon : _controlsCfg.unMuteIcon,
+              color: _controlsCfg.iconsColor,
             ),
           ),
         ),
@@ -573,8 +569,8 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Icon(
-          controller.value.isPlaying ? _controlsConfiguration.pauseIcon : _controlsConfiguration.playIcon,
-          color: _controlsConfiguration.iconsColor,
+          controller.value.isPlaying ? _controlsCfg.pauseIcon : _controlsCfg.playIcon,
+          color: _controlsCfg.iconsColor,
         ),
       ),
     );
@@ -585,8 +581,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
     final duration = _latestValue != null && _latestValue!.duration != null ? _latestValue!.duration! : Duration.zero;
 
     return Padding(
-      padding:
-          _controlsConfiguration.enablePlayPause ? const EdgeInsets.only(right: 1) : const EdgeInsets.only(right: 1),
+      padding: _controlsCfg.enablePlayPause ? const EdgeInsets.only(right: 1) : const EdgeInsets.only(right: 1),
       // : const EdgeInsets.symmetric(horizontal: 22),
       child: RichText(
         textAlign: TextAlign.center,
@@ -594,7 +589,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
           text: BPUtils.formatDuration(position),
           style: TextStyle(
             fontSize: 12.0,
-            color: _controlsConfiguration.textColor,
+            color: _controlsCfg.textColor,
             decoration: TextDecoration.none,
           ),
           children: <TextSpan>[
@@ -602,7 +597,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
               text: ' / ${BPUtils.formatDuration(duration)}',
               style: TextStyle(
                 fontSize: 12.0,
-                color: _controlsConfiguration.textColor,
+                color: _controlsCfg.textColor,
                 decoration: TextDecoration.none,
               ),
             )
@@ -636,7 +631,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
         onTap: () {},
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
+          duration: _controlsCfg.controlsHideTime,
           child: child,
         ),
       ),
@@ -657,11 +652,11 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
 
     _updateState();
 
-    if ((_controller!.value.isPlaying) || _bpController!.bpConfiguration.autoPlay) {
+    if ((_controller!.value.isPlaying) || _bpController!.bpCfg.autoPlay) {
       _startHideTimer();
     }
 
-    if (_controlsConfiguration.showControlsOnInitialize) {
+    if (_controlsCfg.showControlsOnInitialize) {
       _initTimer = Timer(const Duration(milliseconds: 200), () {
         changePlayerControlsNotVisible(false);
       });
@@ -681,7 +676,7 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
     _bpController!.toggleFullScreen();
-    _showAfterExpandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
+    _showAfterExpandCollapseTimer = Timer(_controlsCfg.controlsHideTime, () {
       setState(() {
         cancelAndRestartTimer();
       });
@@ -755,10 +750,10 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
             cancelAndRestartTimer();
           },
           colors: BPProgressColors(
-              playedColor: _controlsConfiguration.progressBarPlayedColor,
-              handleColor: _controlsConfiguration.progressBarHandleColor,
-              bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-              backgroundColor: _controlsConfiguration.progressBarBackgroundColor),
+              playedColor: _controlsCfg.progressBarPlayedColor,
+              handleColor: _controlsCfg.progressBarHandleColor,
+              bufferedColor: _controlsCfg.progressBarBufferedColor,
+              backgroundColor: _controlsCfg.progressBarBackgroundColor),
         ),
       ),
     );
@@ -771,15 +766,15 @@ class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   }
 
   Widget? _buildLoadingWidget() {
-    if (_controlsConfiguration.loadingWidget != null) {
+    if (_controlsCfg.loadingWidget != null) {
       return Container(
-        color: _controlsConfiguration.controlBarColor,
-        child: _controlsConfiguration.loadingWidget,
+        color: _controlsCfg.controlBarColor,
+        child: _controlsCfg.loadingWidget,
       );
     }
 
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor),
+      valueColor: AlwaysStoppedAnimation<Color>(_controlsCfg.loadingColor),
     );
   }
 }

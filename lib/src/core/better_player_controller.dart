@@ -24,10 +24,10 @@ class BPController {
   static const String _authorizationHeader = "Authorization";
 
   ///General configuration used in controller instance.
-  final BPConfiguration bpConfiguration;
+  final BPCfg bpCfg;
 
   ///Playlist configuration used in controller instance.
-  final BPPlaylistConfiguration? bpPlaylistConfiguration;
+  final BPPlaylistCfg? bpPlaylistCfg;
 
   ///List of event listeners, which listen to events.
   final List<Function(BPEvent)?> _eventListeners = [];
@@ -43,16 +43,16 @@ class BPController {
   VideoPlayerController? videoPlayerController;
 
   ///Controls configuration
-  late BPControlsCfg _bpControlsConfiguration;
+  late BPControlsCfg _bpControlsCfg;
 
   ///Controls configuration
-  BPControlsCfg get bpControlsCfg => _bpControlsConfiguration;
+  BPControlsCfg get bpControlsCfg => _bpControlsCfg;
 
   ///Expose all active eventListeners
   List<Function(BPEvent)?> get eventListeners => _eventListeners.sublist(1);
 
   /// Defines a event listener where video player events will be send.
-  Function(BPEvent)? get eventListener => bpConfiguration.eventListener;
+  Function(BPEvent)? get eventListener => bpCfg.eventListener;
 
   ///Flag used to store full screen mode state.
   bool _isFullScreen = false;
@@ -199,11 +199,11 @@ class BPController {
   BPSubtitle? renderedSubtitle;
 
   BPController(
-    this.bpConfiguration, {
-    this.bpPlaylistConfiguration,
+    this.bpCfg, {
+    this.bpPlaylistCfg,
     BPDataSource? bpDataSource,
   }) {
-    this._bpControlsConfiguration = bpConfiguration.controlsConfiguration;
+    this._bpControlsCfg = bpCfg.controlsCfg;
     _eventListeners.add(eventListener);
     if (bpDataSource != null) {
       setupDataSource(bpDataSource);
@@ -232,7 +232,7 @@ class BPController {
 
     ///Build videoPlayerController if null
     if (videoPlayerController == null) {
-      videoPlayerController = VideoPlayerController(bufferingConfiguration: bpDataSource.bufferingConfiguration);
+      videoPlayerController = VideoPlayerController(bufferingCfg: bpDataSource.bufferingCfg);
       videoPlayerController?.addListener(_onVideoPlayerChanged);
     }
 
@@ -414,23 +414,23 @@ class BPController {
           bpDataSource.url,
           audioUri: bpDataSource.audioUrl,
           headers: _getHeaders(),
-          useCache: _bpDataSource!.cacheConfiguration?.useCache ?? false,
-          maxCacheSize: _bpDataSource!.cacheConfiguration?.maxCacheSize ?? 0,
-          maxCacheFileSize: _bpDataSource!.cacheConfiguration?.maxCacheFileSize ?? 0,
-          cacheKey: _bpDataSource?.cacheConfiguration?.key,
-          showNotification: _bpDataSource?.notificationConfiguration?.showNotification,
-          title: _bpDataSource?.notificationConfiguration?.title,
-          author: _bpDataSource?.notificationConfiguration?.author,
-          imageUrl: _bpDataSource?.notificationConfiguration?.imageUrl,
-          notificationChannelName: _bpDataSource?.notificationConfiguration?.notificationChannelName,
+          useCache: _bpDataSource!.cacheCfg?.useCache ?? false,
+          maxCacheSize: _bpDataSource!.cacheCfg?.maxCacheSize ?? 0,
+          maxCacheFileSize: _bpDataSource!.cacheCfg?.maxCacheFileSize ?? 0,
+          cacheKey: _bpDataSource?.cacheCfg?.key,
+          showNotification: _bpDataSource?.notificationCfg?.showNotification,
+          title: _bpDataSource?.notificationCfg?.title,
+          author: _bpDataSource?.notificationCfg?.author,
+          imageUrl: _bpDataSource?.notificationCfg?.imageUrl,
+          notificationChannelName: _bpDataSource?.notificationCfg?.notificationChannelName,
           overriddenDuration: _bpDataSource!.overriddenDuration,
           start: _bpDataSource!.start,
           formatHint: _getVideoFormat(_bpDataSource!.videoFormat),
-          licenseUrl: _bpDataSource?.drmConfiguration?.licenseUrl,
-          certificateUrl: _bpDataSource?.drmConfiguration?.certificateUrl,
-          drmHeaders: _bpDataSource?.drmConfiguration?.headers,
-          activityName: _bpDataSource?.notificationConfiguration?.activityName,
-          clearKey: _bpDataSource?.drmConfiguration?.clearKey,
+          licenseUrl: _bpDataSource?.drmCfg?.licenseUrl,
+          certificateUrl: _bpDataSource?.drmCfg?.certificateUrl,
+          drmHeaders: _bpDataSource?.drmCfg?.headers,
+          activityName: _bpDataSource?.notificationCfg?.activityName,
+          clearKey: _bpDataSource?.drmCfg?.clearKey,
           videoExtension: _bpDataSource!.videoExtension,
         );
 
@@ -454,15 +454,15 @@ class BPController {
           // File(bpDataSource.url),
           file,
           audioFile: audioFile,
-          showNotification: _bpDataSource?.notificationConfiguration?.showNotification,
-          title: _bpDataSource?.notificationConfiguration?.title,
-          author: _bpDataSource?.notificationConfiguration?.author,
-          imageUrl: _bpDataSource?.notificationConfiguration?.imageUrl,
-          notificationChannelName: _bpDataSource?.notificationConfiguration?.notificationChannelName,
+          showNotification: _bpDataSource?.notificationCfg?.showNotification,
+          title: _bpDataSource?.notificationCfg?.title,
+          author: _bpDataSource?.notificationCfg?.author,
+          imageUrl: _bpDataSource?.notificationCfg?.imageUrl,
+          notificationChannelName: _bpDataSource?.notificationCfg?.notificationChannelName,
           overriddenDuration: _bpDataSource!.overriddenDuration,
           start: _bpDataSource!.start,
-          activityName: _bpDataSource?.notificationConfiguration?.activityName,
-          clearKey: _bpDataSource?.drmConfiguration?.clearKey,
+          activityName: _bpDataSource?.notificationCfg?.activityName,
+          clearKey: _bpDataSource?.drmCfg?.clearKey,
         );
         break;
       case BPDataSourceType.memory:
@@ -471,15 +471,15 @@ class BPController {
         if (file.existsSync()) {
           await videoPlayerController?.setFileDataSource(
             file,
-            showNotification: _bpDataSource?.notificationConfiguration?.showNotification,
-            title: _bpDataSource?.notificationConfiguration?.title,
-            author: _bpDataSource?.notificationConfiguration?.author,
-            imageUrl: _bpDataSource?.notificationConfiguration?.imageUrl,
-            notificationChannelName: _bpDataSource?.notificationConfiguration?.notificationChannelName,
+            showNotification: _bpDataSource?.notificationCfg?.showNotification,
+            title: _bpDataSource?.notificationCfg?.title,
+            author: _bpDataSource?.notificationCfg?.author,
+            imageUrl: _bpDataSource?.notificationCfg?.imageUrl,
+            notificationChannelName: _bpDataSource?.notificationCfg?.notificationChannelName,
             overriddenDuration: _bpDataSource!.overriddenDuration,
             start: _bpDataSource!.start,
-            activityName: _bpDataSource?.notificationConfiguration?.activityName,
-            clearKey: _bpDataSource?.drmConfiguration?.clearKey,
+            activityName: _bpDataSource?.notificationCfg?.activityName,
+            clearKey: _bpDataSource?.drmCfg?.clearKey,
           );
           _tempFiles.add(file);
         } else {
@@ -505,14 +505,14 @@ class BPController {
   ///Initializes video based on configuration. Invoke actions which need to be
   ///run on player start.
   Future _initializeVideo() async {
-    setLooping(bpConfiguration.looping);
+    setLooping(bpCfg.looping);
     _videoEventStreamSubscription?.cancel();
     _videoEventStreamSubscription = null;
 
     _videoEventStreamSubscription = videoPlayerController?.videoEventStreamController.stream.listen(_handleVideoEvent);
 
-    final fullScreenByDefault = bpConfiguration.fullScreenByDefault;
-    if (bpConfiguration.autoPlay) {
+    final fullScreenByDefault = bpCfg.fullScreenByDefault;
+    if (bpCfg.autoPlay) {
       if (fullScreenByDefault && !isFullScreen) {
         enterFullScreen();
       }
@@ -531,7 +531,7 @@ class BPController {
       }
     }
 
-    final startAt = bpConfiguration.startAt;
+    final startAt = bpCfg.startAt;
     if (startAt != null) {
       seekTo(startAt);
     }
@@ -812,12 +812,12 @@ class BPController {
   ///manually.
   void startNextVideoTimer() {
     if (_nextVideoTimer == null) {
-      if (bpPlaylistConfiguration == null) {
+      if (bpPlaylistCfg == null) {
         BPUtils.log("BettterPlayerPlaylistConifugration has not been set!");
         throw StateError("BettterPlayerPlaylistConifugration has not been set!");
       }
 
-      _nextVideoTime = bpPlaylistConfiguration!.nextVideoDelay.inSeconds;
+      _nextVideoTime = bpPlaylistCfg!.nextVideoDelay.inSeconds;
       _nextVideoTimeStreamController.add(_nextVideoTime);
       if (_nextVideoTime == 0) {
         return;
@@ -874,7 +874,7 @@ class BPController {
 
   ///Check if player can be played/paused automatically
   bool _isAutomaticPlayPauseHandled() {
-    return !(_bpDataSource?.notificationConfiguration?.showNotification == true) && bpConfiguration.handleLifecycle;
+    return !(_bpDataSource?.notificationCfg?.showNotification == true) && bpCfg.handleLifecycle;
   }
 
   ///Listener which handles state of player visibility. If player visibility is
@@ -890,8 +890,8 @@ class BPController {
     _postEvent(BPEvent(BPEventType.changedPlayerVisibility));
 
     if (_isAutomaticPlayPauseHandled()) {
-      if (bpConfiguration.playerVisibilityChangedBehavior != null) {
-        bpConfiguration.playerVisibilityChangedBehavior!(visibilityFraction);
+      if (bpCfg.playerVisibilityChangedBehavior != null) {
+        bpCfg.playerVisibilityChangedBehavior!(visibilityFraction);
       } else {
         if (visibilityFraction == 0) {
           _wasPlayingBeforePause ??= isPlaying();
@@ -931,7 +931,7 @@ class BPController {
     if (locale != null) {
       final String languageCode = locale.languageCode;
       translations =
-          bpConfiguration.translations?.firstWhereOrNull((translations) => translations.languageCode == languageCode) ??
+          bpCfg.translations?.firstWhereOrNull((translations) => translations.languageCode == languageCode) ??
               _getDefaultTranslations(locale);
     } else {
       BPUtils.log("Locale is null. Couldn't setup translations.");
@@ -989,10 +989,10 @@ class BPController {
   }
 
   ///Get aspect ratio used in current video. If aspect ratio is null, then
-  ///aspect ratio from BPConfiguration will be used. Otherwise
+  ///aspect ratio from BPCfg will be used. Otherwise
   ///[_overriddenAspectRatio] will be used.
   double? getAspectRatio() {
-    return _overriddenAspectRatio ?? bpConfiguration.aspectRatio;
+    return _overriddenAspectRatio ?? bpCfg.aspectRatio;
   }
 
   // ignore: use_setters_to_change_properties
@@ -1002,10 +1002,10 @@ class BPController {
   }
 
   ///Get fit used in current video. If fit is null, then fit from
-  ///BPConfiguration will be used. Otherwise [_overriddenFit] will be
+  ///BPCfg will be used. Otherwise [_overriddenFit] will be
   ///used.
   BoxFit getFit() {
-    return _overriddenFit ?? bpConfiguration.fit;
+    return _overriddenFit ?? bpCfg.fit;
   }
 
   ///Enable Picture in Picture (PiP) mode. [bpGlobalKey] is required
@@ -1171,8 +1171,8 @@ class BPController {
   ///DRM headers if available.
   Map<String, String?> _getHeaders() {
     final headers = bpDataSource!.headers ?? {};
-    if (bpDataSource?.drmConfiguration?.drmType == BPDrmType.token && bpDataSource?.drmConfiguration?.token != null) {
-      headers[_authorizationHeader] = bpDataSource!.drmConfiguration!.token!;
+    if (bpDataSource?.drmCfg?.drmType == BPDrmType.token && bpDataSource?.drmCfg?.token != null) {
+      headers[_authorizationHeader] = bpDataSource!.drmCfg!.token!;
     }
     return headers;
   }
@@ -1185,7 +1185,7 @@ class BPController {
   ///currently not supported on iOS. On iOS, the video format must be in this
   ///list: https://github.com/sendyhalim/Swime/blob/master/Sources/MimeType.swift
   Future<void> preCache(BPDataSource bpDataSource) async {
-    final cacheConfig = bpDataSource.cacheConfiguration ?? const BPCacheCfg(useCache: true);
+    final cacheConfig = bpDataSource.cacheCfg ?? const BPCacheCfg(useCache: true);
 
     final dataSource = DataSource(
       sourceType: DataSourceType.network,
@@ -1204,13 +1204,13 @@ class BPController {
   ///Stop pre cache for given [bpDataSource]. If there was no pre
   ///cache started for given [bpDataSource] then it will be ignored.
   Future<void> stopPreCache(BPDataSource bpDataSource) async {
-    return VideoPlayerController?.stopPreCache(bpDataSource.url, bpDataSource.cacheConfiguration?.key);
+    return VideoPlayerController?.stopPreCache(bpDataSource.url, bpDataSource.cacheCfg?.key);
   }
 
   /// Sets the new [bpControlsCfg] instance in the
   /// controller.
-  void setBPControlsConfiguration(BPControlsCfg bpControlsCfg) {
-    this._bpControlsConfiguration = bpControlsCfg;
+  void setBPControlsCfg(BPControlsCfg bpControlsCfg) {
+    this._bpControlsCfg = bpControlsCfg;
   }
 
   /// Add controller internal event.
@@ -1224,7 +1224,7 @@ class BPController {
   ///autoDispose parameter will be overridden and controller will be disposed
   ///(if it wasn't disposed before).
   void dispose({bool forceDispose = false}) {
-    if (!bpConfiguration.autoDispose && !forceDispose) {
+    if (!bpCfg.autoDispose && !forceDispose) {
       return;
     }
     if (!_disposed) {

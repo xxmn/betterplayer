@@ -12,7 +12,7 @@ class BPTestUtils {
   static const String elephantDreamStreamUrl = "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8";
 
   static BPMockController setupBPMockController({VideoPlayerController? controller}) {
-    final mockController = BPMockController(const BPConfiguration());
+    final mockController = BPMockController(const BPCfg());
     if (controller != null) {
       mockController.videoPlayerController = controller;
     }

@@ -64,7 +64,7 @@ class _VideoProgressBarState extends State<BPMaterialVideoProgressBar> {
 
   @override
   Widget build(BuildContext context) {
-    final bool enableProgressBarDrag = bpController!.bpConfiguration.controlsConfiguration.enableProgressBarDrag;
+    final bool enableProgressBarDrag = bpController!.bpCfg.controlsCfg.enableProgressBarDrag;
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         if (!controller!.value.initialized || !enableProgressBarDrag) {

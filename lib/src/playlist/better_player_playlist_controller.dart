@@ -7,10 +7,10 @@ class BPPlaylistController {
   final List<BPDataSource> _bpDataSourceList;
 
   //General configuration of Better Player
-  final BPConfiguration bpConfiguration;
+  final BPCfg bpCfg;
 
   ///Playlist configuration of Better Player
-  final BPPlaylistConfiguration bpPlaylistConfiguration;
+  final BPPlaylistCfg bpPlaylistCfg;
 
   ///BPController instance
   BPController? _bpController;
@@ -26,8 +26,8 @@ class BPPlaylistController {
 
   BPPlaylistController(
     this._bpDataSourceList, {
-    this.bpConfiguration = const BPConfiguration(),
-    this.bpPlaylistConfiguration = const BPPlaylistConfiguration(),
+    this.bpCfg = const BPCfg(),
+    this.bpPlaylistCfg = const BPPlaylistCfg(),
   }) : assert(_bpDataSourceList.isNotEmpty, "Better Player data source list can't be empty") {
     _setup();
   }
@@ -35,11 +35,11 @@ class BPPlaylistController {
   ///Initialize controller and listeners.
   void _setup() {
     _bpController ??= BPController(
-      bpConfiguration,
-      bpPlaylistConfiguration: bpPlaylistConfiguration,
+      bpCfg,
+      bpPlaylistCfg: bpPlaylistCfg,
     );
 
-    var initialStartIndex = bpPlaylistConfiguration.initialStartIndex;
+    var initialStartIndex = bpPlaylistCfg.initialStartIndex;
     if (initialStartIndex >= _bpDataSourceList.length) {
       initialStartIndex = 0;
     }
@@ -115,7 +115,7 @@ class BPPlaylistController {
     if (currentIndex + 1 < _dataSourceLength) {
       return currentIndex + 1;
     } else {
-      if (bpPlaylistConfiguration.loopVideos) {
+      if (bpPlaylistCfg.loopVideos) {
         return 0;
       } else {
         return -1;

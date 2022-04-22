@@ -7,14 +7,14 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 class BPSubtitlesDrawer extends StatefulWidget {
   final List<BPSubtitle> subtitles;
   final BPController bpController;
-  final BPSubtitlesCfg? bpSubtitlesConfiguration;
+  final BPSubtitlesCfg? bpSubtitlesCfg;
   final Stream<bool> playerVisibilityStream;
 
   const BPSubtitlesDrawer({
     Key? key,
     required this.subtitles,
     required this.bpController,
-    this.bpSubtitlesConfiguration,
+    this.bpSubtitlesCfg,
     required this.playerVisibilityStream,
   }) : super(key: key);
 
@@ -44,10 +44,10 @@ class _BPSubtitlesDrawerState extends State<BPSubtitlesDrawer> {
       });
     });
 
-    if (widget.bpSubtitlesConfiguration != null) {
-      _configuration = widget.bpSubtitlesConfiguration;
+    if (widget.bpSubtitlesCfg != null) {
+      _configuration = widget.bpSubtitlesCfg;
     } else {
-      _configuration = setupDefaultConfiguration();
+      _configuration = setupDefaultCfg();
     }
 
     widget.bpController.videoPlayerController!.addListener(_updateState);
@@ -149,7 +149,7 @@ class _BPSubtitlesDrawerState extends State<BPSubtitlesDrawer> {
     );
   }
 
-  BPSubtitlesCfg setupDefaultConfiguration() {
+  BPSubtitlesCfg setupDefaultCfg() {
     return const BPSubtitlesCfg();
   }
 }

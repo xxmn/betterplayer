@@ -66,7 +66,7 @@ abstract class VideoPlayerPlatform {
   }
 
   /// Creates an instance of a video player and returns its textureId.
-  Future<int?> create({BPBufferingCfg? bufferingConfiguration}) {
+  Future<int?> create({BPBufferingCfg? bufferingCfg}) {
     throw UnimplementedError('create() has not been implemented.');
   }
 

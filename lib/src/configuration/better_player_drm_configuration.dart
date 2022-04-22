@@ -1,6 +1,6 @@
 import 'package:better_player/src/configuration/better_player_drm_type.dart';
 
-///Configuration of DRM used to protect data source
+///Cfg of DRM used to protect data source
 class BPDrmCfg {
   ///Type of DRM
   final BPDrmType? drmType;

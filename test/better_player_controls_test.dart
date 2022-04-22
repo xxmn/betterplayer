@@ -14,7 +14,7 @@ void main() {
   });
 
   setUp(() {
-    _mockController = BPMockController(const BPConfiguration());
+    _mockController = BPMockController(const BPCfg());
   });
 
   testWidgets(

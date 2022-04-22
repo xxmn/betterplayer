@@ -15,11 +15,11 @@ class BPCupertinoControls extends StatefulWidget {
   final Function(bool visbility) onControlsVisibilityChanged;
 
   ///Controls config
-  final BPControlsCfg controlsConfiguration;
+  final BPControlsCfg controlsCfg;
 
   const BPCupertinoControls({
     required this.onControlsVisibilityChanged,
-    required this.controlsConfiguration,
+    required this.controlsCfg,
     Key? key,
   }) : super(key: key);
 
@@ -42,7 +42,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   BPController? _bpController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
-  BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
+  BPControlsCfg get _controlsCfg => widget.controlsCfg;
 
   @override
   VideoPlayerValue? get latestValue => _latestValue;
@@ -51,7 +51,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   BPController? get bpController => _bpController;
 
   @override
-  BPControlsCfg get bpControlsCfg => _controlsConfiguration;
+  BPControlsCfg get bpControlsCfg => _controlsCfg;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +71,11 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
     _bpController = BPController.of(context);
     _controller = _bpController!.videoPlayerController;
-    final backgroundColor = _controlsConfiguration.controlBarColor;
-    final iconColor = _controlsConfiguration.iconsColor;
+    final backgroundColor = _controlsCfg.controlBarColor;
+    final iconColor = _controlsCfg.iconsColor;
     final orientation = MediaQuery.of(context).orientation;
-    final barHeight = orientation == Orientation.portrait
-        ? _controlsConfiguration.controlBarHeight
-        : _controlsConfiguration.controlBarHeight + 10;
+    final barHeight =
+        orientation == Orientation.portrait ? _controlsCfg.controlBarHeight : _controlsCfg.controlBarHeight + 10;
     const buttonPadding = 10.0;
     final isFullScreen = _bpController?.isFullScreen == true;
 
@@ -158,7 +157,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
     }
     return AnimatedOpacity(
       opacity: controlsNotVisible ? 0.0 : 1.0,
-      duration: _controlsConfiguration.controlsHideTime,
+      duration: _controlsCfg.controlsHideTime,
       onEnd: _onPlayerHide,
       child: Container(
         alignment: Alignment.bottomCenter,
@@ -175,7 +174,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       const SizedBox(width: 8),
-                      if (_controlsConfiguration.enablePlayPause)
+                      if (_controlsCfg.enablePlayPause)
                         _buildPlayPause(_controller!, iconColor, barHeight)
                       else
                         const SizedBox(),
@@ -185,21 +184,15 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                   )
                 : Row(
                     children: <Widget>[
-                      if (_controlsConfiguration.enableSkips)
-                        _buildSkipBack(iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enablePlayPause)
+                      if (_controlsCfg.enableSkips) _buildSkipBack(iconColor, barHeight) else const SizedBox(),
+                      if (_controlsCfg.enablePlayPause)
                         _buildPlayPause(_controller!, iconColor, barHeight)
                       else
                         const SizedBox(),
-                      if (_controlsConfiguration.enableSkips)
-                        _buildSkipForward(iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enableProgressText) _buildPosition() else const SizedBox(),
-                      if (_controlsConfiguration.enableProgressBar) _buildProgressBar() else const SizedBox(),
-                      if (_controlsConfiguration.enableProgressText) _buildRemaining() else const SizedBox()
+                      if (_controlsCfg.enableSkips) _buildSkipForward(iconColor, barHeight) else const SizedBox(),
+                      if (_controlsCfg.enableProgressText) _buildPosition() else const SizedBox(),
+                      if (_controlsCfg.enableProgressBar) _buildProgressBar() else const SizedBox(),
+                      if (_controlsCfg.enableProgressText) _buildRemaining() else const SizedBox()
                     ],
                   ),
           ),
@@ -212,7 +205,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
     return Expanded(
       child: Text(
         _bpController!.translations.controlsLive,
-        style: TextStyle(color: _controlsConfiguration.liveTextColor, fontWeight: FontWeight.bold),
+        style: TextStyle(color: _controlsCfg.liveTextColor, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -228,7 +221,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       onTap: _onExpandCollapse,
       child: AnimatedOpacity(
         opacity: controlsNotVisible ? 0.0 : 1.0,
-        duration: _controlsConfiguration.controlsHideTime,
+        duration: _controlsCfg.controlsHideTime,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Container(
@@ -239,9 +232,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
             decoration: BoxDecoration(color: backgroundColor),
             child: Center(
               child: Icon(
-                _bpController!.isFullScreen
-                    ? _controlsConfiguration.fullscreenDisableIcon
-                    : _controlsConfiguration.fullscreenEnableIcon,
+                _bpController!.isFullScreen ? _controlsCfg.fullscreenDisableIcon : _controlsCfg.fullscreenEnableIcon,
                 color: iconColor,
                 size: iconSize,
               ),
@@ -289,7 +280,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       },
       child: AnimatedOpacity(
         opacity: controlsNotVisible ? 0.0 : 1.0,
-        duration: _controlsConfiguration.controlsHideTime,
+        duration: _controlsCfg.controlsHideTime,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
@@ -302,7 +293,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                 horizontal: buttonPadding,
               ),
               child: Icon(
-                _controlsConfiguration.overflowMenuIcon,
+                _controlsCfg.overflowMenuIcon,
                 color: iconColor,
                 size: iconSize,
               ),
@@ -334,7 +325,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       },
       child: AnimatedOpacity(
         opacity: controlsNotVisible ? 0.0 : 1.0,
-        duration: _controlsConfiguration.controlsHideTime,
+        duration: _controlsCfg.controlsHideTime,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
@@ -347,9 +338,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                 horizontal: buttonPadding,
               ),
               child: Icon(
-                (_latestValue != null && _latestValue!.volume > 0)
-                    ? _controlsConfiguration.muteIcon
-                    : _controlsConfiguration.unMuteIcon,
+                (_latestValue != null && _latestValue!.volume > 0) ? _controlsCfg.muteIcon : _controlsCfg.unMuteIcon,
                 color: iconColor,
                 size: iconSize,
               ),
@@ -372,7 +361,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
         color: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: Icon(
-          controller.value.isPlaying ? _controlsConfiguration.pauseIcon : _controlsConfiguration.playIcon,
+          controller.value.isPlaying ? _controlsCfg.pauseIcon : _controlsCfg.playIcon,
           color: iconColor,
           size: barHeight * 0.6,
         ),
@@ -388,7 +377,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       child: Text(
         BPUtils.formatDuration(position),
         style: TextStyle(
-          color: _controlsConfiguration.textColor,
+          color: _controlsCfg.textColor,
           fontSize: 12.0,
         ),
       ),
@@ -404,7 +393,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
         '-${BPUtils.formatDuration(position)}',
-        style: TextStyle(color: _controlsConfiguration.textColor, fontSize: 12.0),
+        style: TextStyle(color: _controlsCfg.textColor, fontSize: 12.0),
       ),
     );
   }
@@ -420,7 +409,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
           horizontal: 8,
         ),
         child: Icon(
-          _controlsConfiguration.skipBackIcon,
+          _controlsCfg.skipBackIcon,
           color: iconColor,
           size: barHeight * 0.4,
         ),
@@ -437,7 +426,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
         padding: const EdgeInsets.symmetric(horizontal: 6),
         margin: const EdgeInsets.only(right: 8.0),
         child: Icon(
-          _controlsConfiguration.skipForwardIcon,
+          _controlsCfg.skipForwardIcon,
           color: iconColor,
           size: barHeight * 0.4,
         ),
@@ -465,7 +454,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
       ),
       child: Row(
         children: <Widget>[
-          if (_controlsConfiguration.enableFullscreen)
+          if (_controlsCfg.enableFullscreen)
             _buildExpandButton(
               backgroundColor,
               iconColor,
@@ -478,7 +467,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
           const SizedBox(
             width: 4,
           ),
-          if (_controlsConfiguration.enablePip)
+          if (_controlsCfg.enablePip)
             _buildPipButton(
               backgroundColor,
               iconColor,
@@ -489,7 +478,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
           else
             const SizedBox(),
           const Spacer(),
-          if (_controlsConfiguration.enableMute)
+          if (_controlsCfg.enableMute)
             _buildMuteButton(
               _controller,
               backgroundColor,
@@ -503,7 +492,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
           const SizedBox(
             width: 4,
           ),
-          if (_controlsConfiguration.enableOverflowMenu)
+          if (_controlsCfg.enableOverflowMenu)
             _buildMoreButton(
               _controller,
               backgroundColor,
@@ -534,7 +523,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 4, right: 8),
                 decoration: BoxDecoration(
-                  color: _controlsConfiguration.controlBarColor,
+                  color: _controlsCfg.controlBarColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Padding(
@@ -566,11 +555,11 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
 
     _updateState();
 
-    if ((_controller!.value.isPlaying) || _bpController!.bpConfiguration.autoPlay) {
+    if ((_controller!.value.isPlaying) || _bpController!.bpCfg.autoPlay) {
       _startHideTimer();
     }
 
-    if (_controlsConfiguration.showControlsOnInitialize) {
+    if (_controlsCfg.showControlsOnInitialize) {
       _initTimer = Timer(const Duration(milliseconds: 200), () {
         changePlayerControlsNotVisible(false);
       });
@@ -587,7 +576,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   void _onExpandCollapse() {
     changePlayerControlsNotVisible(true);
     _bpController!.toggleFullScreen();
-    _expandCollapseTimer = Timer(_controlsConfiguration.controlsHideTime, () {
+    _expandCollapseTimer = Timer(_controlsCfg.controlsHideTime, () {
       setState(() {
         cancelAndRestartTimer();
       });
@@ -611,10 +600,10 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
             cancelAndRestartTimer();
           },
           colors: BPProgressColors(
-              playedColor: _controlsConfiguration.progressBarPlayedColor,
-              handleColor: _controlsConfiguration.progressBarHandleColor,
-              bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-              backgroundColor: _controlsConfiguration.progressBarBackgroundColor),
+              playedColor: _controlsCfg.progressBarPlayedColor,
+              handleColor: _controlsCfg.progressBarHandleColor,
+              bufferedColor: _controlsCfg.progressBarBufferedColor,
+              backgroundColor: _controlsCfg.progressBarBackgroundColor),
         ),
       ),
     );
@@ -677,25 +666,25 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   }
 
   Widget _buildErrorWidget() {
-    final errorBuilder = _bpController!.bpConfiguration.errorBuilder;
+    final errorBuilder = _bpController!.bpCfg.errorBuilder;
     if (errorBuilder != null) {
       return errorBuilder(context, _bpController!.videoPlayerController!.value.errorDescription);
     } else {
-      final textStyle = TextStyle(color: _controlsConfiguration.textColor);
+      final textStyle = TextStyle(color: _controlsCfg.textColor);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               CupertinoIcons.exclamationmark_triangle,
-              color: _controlsConfiguration.iconsColor,
+              color: _controlsCfg.iconsColor,
               size: 42,
             ),
             Text(
               _bpController!.translations.generalDefaultError,
               style: textStyle,
             ),
-            if (_controlsConfiguration.enableRetry)
+            if (_controlsCfg.enableRetry)
               TextButton(
                 onPressed: () {
                   _bpController!.retryDataSource();
@@ -712,12 +701,12 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   }
 
   Widget? _buildLoadingWidget() {
-    if (_controlsConfiguration.loadingWidget != null) {
-      return _controlsConfiguration.loadingWidget;
+    if (_controlsCfg.loadingWidget != null) {
+      return _controlsCfg.loadingWidget;
     }
 
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor),
+      valueColor: AlwaysStoppedAnimation<Color>(_controlsCfg.loadingColor),
     );
   }
 
@@ -739,7 +728,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
             },
             child: AnimatedOpacity(
               opacity: controlsNotVisible ? 0.0 : 1.0,
-              duration: _controlsConfiguration.controlsHideTime,
+              duration: _controlsCfg.controlsHideTime,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
@@ -753,7 +742,7 @@ class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
                   ),
                   child: Center(
                     child: Icon(
-                      _controlsConfiguration.pipMenuIcon,
+                      _controlsCfg.pipMenuIcon,
                       color: iconColor,
                       size: iconSize,
                     ),

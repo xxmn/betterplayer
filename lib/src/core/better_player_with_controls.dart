@@ -20,9 +20,9 @@ class BPWithControls extends StatefulWidget {
 }
 
 class _BPWithControlsState extends State<BPWithControls> {
-  BPSubtitlesCfg get subtitlesConfiguration => widget.controller!.bpConfiguration.subtitlesConfiguration;
+  BPSubtitlesCfg get subtitlesCfg => widget.controller!.bpCfg.subtitlesCfg;
 
-  BPControlsCfg get controlsConfiguration => widget.controller!.bpControlsCfg;
+  BPControlsCfg get controlsCfg => widget.controller!.bpControlsCfg;
 
   final StreamController<bool> playerVisibilityStreamController = StreamController();
 
@@ -67,11 +67,11 @@ class _BPWithControlsState extends State<BPWithControls> {
 
     double? aspectRatio;
     if (bpController.isFullScreen) {
-      if (bpController.bpConfiguration.autoDetectFullscreenDeviceOrientation ||
-          bpController.bpConfiguration.autoDetectFullscreenAspectRatio) {
+      if (bpController.bpCfg.autoDetectFullscreenDeviceOrientation ||
+          bpController.bpCfg.autoDetectFullscreenAspectRatio) {
         aspectRatio = bpController.videoPlayerController?.value.aspectRatio ?? 1.0;
       } else {
-        aspectRatio = bpController.bpConfiguration.fullScreenAspectRatio ?? BPUtils.calculateAspectRatio(context);
+        aspectRatio = bpController.bpCfg.fullScreenAspectRatio ?? BPUtils.calculateAspectRatio(context);
       }
     } else {
       aspectRatio = bpController.getAspectRatio();
@@ -80,14 +80,14 @@ class _BPWithControlsState extends State<BPWithControls> {
     aspectRatio ??= 16 / 9;
     final innerContainer = Container(
       width: double.infinity,
-      color: bpController.bpConfiguration.controlsConfiguration.backgroundColor,
+      color: bpController.bpCfg.controlsCfg.backgroundColor,
       child: AspectRatio(
         aspectRatio: aspectRatio,
         child: _buildPlayerWithControls(bpController, context),
       ),
     );
 
-    if (bpController.bpConfiguration.expandToFill) {
+    if (bpController.bpCfg.expandToFill) {
       return Center(child: innerContainer);
     } else {
       return innerContainer;
@@ -95,7 +95,7 @@ class _BPWithControlsState extends State<BPWithControls> {
   }
 
   Container _buildPlayerWithControls(BPController bpController, BuildContext context) {
-    final configuration = bpController.bpConfiguration;
+    final configuration = bpController.bpCfg;
     var rotation = configuration.rotation;
 
     if (!(rotation <= 360 && rotation % 90 == 0)) {
@@ -107,7 +107,7 @@ class _BPWithControlsState extends State<BPWithControls> {
     }
     _initialized = true;
 
-    final bool placeholderOnTop = bpController.bpConfiguration.placeholderOnTop;
+    final bool placeholderOnTop = bpController.bpCfg.placeholderOnTop;
     // ignore: avoid_unnecessary_containers
     return Container(
       child: Stack(
@@ -121,10 +121,10 @@ class _BPWithControlsState extends State<BPWithControls> {
               bpController.getFit(),
             ),
           ),
-          bpController.bpConfiguration.overlay ?? Container(),
+          bpController.bpCfg.overlay ?? Container(),
           BPSubtitlesDrawer(
             bpController: bpController,
-            bpSubtitlesConfiguration: subtitlesConfiguration,
+            bpSubtitlesCfg: subtitlesCfg,
             subtitles: bpController.subtitlesLines,
             playerVisibilityStream: playerVisibilityStreamController.stream,
           ),
@@ -136,15 +136,15 @@ class _BPWithControlsState extends State<BPWithControls> {
   }
 
   Widget _buildPlaceholder(BPController bpController) {
-    return bpController.bpDataSource!.placeholder ?? bpController.bpConfiguration.placeholder ?? Container();
+    return bpController.bpDataSource!.placeholder ?? bpController.bpCfg.placeholder ?? Container();
   }
 
   Widget _buildControls(
     BuildContext context,
     BPController bpController,
   ) {
-    if (controlsConfiguration.showControls) {
-      BPTheme? playerTheme = controlsConfiguration.playerTheme;
+    if (controlsCfg.showControls) {
+      BPTheme? playerTheme = controlsCfg.playerTheme;
       if (playerTheme == null) {
         if (Platform.isAndroid) {
           playerTheme = BPTheme.material;
@@ -153,8 +153,8 @@ class _BPWithControlsState extends State<BPWithControls> {
         }
       }
 
-      if (controlsConfiguration.customControlsBuilder != null && playerTheme == BPTheme.custom) {
-        return controlsConfiguration.customControlsBuilder!(bpController, onControlsVisibilityChanged);
+      if (controlsCfg.customControlsBuilder != null && playerTheme == BPTheme.custom) {
+        return controlsCfg.customControlsBuilder!(bpController, onControlsVisibilityChanged);
       } else if (playerTheme == BPTheme.material) {
         return _buildMaterialControl();
       } else if (playerTheme == BPTheme.cupertino) {
@@ -168,14 +168,14 @@ class _BPWithControlsState extends State<BPWithControls> {
   Widget _buildMaterialControl() {
     return BPMaterialControls(
       onControlsVisibilityChanged: onControlsVisibilityChanged,
-      controlsConfiguration: controlsConfiguration,
+      controlsCfg: controlsCfg,
     );
   }
 
   Widget _buildCupertinoControl() {
     return BPCupertinoControls(
       onControlsVisibilityChanged: onControlsVisibilityChanged,
-      controlsConfiguration: controlsConfiguration,
+      controlsCfg: controlsCfg,
     );
   }
 
@@ -213,7 +213,7 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
   @override
   void initState() {
     super.initState();
-    if (!widget.bpController.bpConfiguration.showPlaceholderUntilPlay) {
+    if (!widget.bpController.bpCfg.showPlaceholderUntilPlay) {
       _started = true;
     } else {
       _started = widget.bpController.hasCurrentDataSourceStarted;

@@ -2,10 +2,10 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-///Configuration of Better Player. Allows to setup general behavior of player.
+///Cfg of Better Player. Allows to setup general behavior of player.
 ///Master configuration which contains children that configure specific part
 ///of player.
-class BPConfiguration {
+class BPCfg {
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
@@ -65,10 +65,10 @@ class BPConfiguration {
   final Function(BPEvent)? eventListener;
 
   ///Defines subtitles configuration
-  final BPSubtitlesCfg subtitlesConfiguration;
+  final BPSubtitlesCfg subtitlesCfg;
 
   ///Defines controls configuration
-  final BPControlsCfg controlsConfiguration;
+  final BPControlsCfg controlsCfg;
 
   ///Defines fit of the video, allows to fix video stretching, see possible
   ///values here: https://api.flutter.dev/flutter/painting/BoxFit-class.html
@@ -117,7 +117,7 @@ class BPConfiguration {
   ///Default value is false.
   final bool useRootNavigator;
 
-  const BPConfiguration({
+  const BPCfg({
     this.aspectRatio,
     this.autoPlay = false,
     this.startAt,
@@ -143,8 +143,8 @@ class BPConfiguration {
     ],
     this.routePageBuilder,
     this.eventListener,
-    this.subtitlesConfiguration = const BPSubtitlesCfg(),
-    this.controlsConfiguration = const BPControlsCfg(),
+    this.subtitlesCfg = const BPSubtitlesCfg(),
+    this.controlsCfg = const BPControlsCfg(),
     this.fit = BoxFit.fill,
     this.rotation = 0,
     this.playerVisibilityChangedBehavior,
@@ -157,7 +157,7 @@ class BPConfiguration {
     this.useRootNavigator = false,
   });
 
-  BPConfiguration copyWith({
+  BPCfg copyWith({
     double? aspectRatio,
     bool? autoPlay,
     Duration? startAt,
@@ -176,8 +176,8 @@ class BPConfiguration {
     List<DeviceOrientation>? deviceOrientationsAfterFullScreen,
     BPRoutePageBuilder? routePageBuilder,
     Function(BPEvent)? eventListener,
-    BPSubtitlesCfg? subtitlesConfiguration,
-    BPControlsCfg? controlsConfiguration,
+    BPSubtitlesCfg? subtitlesCfg,
+    BPControlsCfg? controlsCfg,
     BoxFit? fit,
     double? rotation,
     Function(double visibilityFraction)? playerVisibilityChangedBehavior,
@@ -188,7 +188,7 @@ class BPConfiguration {
     bool? expandToFill,
     bool? useRootNavigator,
   }) {
-    return BPConfiguration(
+    return BPCfg(
       aspectRatio: aspectRatio ?? this.aspectRatio,
       autoPlay: autoPlay ?? this.autoPlay,
       startAt: startAt ?? this.startAt,
@@ -206,8 +206,8 @@ class BPConfiguration {
       deviceOrientationsAfterFullScreen: deviceOrientationsAfterFullScreen ?? this.deviceOrientationsAfterFullScreen,
       routePageBuilder: routePageBuilder ?? this.routePageBuilder,
       eventListener: eventListener ?? this.eventListener,
-      subtitlesConfiguration: subtitlesConfiguration ?? this.subtitlesConfiguration,
-      controlsConfiguration: controlsConfiguration ?? this.controlsConfiguration,
+      subtitlesCfg: subtitlesCfg ?? this.subtitlesCfg,
+      controlsCfg: controlsCfg ?? this.controlsCfg,
       fit: fit ?? this.fit,
       rotation: rotation ?? this.rotation,
       playerVisibilityChangedBehavior: playerVisibilityChangedBehavior ?? this.playerVisibilityChangedBehavior,

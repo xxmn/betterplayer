@@ -48,13 +48,13 @@ class BPDataSource {
   final Map<String, String>? resolutions;
 
   ///Optional cache configuration, used only for network data sources
-  final BPCacheCfg? cacheConfiguration;
+  final BPCacheCfg? cacheCfg;
 
   ///List of bytes, used only in memory player
   final List<int>? bytes;
 
-  ///Configuration of remote controls notification
-  final BPNotificationCfg? notificationConfiguration;
+  ///Cfg of remote controls notification
+  final BPNotificationCfg? notificationCfg;
 
   ///Duration which will be returned instead of original duration
   final Duration? overriddenDuration;
@@ -66,18 +66,18 @@ class BPDataSource {
   ///Extension of video without dot.
   final String? videoExtension;
 
-  ///Configuration of content protection
-  final BPDrmCfg? drmConfiguration;
+  ///Cfg of content protection
+  final BPDrmCfg? drmCfg;
 
   ///Placeholder widget which will be shown until video load or play. This
   ///placeholder may be useful if you want to show placeholder before each video
   ///in playlist. Otherwise, you should use placeholder from
-  /// BPConfiguration.
+  /// BPCfg.
   final Widget? placeholder;
 
-  ///Configuration of video buffering. Currently only supported in Android
+  ///Cfg of video buffering. Currently only supported in Android
   ///platform.
-  final BPBufferingCfg bufferingConfiguration;
+  final BPBufferingCfg bufferingCfg;
 
   BPDataSource(
     this.type,
@@ -93,17 +93,17 @@ class BPDataSource {
     this.useAsmsAudioTracks = true,
     this.asmsTrackNames,
     this.resolutions,
-    this.cacheConfiguration,
-    this.notificationConfiguration = const BPNotificationCfg(
+    this.cacheCfg,
+    this.notificationCfg = const BPNotificationCfg(
       showNotification: false,
     ),
     this.overriddenDuration,
     this.start,
     this.videoFormat,
     this.videoExtension,
-    this.drmConfiguration,
+    this.drmCfg,
     this.placeholder,
-    this.bufferingConfiguration = const BPBufferingCfg(),
+    this.bufferingCfg = const BPBufferingCfg(),
   }) : assert(
             (type == BPDataSourceType.network || type == BPDataSourceType.file) ||
                 (type == BPDataSourceType.memory && bytes?.isNotEmpty == true),
@@ -122,14 +122,14 @@ class BPDataSource {
     bool? useAsmsTracks,
     bool? useAsmsAudioTracks,
     Map<String, String>? qualities,
-    BPCacheCfg? cacheConfiguration,
-    BPNotificationCfg notificationConfiguration = const BPNotificationCfg(showNotification: false),
+    BPCacheCfg? cacheCfg,
+    BPNotificationCfg notificationCfg = const BPNotificationCfg(showNotification: false),
     Duration? overriddenDuration,
     int? start,
     BPVideoFormat? videoFormat,
-    BPDrmCfg? drmConfiguration,
+    BPDrmCfg? drmCfg,
     Widget? placeholder,
-    BPBufferingCfg bufferingConfiguration = const BPBufferingCfg(),
+    BPBufferingCfg bufferingCfg = const BPBufferingCfg(),
   }) {
     return BPDataSource(
       BPDataSourceType.network,
@@ -143,14 +143,14 @@ class BPDataSource {
       useAsmsTracks: useAsmsTracks,
       useAsmsAudioTracks: useAsmsAudioTracks,
       resolutions: qualities,
-      cacheConfiguration: cacheConfiguration,
-      notificationConfiguration: notificationConfiguration,
+      cacheCfg: cacheCfg,
+      notificationCfg: notificationCfg,
       overriddenDuration: overriddenDuration,
       start: start,
       videoFormat: videoFormat,
-      drmConfiguration: drmConfiguration,
+      drmCfg: drmCfg,
       placeholder: placeholder,
-      bufferingConfiguration: bufferingConfiguration,
+      bufferingCfg: bufferingCfg,
     );
   }
 
@@ -164,8 +164,8 @@ class BPDataSource {
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
-    BPCacheCfg? cacheConfiguration,
-    BPNotificationCfg? notificationConfiguration,
+    BPCacheCfg? cacheCfg,
+    BPNotificationCfg? notificationCfg,
     Duration? overriddenDuration,
     int? start,
     Widget? placeholder,
@@ -179,8 +179,8 @@ class BPDataSource {
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
-      cacheConfiguration: cacheConfiguration,
-      notificationConfiguration: notificationConfiguration = const BPNotificationCfg(showNotification: false),
+      cacheCfg: cacheCfg,
+      notificationCfg: notificationCfg = const BPNotificationCfg(showNotification: false),
       overriddenDuration: overriddenDuration,
       start: start,
       placeholder: placeholder,
@@ -198,8 +198,8 @@ class BPDataSource {
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
-    BPCacheCfg? cacheConfiguration,
-    BPNotificationCfg? notificationConfiguration,
+    BPCacheCfg? cacheCfg,
+    BPNotificationCfg? notificationCfg,
     Duration? overriddenDuration,
     int? start,
     Widget? placeholder,
@@ -214,8 +214,8 @@ class BPDataSource {
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
-      cacheConfiguration: cacheConfiguration,
-      notificationConfiguration: notificationConfiguration = const BPNotificationCfg(showNotification: false),
+      cacheCfg: cacheCfg,
+      notificationCfg: notificationCfg = const BPNotificationCfg(showNotification: false),
       overriddenDuration: overriddenDuration,
       start: start,
       placeholder: placeholder,
@@ -235,15 +235,15 @@ class BPDataSource {
     bool? useAsmsTracks,
     bool? useAsmsAudioTracks,
     Map<String, String>? resolutions,
-    BPCacheCfg? cacheConfiguration,
-    BPNotificationCfg? notificationConfiguration = const BPNotificationCfg(showNotification: false),
+    BPCacheCfg? cacheCfg,
+    BPNotificationCfg? notificationCfg = const BPNotificationCfg(showNotification: false),
     Duration? overriddenDuration,
     int? start,
     BPVideoFormat? videoFormat,
     String? videoExtension,
-    BPDrmCfg? drmConfiguration,
+    BPDrmCfg? drmCfg,
     Widget? placeholder,
-    BPBufferingCfg? bufferingConfiguration = const BPBufferingCfg(),
+    BPBufferingCfg? bufferingCfg = const BPBufferingCfg(),
   }) {
     return BPDataSource(
       type ?? this.type,
@@ -258,15 +258,15 @@ class BPDataSource {
       useAsmsTracks: useAsmsTracks ?? this.useAsmsTracks,
       useAsmsAudioTracks: useAsmsAudioTracks ?? this.useAsmsAudioTracks,
       resolutions: resolutions ?? this.resolutions,
-      cacheConfiguration: cacheConfiguration ?? this.cacheConfiguration,
-      notificationConfiguration: notificationConfiguration ?? this.notificationConfiguration,
+      cacheCfg: cacheCfg ?? this.cacheCfg,
+      notificationCfg: notificationCfg ?? this.notificationCfg,
       overriddenDuration: overriddenDuration ?? this.overriddenDuration,
       start: start ?? this.start,
       videoFormat: videoFormat ?? this.videoFormat,
       videoExtension: videoExtension ?? this.videoExtension,
-      drmConfiguration: drmConfiguration ?? this.drmConfiguration,
+      drmCfg: drmCfg ?? this.drmCfg,
       placeholder: placeholder ?? this.placeholder,
-      bufferingConfiguration: bufferingConfiguration ?? this.bufferingConfiguration,
+      bufferingCfg: bufferingCfg ?? this.bufferingCfg,
     );
   }
 }

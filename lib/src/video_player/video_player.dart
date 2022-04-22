@@ -171,11 +171,11 @@ class VideoPlayerValue {
 ///
 /// After [dispose] all further calls are ignored.
 class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
-  final BPBufferingCfg bufferingConfiguration;
+  final BPBufferingCfg bufferingCfg;
 
   /// Constructs a [VideoPlayerController] and creates video controller on platform side.
   VideoPlayerController({
-    this.bufferingConfiguration = const BPBufferingCfg(),
+    this.bufferingCfg = const BPBufferingCfg(),
     bool autoCreate = true,
   }) : super(VideoPlayerValue(duration: null)) {
     if (autoCreate) {
@@ -202,9 +202,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
 
   /// Attempts to open the given [dataSource] and load metadata about the video.
   Future<void> _create() async {
-    _textureId = await _videoPlayerPlatform.create(
-      bufferingConfiguration: bufferingConfiguration,
-    );
+    _textureId = await _videoPlayerPlatform.create(bufferingCfg: bufferingCfg);
     _creatingCompleter.complete(null);
 
     unawaited(_applyLooping());

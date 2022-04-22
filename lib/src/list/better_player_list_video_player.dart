@@ -8,7 +8,7 @@ class BPListVideoPlayer extends StatefulWidget {
   final BPDataSource dataSource;
 
   ///Video player configuration
-  final BPConfiguration configuration;
+  final BPCfg configuration;
 
   ///Fraction of the screen height that will trigger play/pause. For example
   ///if playFraction is 0.6 video will be played if 60% of player height is
@@ -25,7 +25,7 @@ class BPListVideoPlayer extends StatefulWidget {
 
   const BPListVideoPlayer(
     this.dataSource, {
-    this.configuration = const BPConfiguration(),
+    this.configuration = const BPCfg(),
     this.playFraction = 0.6,
     this.autoPlay = true,
     this.autoPause = true,
@@ -49,7 +49,7 @@ class _BPListVideoPlayerState extends State<BPListVideoPlayer> with AutomaticKee
     _bpController = BPController(
       widget.configuration.copyWith(playerVisibilityChangedBehavior: onVisibilityChanged),
       bpDataSource: widget.dataSource,
-      bpPlaylistConfiguration: const BPPlaylistConfiguration(),
+      bpPlaylistCfg: const BPPlaylistCfg(),
     );
 
     if (widget.bpListVideoPlayerController != null) {

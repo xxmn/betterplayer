@@ -405,7 +405,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     showCupertinoModalPopup<void>(
       barrierColor: Colors.transparent,
       context: context,
-      useRootNavigator: bpController?.bpConfiguration.useRootNavigator ?? false,
+      useRootNavigator: bpController?.bpCfg.useRootNavigator ?? false,
       builder: (context) {
         return SafeArea(
           top: false,
@@ -432,7 +432,7 @@ abstract class BPControlsState<T extends StatefulWidget> extends State<T> {
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
       context: context,
-      useRootNavigator: bpController?.bpConfiguration.useRootNavigator ?? false,
+      useRootNavigator: bpController?.bpCfg.useRootNavigator ?? false,
       builder: (context) {
         return SafeArea(
           top: false,

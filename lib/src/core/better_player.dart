@@ -17,22 +17,22 @@ class BP extends StatefulWidget {
 
   factory BP.network(
     String url, {
-    BPConfiguration? bpConfiguration,
+    BPCfg? bpCfg,
   }) =>
       BP(
         controller: BPController(
-          bpConfiguration ?? const BPConfiguration(),
+          bpCfg ?? const BPCfg(),
           bpDataSource: BPDataSource(BPDataSourceType.network, url),
         ),
       );
 
   factory BP.file(
     String url, {
-    BPConfiguration? bpConfiguration,
+    BPCfg? bpCfg,
   }) =>
       BP(
         controller: BPController(
-          bpConfiguration ?? const BPConfiguration(),
+          bpCfg ?? const BPCfg(),
           bpDataSource: BPDataSource(BPDataSourceType.file, url),
         ),
       );
@@ -46,7 +46,7 @@ class BP extends StatefulWidget {
 }
 
 class _BPState extends State<BP> with WidgetsBindingObserver {
-  BPConfiguration get _bpConfiguration => widget.controller.bpConfiguration;
+  BPCfg get _bpCfg => widget.controller.bpCfg;
 
   bool _isFullScreen = false;
 
@@ -102,9 +102,8 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
     if (_isFullScreen) {
       Wakelock.disable();
       _navigatorState.maybePop();
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: _bpConfiguration.systemOverlaysAfterFullScreen);
-      SystemChrome.setPreferredOrientations(_bpConfiguration.deviceOrientationsAfterFullScreen);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: _bpCfg.systemOverlaysAfterFullScreen);
+      SystemChrome.setPreferredOrientations(_bpCfg.deviceOrientationsAfterFullScreen);
     }
 
     WidgetsBinding.instance!.removeObserver(this);
@@ -195,7 +194,7 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
   ) {
     final controllerProvider = BPControllerProvider(controller: widget.controller, child: _buildPlayer());
 
-    final routePageBuilder = _bpConfiguration.routePageBuilder;
+    final routePageBuilder = _bpCfg.routePageBuilder;
     if (routePageBuilder == null) {
       return _defaultRoutePageBuilder(context, animation, secondaryAnimation, controllerProvider);
     }
@@ -211,7 +210,7 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    if (_bpConfiguration.autoDetectFullscreenDeviceOrientation == true) {
+    if (_bpCfg.autoDetectFullscreenDeviceOrientation == true) {
       final aspectRatio = widget.controller.videoPlayerController?.value.aspectRatio ?? 1.0;
       List<DeviceOrientation> deviceOrientations;
       if (aspectRatio < 1.0) {
@@ -222,11 +221,11 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
       await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
       await SystemChrome.setPreferredOrientations(
-        widget.controller.bpConfiguration.deviceOrientationsOnFullScreen,
+        widget.controller.bpCfg.deviceOrientationsOnFullScreen,
       );
     }
 
-    if (!_bpConfiguration.allowedScreenSleep) {
+    if (!_bpCfg.allowedScreenSleep) {
       Wakelock.enable();
     }
 
@@ -238,9 +237,8 @@ class _BPState extends State<BP> with WidgetsBindingObserver {
     // so we do not need to check Wakelock.isEnabled.
     Wakelock.disable();
 
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: _bpConfiguration.systemOverlaysAfterFullScreen);
-    await SystemChrome.setPreferredOrientations(_bpConfiguration.deviceOrientationsAfterFullScreen);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: _bpCfg.systemOverlaysAfterFullScreen);
+    await SystemChrome.setPreferredOrientations(_bpCfg.deviceOrientationsAfterFullScreen);
   }
 
   Widget _buildPlayer() {
