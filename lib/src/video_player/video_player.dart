@@ -5,6 +5,7 @@
 // Dart imports:
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:better_player/src/video_player/video_player_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,11 @@ class VideoPlayerValue {
 
   /// Returns an instance with a `null` [Duration] and the given
   /// [errorDescription].
-  VideoPlayerValue.erroneous(String errorDescription) : this(duration: null, errorDescription: errorDescription);
+  VideoPlayerValue.erroneous(String errorDescription)
+      : this(
+          duration: null,
+          errorDescription: errorDescription,
+        );
 
   /// The total duration of the video.
   ///
@@ -166,11 +171,11 @@ class VideoPlayerValue {
 ///
 /// After [dispose] all further calls are ignored.
 class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
-  final BetterPlayerBufferingConfiguration bufferingConfiguration;
+  final BPBufferingCfg bufferingConfiguration;
 
   /// Constructs a [VideoPlayerController] and creates video controller on platform side.
   VideoPlayerController({
-    this.bufferingConfiguration = const BetterPlayerBufferingConfiguration(),
+    this.bufferingConfiguration = const BPBufferingCfg(),
     bool autoCreate = true,
   }) : super(VideoPlayerValue(duration: null)) {
     if (autoCreate) {
@@ -250,6 +255,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           break;
         case VideoEventType.pipStop:
           value = value.copyWith(isPip: false);
+          break;
+        case VideoEventType.screenshot:
+          // TODO: Handle this case.
           break;
         case VideoEventType.unknown:
           break;
@@ -452,6 +460,13 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   Future<void> pause() async {
     value = value.copyWith(isPlaying: false);
     await _applyPlayPause();
+  }
+
+  Future<Uint8List?> screenshot() async {
+    if (!_created || _isDisposed) {
+      return null;
+    }
+    return await _videoPlayerPlatform.screenshot(_textureId);
   }
 
   Future<void> _applyLooping() async {

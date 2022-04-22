@@ -1,8 +1,9 @@
 ///Supported event types
-enum BetterPlayerEventType {
+enum BPEventType {
   initialized,
   play,
   pause,
+  screenshot,
   seekTo,
   openFullscreen,
   hideFullscreen,

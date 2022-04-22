@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 ///Configuration of Better Player. Allows to setup general behavior of player.
 ///Master configuration which contains children that configure specific part
 ///of player.
-class BetterPlayerConfiguration {
+class BPConfiguration {
   /// Play the video as soon as it's displayed
   final bool autoPlay;
 
@@ -59,16 +59,16 @@ class BetterPlayerConfiguration {
   final List<DeviceOrientation> deviceOrientationsAfterFullScreen;
 
   /// Defines a custom RoutePageBuilder for the fullscreen
-  final BetterPlayerRoutePageBuilder? routePageBuilder;
+  final BPRoutePageBuilder? routePageBuilder;
 
   /// Defines a event listener where video player events will be send
-  final Function(BetterPlayerEvent)? eventListener;
+  final Function(BPEvent)? eventListener;
 
   ///Defines subtitles configuration
-  final BetterPlayerSubtitlesConfiguration subtitlesConfiguration;
+  final BPSubtitlesCfg subtitlesConfiguration;
 
   ///Defines controls configuration
-  final BetterPlayerControlsConfiguration controlsConfiguration;
+  final BPControlsCfg controlsConfiguration;
 
   ///Defines fit of the video, allows to fix video stretching, see possible
   ///values here: https://api.flutter.dev/flutter/painting/BoxFit-class.html
@@ -83,7 +83,7 @@ class BetterPlayerConfiguration {
 
   ///Defines translations used in player. If null, then default english translations
   ///will be used.
-  final List<BetterPlayerTranslations>? translations;
+  final List<BPTranslations>? translations;
 
   ///Defines if player should auto detect full screen device orientation based
   ///on aspect ratio of the video. If aspect ratio of the video is < 1 then
@@ -102,10 +102,10 @@ class BetterPlayerConfiguration {
   final bool handleLifecycle;
 
   ///Defines flag which enabled/disabled auto dispose of
-  ///[BetterPlayerController] on [BetterPlayer] dispose. When it's true and
-  ///[BetterPlayerController] instance has been attached to [BetterPlayer] widget
-  ///and dispose has been called on [BetterPlayer] instance, then
-  ///[BetterPlayerController] will be disposed.
+  ///[BPController] on [BP] dispose. When it's true and
+  ///[BPController] instance has been attached to [BP] widget
+  ///and dispose has been called on [BP] instance, then
+  ///[BPController] will be disposed.
   ///Default value is true.
   final bool autoDispose;
 
@@ -117,7 +117,7 @@ class BetterPlayerConfiguration {
   ///Default value is false.
   final bool useRootNavigator;
 
-  const BetterPlayerConfiguration({
+  const BPConfiguration({
     this.aspectRatio,
     this.autoPlay = false,
     this.startAt,
@@ -143,8 +143,8 @@ class BetterPlayerConfiguration {
     ],
     this.routePageBuilder,
     this.eventListener,
-    this.subtitlesConfiguration = const BetterPlayerSubtitlesConfiguration(),
-    this.controlsConfiguration = const BetterPlayerControlsConfiguration(),
+    this.subtitlesConfiguration = const BPSubtitlesCfg(),
+    this.controlsConfiguration = const BPControlsCfg(),
     this.fit = BoxFit.fill,
     this.rotation = 0,
     this.playerVisibilityChangedBehavior,
@@ -157,7 +157,7 @@ class BetterPlayerConfiguration {
     this.useRootNavigator = false,
   });
 
-  BetterPlayerConfiguration copyWith({
+  BPConfiguration copyWith({
     double? aspectRatio,
     bool? autoPlay,
     Duration? startAt,
@@ -174,21 +174,21 @@ class BetterPlayerConfiguration {
     List<DeviceOrientation>? deviceOrientationsOnFullScreen,
     List<SystemUiOverlay>? systemOverlaysAfterFullScreen,
     List<DeviceOrientation>? deviceOrientationsAfterFullScreen,
-    BetterPlayerRoutePageBuilder? routePageBuilder,
-    Function(BetterPlayerEvent)? eventListener,
-    BetterPlayerSubtitlesConfiguration? subtitlesConfiguration,
-    BetterPlayerControlsConfiguration? controlsConfiguration,
+    BPRoutePageBuilder? routePageBuilder,
+    Function(BPEvent)? eventListener,
+    BPSubtitlesCfg? subtitlesConfiguration,
+    BPControlsCfg? controlsConfiguration,
     BoxFit? fit,
     double? rotation,
     Function(double visibilityFraction)? playerVisibilityChangedBehavior,
-    List<BetterPlayerTranslations>? translations,
+    List<BPTranslations>? translations,
     bool? autoDetectFullscreenDeviceOrientation,
     bool? handleLifecycle,
     bool? autoDispose,
     bool? expandToFill,
     bool? useRootNavigator,
   }) {
-    return BetterPlayerConfiguration(
+    return BPConfiguration(
       aspectRatio: aspectRatio ?? this.aspectRatio,
       autoPlay: autoPlay ?? this.autoPlay,
       startAt: startAt ?? this.startAt,

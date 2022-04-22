@@ -13,59 +13,52 @@ import 'package:better_player/src/hls/hls_parser/segment.dart';
 import 'package:better_player/src/hls/hls_parser/util.dart';
 
 ///HLS helper class
-class BetterPlayerHlsUtils {
-  static Future<BetterPlayerAsmsDataHolder> parse(
-      String data, String masterPlaylistUrl) async {
-    List<BetterPlayerAsmsTrack> tracks = [];
-    List<BetterPlayerAsmsSubtitle> subtitles = [];
-    List<BetterPlayerAsmsAudioTrack> audios = [];
+class BPHlsUtils {
+  static Future<BPAsmsDataHolder> parse(String data, String masterPlaylistUrl) async {
+    List<BPAsmsTrack> tracks = [];
+    List<BPAsmsSubtitle> subtitles = [];
+    List<BPAsmsAudioTrack> audios = [];
     try {
       final List<List<dynamic>> list = await Future.wait([
         parseTracks(data, masterPlaylistUrl),
         parseSubtitles(data, masterPlaylistUrl),
         parseLanguages(data, masterPlaylistUrl)
       ]);
-      tracks = list[0] as List<BetterPlayerAsmsTrack>;
-      subtitles = list[1] as List<BetterPlayerAsmsSubtitle>;
-      audios = list[2] as List<BetterPlayerAsmsAudioTrack>;
+      tracks = list[0] as List<BPAsmsTrack>;
+      subtitles = list[1] as List<BPAsmsSubtitle>;
+      audios = list[2] as List<BPAsmsAudioTrack>;
     } catch (exception) {
-      BetterPlayerUtils.log("Exception on hls parse: $exception");
+      BPUtils.log("Exception on hls parse: $exception");
     }
-    return BetterPlayerAsmsDataHolder(
-        tracks: tracks, audios: audios, subtitles: subtitles);
+    return BPAsmsDataHolder(tracks: tracks, audios: audios, subtitles: subtitles);
   }
 
-  static Future<List<BetterPlayerAsmsTrack>> parseTracks(
-      String data, String masterPlaylistUrl) async {
-    final List<BetterPlayerAsmsTrack> tracks = [];
+  static Future<List<BPAsmsTrack>> parseTracks(String data, String masterPlaylistUrl) async {
+    final List<BPAsmsTrack> tracks = [];
     try {
-      final parsedPlaylist = await HlsPlaylistParser.create()
-          .parseString(Uri.parse(masterPlaylistUrl), data);
+      final parsedPlaylist = await HlsPlaylistParser.create().parseString(Uri.parse(masterPlaylistUrl), data);
       if (parsedPlaylist is HlsMasterPlaylist) {
         parsedPlaylist.variants.forEach(
           (variant) {
-            tracks.add(BetterPlayerAsmsTrack('', variant.format.width,
-                variant.format.height, variant.format.bitrate, 0, '', ''));
+            tracks.add(BPAsmsTrack('', variant.format.width, variant.format.height, variant.format.bitrate, 0, '', ''));
           },
         );
       }
 
       if (tracks.isNotEmpty) {
-        tracks.insert(0, BetterPlayerAsmsTrack.defaultTrack());
+        tracks.insert(0, BPAsmsTrack.defaultTrack());
       }
     } catch (exception) {
-      BetterPlayerUtils.log("Exception on parseSubtitles: $exception");
+      BPUtils.log("Exception on parseSubtitles: $exception");
     }
     return tracks;
   }
 
   ///Parse subtitles from provided m3u8 url
-  static Future<List<BetterPlayerAsmsSubtitle>> parseSubtitles(
-      String data, String masterPlaylistUrl) async {
-    final List<BetterPlayerAsmsSubtitle> subtitles = [];
+  static Future<List<BPAsmsSubtitle>> parseSubtitles(String data, String masterPlaylistUrl) async {
+    final List<BPAsmsSubtitle> subtitles = [];
     try {
-      final parsedPlaylist = await HlsPlaylistParser.create()
-          .parseString(Uri.parse(masterPlaylistUrl), data);
+      final parsedPlaylist = await HlsPlaylistParser.create().parseString(Uri.parse(masterPlaylistUrl), data);
 
       if (parsedPlaylist is HlsMasterPlaylist) {
         for (final Rendition element in parsedPlaylist.subtitles) {
@@ -76,7 +69,7 @@ class BetterPlayerHlsUtils {
         }
       }
     } catch (exception) {
-      BetterPlayerUtils.log("Exception on parseSubtitles: $exception");
+      BPUtils.log("Exception on parseSubtitles: $exception");
     }
 
     return subtitles;
@@ -88,22 +81,19 @@ class BetterPlayerHlsUtils {
   ///to prevent massive load od video start. Segmented subtitles will have
   ///filled segments list which contains start, end and url of subtitles based
   ///on time in playlist.
-  static Future<BetterPlayerAsmsSubtitle?> _parseSubtitlesPlaylist(
-      Rendition rendition) async {
+  static Future<BPAsmsSubtitle?> _parseSubtitlesPlaylist(Rendition rendition) async {
     try {
       final HlsPlaylistParser _hlsPlaylistParser = HlsPlaylistParser.create();
-      final subtitleData =
-          await BetterPlayerAsmsUtils.getDataFromUrl(rendition.url.toString());
+      final subtitleData = await BPAsmsUtils.getDataFromUrl(rendition.url.toString());
       if (subtitleData == null) {
         return null;
       }
 
-      final parsedSubtitle =
-          await _hlsPlaylistParser.parseString(rendition.url, subtitleData);
+      final parsedSubtitle = await _hlsPlaylistParser.parseString(rendition.url, subtitleData);
       final hlsMediaPlaylist = parsedSubtitle as HlsMediaPlaylist;
       final hlsSubtitlesUrls = <String>[];
 
-      final List<BetterPlayerAsmsSubtitleSegment> asmsSegments = [];
+      final List<BPAsmsSubtitleSegment> asmsSegments = [];
       final bool isSegmented = hlsMediaPlaylist.segments.length > 1;
       int microSecondsFromStart = 0;
       for (final Segment segment in hlsMediaPlaylist.segments) {
@@ -121,11 +111,10 @@ class BetterPlayerHlsUtils {
         hlsSubtitlesUrls.add(realUrl);
 
         if (isSegmented) {
-          final int nextMicroSecondsFromStart =
-              microSecondsFromStart + segment.durationUs!;
+          final int nextMicroSecondsFromStart = microSecondsFromStart + segment.durationUs!;
           microSecondsFromStart = nextMicroSecondsFromStart;
           asmsSegments.add(
-            BetterPlayerAsmsSubtitleSegment(
+            BPAsmsSubtitleSegment(
               Duration(microseconds: microSecondsFromStart),
               Duration(microseconds: nextMicroSecondsFromStart),
               realUrl,
@@ -142,11 +131,10 @@ class BetterPlayerHlsUtils {
       bool isDefault = false;
 
       if (rendition.format.selectionFlags != null) {
-        isDefault =
-            Util.checkBitPositionIsSet(rendition.format.selectionFlags!, 1);
+        isDefault = Util.checkBitPositionIsSet(rendition.format.selectionFlags!, 1);
       }
 
-      return BetterPlayerAsmsSubtitle(
+      return BPAsmsSubtitle(
           name: rendition.format.label,
           language: rendition.format.language,
           url: rendition.url.toString(),
@@ -156,20 +144,18 @@ class BetterPlayerHlsUtils {
           segments: asmsSegments,
           isDefault: isDefault);
     } catch (exception) {
-      BetterPlayerUtils.log("Failed to process subtitles playlist: $exception");
+      BPUtils.log("Failed to process subtitles playlist: $exception");
       return null;
     }
   }
 
-  static Future<List<BetterPlayerAsmsAudioTrack>> parseLanguages(
-      String data, String masterPlaylistUrl) async {
-    final List<BetterPlayerAsmsAudioTrack> audios = [];
-    final parsedPlaylist = await HlsPlaylistParser.create()
-        .parseString(Uri.parse(masterPlaylistUrl), data);
+  static Future<List<BPAsmsAudioTrack>> parseLanguages(String data, String masterPlaylistUrl) async {
+    final List<BPAsmsAudioTrack> audios = [];
+    final parsedPlaylist = await HlsPlaylistParser.create().parseString(Uri.parse(masterPlaylistUrl), data);
     if (parsedPlaylist is HlsMasterPlaylist) {
       for (int index = 0; index < parsedPlaylist.audios.length; index++) {
         final Rendition audio = parsedPlaylist.audios[index];
-        audios.add(BetterPlayerAsmsAudioTrack(
+        audios.add(BPAsmsAudioTrack(
           id: index,
           label: audio.name,
           language: audio.format.language,

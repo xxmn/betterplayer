@@ -63,6 +63,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector.Selecti
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.util.Util
 import java.io.File
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 import java.lang.IllegalStateException
 import java.util.*
@@ -644,6 +645,21 @@ internal class BetterPlayer(
 
     fun pause() {
         exoPlayer!!.playWhenReady = false
+    }
+
+    fun screenshot(): ByteArray {
+        // pause()
+
+        // exoPlayer!!.setVideoSurface(surface)
+        // TextureView textureView = (TextureView) simpleExoPlayerView.getVideoSurfaceView();
+        // Bitmap bm = surface.getBitmap();
+        // val bitmap = (image.getDrawable() as BitmapDrawable).getBitmap()
+        // val stream = ByteArrayOutputStream()
+        // bm?.compress(Bitmap.CompressFormat.PNG, 90, stream)
+        // return stream.toByteArray()
+
+        // play()
+        return byteArrayOf(0x11.toByte(), 0x12.toByte(), 0x13.toByte(), 0x14.toByte(), 0x15.toByte(), 0xff.toByte())
     }
 
     fun setLooping(value: Boolean) {

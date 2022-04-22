@@ -4,6 +4,7 @@
 
 // Dart imports:
 import 'dart:async';
+import 'dart:typed_data';
 
 // Flutter imports:
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
@@ -65,7 +66,7 @@ abstract class VideoPlayerPlatform {
   }
 
   /// Creates an instance of a video player and returns its textureId.
-  Future<int?> create({BetterPlayerBufferingConfiguration? bufferingConfiguration}) {
+  Future<int?> create({BPBufferingCfg? bufferingConfiguration}) {
     throw UnimplementedError('create() has not been implemented.');
   }
 
@@ -101,6 +102,11 @@ abstract class VideoPlayerPlatform {
 
   /// Stops the video playback.
   Future<void> pause(int? textureId) {
+    throw UnimplementedError('pause() has not been implemented.');
+  }
+
+  /// Stops the video playback.
+  Future<Uint8List?> screenshot(int? textureId) {
     throw UnimplementedError('pause() has not been implemented.');
   }
 
@@ -445,6 +451,7 @@ enum VideoEventType {
 
   /// The video is set to pause
   pause,
+  screenshot,
 
   /// The video is set to given to position
   seek,

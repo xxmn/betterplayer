@@ -3,4 +3,9 @@
 ///widevine -> supported only for Android
 ///fairplay -> suppoted only for iOS
 ///clearKey -> supported only for Android
-enum BetterPlayerDrmType { token, widevine, fairplay, clearKey }
+enum BPDrmType {
+  token,
+  widevine,
+  fairplay,
+  clearKey,
+}

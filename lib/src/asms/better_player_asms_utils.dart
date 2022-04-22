@@ -7,16 +7,14 @@ import 'package:better_player/src/hls/better_player_hls_utils.dart';
 import 'better_player_asms_data_holder.dart';
 
 ///Base helper class for ASMS parsing.
-class BetterPlayerAsmsUtils {
+class BPAsmsUtils {
   static const String _hlsExtension = "m3u8";
   static const String _dashExtension = "mpd";
 
-  static final HttpClient _httpClient = HttpClient()
-    ..connectionTimeout = const Duration(seconds: 5);
+  static final HttpClient _httpClient = HttpClient()..connectionTimeout = const Duration(seconds: 5);
 
   ///Check if given url is HLS / DASH-type data source.
-  static bool isDataSourceAsms(String url) =>
-      isDataSourceHls(url) || isDataSourceDash(url);
+  static bool isDataSourceAsms(String url) => isDataSourceHls(url) || isDataSourceDash(url);
 
   ///Check if given url is HLS-type data source.
   static bool isDataSourceHls(String url) => url.contains(_hlsExtension);
@@ -25,11 +23,10 @@ class BetterPlayerAsmsUtils {
   static bool isDataSourceDash(String url) => url.contains(_dashExtension);
 
   ///Parse playlist based on type of stream.
-  static Future<BetterPlayerAsmsDataHolder> parse(
-      String data, String masterPlaylistUrl) async {
+  static Future<BPAsmsDataHolder> parse(String data, String masterPlaylistUrl) async {
     return isDataSourceDash(masterPlaylistUrl)
-        ? BetterPlayerDashUtils.parse(data, masterPlaylistUrl)
-        : BetterPlayerHlsUtils.parse(data, masterPlaylistUrl);
+        ? BPDashUtils.parse(data, masterPlaylistUrl)
+        : BPHlsUtils.parse(data, masterPlaylistUrl);
   }
 
   ///Request data from given uri along with headers. May return null if resource
@@ -52,7 +49,7 @@ class BetterPlayerAsmsUtils {
 
       return data;
     } catch (exception) {
-      BetterPlayerUtils.log("GetDataFromUrl failed: $exception");
+      BPUtils.log("GetDataFromUrl failed: $exception");
       return null;
     }
   }

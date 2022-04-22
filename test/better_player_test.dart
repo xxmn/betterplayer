@@ -10,30 +10,22 @@ void main() {
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
-  testWidgets("Better Player simple player - network",
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_wrapWidget(
-        BetterPlayer.network(BetterPlayerTestUtils.bugBuckBunnyVideoUrl)));
-    expect(find.byWidgetPredicate((widget) => widget is BetterPlayer),
-        findsOneWidget);
+  testWidgets("Better Player simple player - network", (WidgetTester tester) async {
+    await tester.pumpWidget(_wrapWidget(BP.network(BPTestUtils.bugBuckBunnyVideoUrl)));
+    expect(find.byWidgetPredicate((widget) => widget is BP), findsOneWidget);
   });
 
-  testWidgets("Better Player simple player - file",
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_wrapWidget(
-        BetterPlayer.network(BetterPlayerTestUtils.bugBuckBunnyVideoUrl)));
-    expect(find.byWidgetPredicate((widget) => widget is BetterPlayer),
-        findsOneWidget);
+  testWidgets("Better Player simple player - file", (WidgetTester tester) async {
+    await tester.pumpWidget(_wrapWidget(BP.network(BPTestUtils.bugBuckBunnyVideoUrl)));
+    expect(find.byWidgetPredicate((widget) => widget is BP), findsOneWidget);
   });
 
-  testWidgets("BetterPlayer - with controller", (WidgetTester tester) async {
-    final BetterPlayerMockController betterPlayerController =
-        BetterPlayerMockController(const BetterPlayerConfiguration());
-    await tester.pumpWidget(_wrapWidget(BetterPlayer(
-      controller: betterPlayerController,
+  testWidgets("BP - with controller", (WidgetTester tester) async {
+    final BPMockController bpController = BPMockController(const BPConfiguration());
+    await tester.pumpWidget(_wrapWidget(BP(
+      controller: bpController,
     )));
-    expect(find.byWidgetPredicate((widget) => widget is BetterPlayer),
-        findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is BP), findsOneWidget);
   });
 }
 

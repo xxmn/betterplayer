@@ -12,15 +12,16 @@ import 'package:better_player/src/video_player/video_player.dart';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BetterPlayerMaterialControls extends StatefulWidget {
+class BPMaterialControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
   final Function(bool visbility) onControlsVisibilityChanged;
 
   ///Controls config
-  final BetterPlayerControlsConfiguration controlsConfiguration;
+  final BPControlsCfg controlsConfiguration;
 
-  const BetterPlayerMaterialControls({
+  const BPMaterialControls({
     Key? key,
     required this.onControlsVisibilityChanged,
     required this.controlsConfiguration,
@@ -28,11 +29,11 @@ class BetterPlayerMaterialControls extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _BetterPlayerMaterialControlsState();
+    return _BPMaterialControlsState();
   }
 }
 
-class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<BetterPlayerMaterialControls> {
+class _BPMaterialControlsState extends BPControlsState<BPMaterialControls> {
   VideoPlayerValue? _latestValue;
   double? _latestVolume;
   Timer? _hideTimer;
@@ -41,19 +42,19 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   bool _displayTapped = false;
   bool _wasLoading = false;
   VideoPlayerController? _controller;
-  BetterPlayerController? _betterPlayerController;
+  BPController? _betterPlayerController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
-  BetterPlayerControlsConfiguration get _controlsConfiguration => widget.controlsConfiguration;
+  BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
 
   @override
   VideoPlayerValue? get latestValue => _latestValue;
 
   @override
-  BetterPlayerController? get betterPlayerController => _betterPlayerController;
+  BPController? get bpController => _betterPlayerController;
 
   @override
-  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration => _controlsConfiguration;
+  BPControlsCfg get bpControlsCfg => _controlsConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -69,25 +70,24 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
         child: _buildErrorWidget(),
       );
     }
-    var myDrag =
-        MyDrag(betterPlayerController: _betterPlayerController, size: MediaQuery.of(context).size, isLocked: isLocked);
+    var myDrag = MyDrag(bpController: _betterPlayerController, size: MediaQuery.of(context).size, isLocked: isLocked);
 
     return GestureDetector(
       onTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onTap?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onTap?.call();
         }
         controlsNotVisible ? cancelAndRestartTimer() : changePlayerControlsNotVisible(true);
       },
       onDoubleTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onDoubleTap?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onDoubleTap?.call();
         }
         cancelAndRestartTimer();
       },
       onLongPress: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
       onVerticalDragStart: myDrag.onVerticalStart,
@@ -117,7 +117,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   @override
   void didChangeDependencies() {
     final _oldController = _betterPlayerController;
-    _betterPlayerController = BetterPlayerController.of(context);
+    _betterPlayerController = BPController.of(context);
     _controller = _betterPlayerController!.videoPlayerController;
     _latestValue = _controller!.value;
 
@@ -212,7 +212,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildTopBar() {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!bpController!.controlsEnabled) {
       return const SizedBox();
     }
     return Container(
@@ -244,15 +244,15 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildPipButton() {
-    return BetterPlayerMaterialClickableWidget(
+    return BPMaterialClickableWidget(
       onTap: () {
-        betterPlayerController!.enablePictureInPicture(betterPlayerController!.betterPlayerGlobalKey!);
+        bpController!.enablePictureInPicture(bpController!.betterPlayerGlobalKey!);
       },
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Icon(
-          betterPlayerControlsConfiguration.pipMenuIcon,
-          color: betterPlayerControlsConfiguration.iconsColor,
+          bpControlsCfg.pipMenuIcon,
+          color: bpControlsCfg.iconsColor,
         ),
       ),
     );
@@ -260,16 +260,16 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
 
   Widget _buildPipButtonWrapperWidget(bool hideStuff, void Function() onPlayerHide) {
     return FutureBuilder<bool>(
-      future: betterPlayerController!.isPictureInPictureSupported(),
+      future: bpController!.isPictureInPictureSupported(),
       builder: (context, snapshot) {
         final bool isPipSupported = snapshot.data ?? false;
         if (isPipSupported && _betterPlayerController!.betterPlayerGlobalKey != null) {
           return AnimatedOpacity(
             opacity: hideStuff ? 0.0 : 1.0,
-            duration: betterPlayerControlsConfiguration.controlsHideTime,
+            duration: bpControlsCfg.controlsHideTime,
             onEnd: onPlayerHide,
             child: Container(
-              height: betterPlayerControlsConfiguration.controlBarHeight,
+              height: bpControlsCfg.controlBarHeight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -286,7 +286,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildMoreButton() {
-    return BetterPlayerMaterialClickableWidget(
+    return BPMaterialClickableWidget(
       onTap: () {
         onShowMoreClicked();
       },
@@ -301,7 +301,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildBottomBar() {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!bpController!.controlsEnabled) {
       return const SizedBox();
     }
     return AnimatedOpacity(
@@ -315,15 +315,19 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           children: <Widget>[
             Expanded(
               flex: 75,
+              // child: Container(),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (_controlsConfiguration.enablePlayPause) _buildPlayPause(_controller!) else const SizedBox(),
+                  // if (_controlsConfiguration.enablePlayPause) _buildPlayPause(_controller!) else const SizedBox(),
                   if (_betterPlayerController!.isLiveStream())
                     _buildLiveWidget()
                   else
-                    _controlsConfiguration.enableProgressText ? Expanded(child: _buildPosition()) : const SizedBox(),
+                    _controlsConfiguration.enableProgressText ? _buildPosition() : const SizedBox(width: 1),
+                  _buildSectionTitle(),
                   const Spacer(),
-                  if (_controlsConfiguration.enableMute) _buildMuteButton(_controller) else const SizedBox(),
+                  // if (_controlsConfiguration.enableMute) _buildMuteButton(_controller) else const SizedBox(),
                   if (_controlsConfiguration.enableFullscreen) _buildExpandButton() else const SizedBox(),
                 ],
               ),
@@ -348,7 +352,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildExpandButton() {
     return Padding(
       padding: EdgeInsets.only(right: 12.0),
-      child: BetterPlayerMaterialClickableWidget(
+      child: BPMaterialClickableWidget(
         onTap: _onExpandCollapse,
         child: AnimatedOpacity(
           opacity: controlsNotVisible ? 0.0 : 1.0,
@@ -371,7 +375,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildHitArea() {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!bpController!.controlsEnabled) {
       return const SizedBox();
     }
     return Container(
@@ -418,7 +422,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildHitAreaClickableButton({Widget? icon, required void Function() onClicked}) {
     return Container(
       constraints: const BoxConstraints(maxHeight: 80.0, maxWidth: 80.0),
-      child: BetterPlayerMaterialClickableWidget(
+      child: BPMaterialClickableWidget(
         onTap: onClicked,
         child: Align(
           child: Container(
@@ -499,7 +503,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       builder: (context, snapshot) {
         final time = snapshot.data;
         if (time != null && time > 0) {
-          return BetterPlayerMaterialClickableWidget(
+          return BPMaterialClickableWidget(
             onTap: () {
               _betterPlayerController!.playNextVideo();
             },
@@ -531,7 +535,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   Widget _buildMuteButton(
     VideoPlayerController? controller,
   ) {
-    return BetterPlayerMaterialClickableWidget(
+    return BPMaterialClickableWidget(
       onTap: () {
         cancelAndRestartTimer();
         if (_latestValue!.volume == 0) {
@@ -561,7 +565,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
   }
 
   Widget _buildPlayPause(VideoPlayerController controller) {
-    return BetterPlayerMaterialClickableWidget(
+    return BPMaterialClickableWidget(
       key: const Key("better_player_material_controls_play_pause_button"),
       onTap: _onPlayPause,
       child: Container(
@@ -581,27 +585,60 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
     final duration = _latestValue != null && _latestValue!.duration != null ? _latestValue!.duration! : Duration.zero;
 
     return Padding(
-      padding: _controlsConfiguration.enablePlayPause
-          ? const EdgeInsets.only(right: 24)
-          : const EdgeInsets.symmetric(horizontal: 22),
+      padding:
+          _controlsConfiguration.enablePlayPause ? const EdgeInsets.only(right: 1) : const EdgeInsets.only(right: 1),
+      // : const EdgeInsets.symmetric(horizontal: 22),
       child: RichText(
+        textAlign: TextAlign.center,
         text: TextSpan(
-            text: BetterPlayerUtils.formatDuration(position),
-            style: TextStyle(
-              fontSize: 10.0,
-              color: _controlsConfiguration.textColor,
-              decoration: TextDecoration.none,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: ' / ${BetterPlayerUtils.formatDuration(duration)}',
-                style: TextStyle(
-                  fontSize: 10.0,
-                  color: _controlsConfiguration.textColor,
-                  decoration: TextDecoration.none,
-                ),
-              )
-            ]),
+          text: BPUtils.formatDuration(position),
+          style: TextStyle(
+            fontSize: 12.0,
+            color: _controlsConfiguration.textColor,
+            decoration: TextDecoration.none,
+          ),
+          children: <TextSpan>[
+            TextSpan(
+              text: ' / ${BPUtils.formatDuration(duration)}',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: _controlsConfiguration.textColor,
+                decoration: TextDecoration.none,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle() {
+    var color = Colors.white;
+    var child = Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(width: 5),
+          FaIcon(FontAwesomeIcons.solidCircle, color: color, size: 2),
+          SizedBox(width: 5),
+          Text("二进制基础", style: TextStyle(color: color, fontSize: 12.0), textAlign: TextAlign.center),
+          SizedBox(width: 5),
+          // Icon(Icons.navigate_next, color: color, size: 18),
+          FaIcon(FontAwesomeIcons.angleRight, color: color, size: 12),
+        ],
+      ),
+    );
+
+    return Padding(
+      padding: EdgeInsets.only(right: 12.0),
+      child: BPMaterialClickableWidget(
+        onTap: () {},
+        child: AnimatedOpacity(
+          opacity: controlsNotVisible ? 0.0 : 1.0,
+          duration: _controlsConfiguration.controlsHideTime,
+          child: child,
+        ),
       ),
     );
   }
@@ -705,7 +742,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
       child: Container(
         alignment: Alignment.bottomCenter,
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: BetterPlayerMaterialVideoProgressBar(
+        child: BPMaterialVideoProgressBar(
           _controller,
           _betterPlayerController,
           onDragStart: () {
@@ -717,7 +754,7 @@ class _BetterPlayerMaterialControlsState extends BetterPlayerControlsState<Bette
           onTapDown: () {
             cancelAndRestartTimer();
           },
-          colors: BetterPlayerProgressColors(
+          colors: BPProgressColors(
               playedColor: _controlsConfiguration.progressBarPlayedColor,
               handleColor: _controlsConfiguration.progressBarHandleColor,
               bufferedColor: _controlsConfiguration.progressBarBufferedColor,

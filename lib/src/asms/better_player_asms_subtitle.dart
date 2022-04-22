@@ -1,7 +1,7 @@
 import 'package:better_player/src/asms/better_player_asms_subtitle_segment.dart';
 
 ///Representation of HLS / DASH subtitle element.
-class BetterPlayerAsmsSubtitle {
+class BPAsmsSubtitle {
   ///Language of the subtitle
   final String? language;
 
@@ -28,12 +28,12 @@ class BetterPlayerAsmsSubtitle {
   final int? segmentsTime;
 
   ///List of subtitle segments. Only used when [isSegmented] is true.
-  final List<BetterPlayerAsmsSubtitleSegment>? segments;
+  final List<BPAsmsSubtitleSegment>? segments;
 
   ///If the subtitle is the default
   final bool? isDefault;
 
-  BetterPlayerAsmsSubtitle({
+  BPAsmsSubtitle({
     this.language,
     this.name,
     this.mimeType,

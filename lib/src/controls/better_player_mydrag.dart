@@ -5,14 +5,14 @@ import 'package:brightness_volume/brightness_volume.dart';
 
 class MyDrag {
   MyDrag({
-    required this.betterPlayerController,
+    required this.bpController,
     required this.size,
     required this.isLocked,
   })  : _width = size.width,
         _height = size.height,
-        _controller = betterPlayerController?.videoPlayerController;
+        _controller = bpController?.videoPlayerController;
 
-  BetterPlayerController? betterPlayerController;
+  BPController? bpController;
   Size size;
 
   bool isLocked = false;
@@ -29,7 +29,7 @@ class MyDrag {
   void onVerticalStart(DragStartDetails details) {
     debugPrint("onVerticalStart");
     print("size: ${size.width}, ${size.height}");
-    if (isLocked || _controller == null || betterPlayerController == null) return;
+    if (isLocked || _controller == null || bpController == null) return;
     // if(!VideoPlayerUtils.isInitialized) return; // 视频是否已经完成初始化
 
     _movePan = 0;
@@ -44,7 +44,7 @@ class MyDrag {
   }
 
   void onVerticalUpdate(DragUpdateDetails details) async {
-    if (isLocked || _controller == null || betterPlayerController == null) return;
+    if (isLocked || _controller == null || bpController == null) return;
     // 累计计算偏移量(下滑减少百分比，上滑增加百分比)
     _movePan += (-details.delta.dy);
     print("------------------------_movePan: $_movePan, -details.delta.dy: ${-details.delta.dy}");
@@ -62,13 +62,13 @@ class MyDrag {
       _newVolume = _getVerticalNewValue(_movePan, lastVolume);
       // percentageWidget.percentageCallback("音量：${(_newVolume * 100).toInt()}%");
       debugPrint("-----------------_newVolume use BVUtils : ${_newVolume}");
-      betterPlayerController!.setVolume(_newVolume);
+      bpController!.setVolume(_newVolume);
     }
   }
 
   void onVerticalEnd(DragEndDetails _) {
     debugPrint("onVerticalEnd");
-    if (isLocked || _controller == null || betterPlayerController == null) return;
+    if (isLocked || _controller == null || bpController == null) return;
     // 隐藏
     // _percentageWidget.offstageCallback(true);
     if (_volumeOk) {

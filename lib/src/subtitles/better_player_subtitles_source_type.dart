@@ -1,2 +1,2 @@
 ///Representation of possible source types of subtitles.
-enum BetterPlayerSubtitlesSourceType { file, network, memory, none }
+enum BPSubtitlesSourceType { file, network, memory, none }

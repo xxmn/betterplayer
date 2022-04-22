@@ -3,12 +3,12 @@ import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:flutter/material.dart';
 
 ///Special version of Better Player which is used to play video in list view.
-class BetterPlayerListVideoPlayer extends StatefulWidget {
+class BPListVideoPlayer extends StatefulWidget {
   ///Video to show
-  final BetterPlayerDataSource dataSource;
+  final BPDataSource dataSource;
 
   ///Video player configuration
-  final BetterPlayerConfiguration configuration;
+  final BPConfiguration configuration;
 
   ///Fraction of the screen height that will trigger play/pause. For example
   ///if playFraction is 0.6 video will be played if 60% of player height is
@@ -21,11 +21,11 @@ class BetterPlayerListVideoPlayer extends StatefulWidget {
   ///Flag to determine if video should be auto paused
   final bool autoPause;
 
-  final BetterPlayerListVideoPlayerController? betterPlayerListVideoPlayerController;
+  final BPListVideoPlayerController? betterPlayerListVideoPlayerController;
 
-  const BetterPlayerListVideoPlayer(
+  const BPListVideoPlayer(
     this.dataSource, {
-    this.configuration = const BetterPlayerConfiguration(),
+    this.configuration = const BPConfiguration(),
     this.playFraction = 0.6,
     this.autoPlay = true,
     this.autoPause = true,
@@ -36,27 +36,24 @@ class BetterPlayerListVideoPlayer extends StatefulWidget {
         super(key: key);
 
   @override
-  _BetterPlayerListVideoPlayerState createState() => _BetterPlayerListVideoPlayerState();
+  _BPListVideoPlayerState createState() => _BPListVideoPlayerState();
 }
 
-class _BetterPlayerListVideoPlayerState extends State<BetterPlayerListVideoPlayer>
-    with AutomaticKeepAliveClientMixin<BetterPlayerListVideoPlayer> {
-  BetterPlayerController? _betterPlayerController;
+class _BPListVideoPlayerState extends State<BPListVideoPlayer> with AutomaticKeepAliveClientMixin<BPListVideoPlayer> {
+  BPController? _betterPlayerController;
   bool _isDisposing = false;
 
   @override
   void initState() {
     super.initState();
-    _betterPlayerController = BetterPlayerController(
-      widget.configuration.copyWith(
-        playerVisibilityChangedBehavior: onVisibilityChanged,
-      ),
+    _betterPlayerController = BPController(
+      widget.configuration.copyWith(playerVisibilityChangedBehavior: onVisibilityChanged),
       betterPlayerDataSource: widget.dataSource,
-      betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(),
+      betterPlayerPlaylistConfiguration: const BPPlaylistConfiguration(),
     );
 
     if (widget.betterPlayerListVideoPlayerController != null) {
-      widget.betterPlayerListVideoPlayerController!.setBetterPlayerController(_betterPlayerController);
+      widget.betterPlayerListVideoPlayerController!.setBPController(_betterPlayerController);
     }
   }
 
@@ -71,8 +68,8 @@ class _BetterPlayerListVideoPlayerState extends State<BetterPlayerListVideoPlaye
   Widget build(BuildContext context) {
     super.build(context);
     return AspectRatio(
-      aspectRatio: _betterPlayerController!.getAspectRatio() ?? BetterPlayerUtils.calculateAspectRatio(context),
-      child: BetterPlayer(
+      aspectRatio: _betterPlayerController!.getAspectRatio() ?? BPUtils.calculateAspectRatio(context),
+      child: BP(
         key: Key("${_getUniqueKey()}_player"),
         controller: _betterPlayerController!,
       ),

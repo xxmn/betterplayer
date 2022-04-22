@@ -3,47 +3,50 @@ import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controller_event.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:better_player/src/core/better_player_with_controls.dart';
+import 'package:better_player/src/controls/widgets/video_sections.dart';
+import 'package:better_player/src/core/video_sections_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wakelock/wakelock.dart';
 
 ///Widget which uses provided controller to render video player.
-class BetterPlayer extends StatefulWidget {
-  const BetterPlayer({Key? key, required this.controller}) : super(key: key);
+class BP extends StatefulWidget {
+  const BP({Key? key, required this.controller}) : super(key: key);
 
-  factory BetterPlayer.network(
+  factory BP.network(
     String url, {
-    BetterPlayerConfiguration? betterPlayerConfiguration,
+    BPConfiguration? betterPlayerConfiguration,
   }) =>
-      BetterPlayer(
-        controller: BetterPlayerController(
-          betterPlayerConfiguration ?? const BetterPlayerConfiguration(),
-          betterPlayerDataSource: BetterPlayerDataSource(BetterPlayerDataSourceType.network, url),
+      BP(
+        controller: BPController(
+          betterPlayerConfiguration ?? const BPConfiguration(),
+          betterPlayerDataSource: BPDataSource(BPDataSourceType.network, url),
         ),
       );
 
-  factory BetterPlayer.file(
+  factory BP.file(
     String url, {
-    BetterPlayerConfiguration? betterPlayerConfiguration,
+    BPConfiguration? betterPlayerConfiguration,
   }) =>
-      BetterPlayer(
-        controller: BetterPlayerController(
-          betterPlayerConfiguration ?? const BetterPlayerConfiguration(),
-          betterPlayerDataSource: BetterPlayerDataSource(BetterPlayerDataSourceType.file, url),
+      BP(
+        controller: BPController(
+          betterPlayerConfiguration ?? const BPConfiguration(),
+          betterPlayerDataSource: BPDataSource(BPDataSourceType.file, url),
         ),
       );
 
-  final BetterPlayerController controller;
+  final BPController controller;
 
   @override
-  _BetterPlayerState createState() {
-    return _BetterPlayerState();
+  _BPState createState() {
+    return _BPState();
   }
 }
 
-class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver {
-  BetterPlayerConfiguration get _betterPlayerConfiguration => widget.controller.betterPlayerConfiguration;
+class _BPState extends State<BP> with WidgetsBindingObserver {
+  BPConfiguration get _betterPlayerConfiguration => widget.controller.betterPlayerConfiguration;
 
   bool _isFullScreen = false;
 
@@ -86,14 +89,14 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
         locale = contextLocale;
       }
     } catch (exception) {
-      BetterPlayerUtils.log(exception.toString());
+      BPUtils.log(exception.toString());
     }
     widget.controller.setupTranslations(locale);
   }
 
   @override
   void dispose() {
-    ///If somehow BetterPlayer widget has been disposed from widget tree and
+    ///If somehow BP widget has been disposed from widget tree and
     ///full screen is on, then full screen route must be pop and return to normal
     ///state.
     if (_isFullScreen) {
@@ -112,7 +115,7 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
   }
 
   @override
-  void didUpdateWidget(BetterPlayer oldWidget) {
+  void didUpdateWidget(BP oldWidget) {
     if (oldWidget.controller != widget.controller) {
       _controllerEventSubscription?.cancel();
       _controllerEventSubscription = widget.controller.controllerEventStream.listen(onControllerEvent);
@@ -120,12 +123,12 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     super.didUpdateWidget(oldWidget);
   }
 
-  void onControllerEvent(BetterPlayerControllerEvent event) {
+  void onControllerEvent(BPControllerEvent event) {
     switch (event) {
-      case BetterPlayerControllerEvent.openFullscreen:
+      case BPControllerEvent.openFullscreen:
         onFullScreenChanged();
         break;
-      case BetterPlayerControllerEvent.hideFullscreen:
+      case BPControllerEvent.hideFullscreen:
         onFullScreenChanged();
         break;
       default:
@@ -139,25 +142,28 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     final controller = widget.controller;
     if (controller.isFullScreen && !_isFullScreen) {
       _isFullScreen = true;
-      controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.openFullscreen));
+      controller.postEvent(BPEvent(BPEventType.openFullscreen));
       await _pushFullScreenWidget(context);
     } else if (_isFullScreen) {
       Navigator.of(context, rootNavigator: true).pop();
       _isFullScreen = false;
-      controller.postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
+      controller.postEvent(BPEvent(BPEventType.hideFullscreen));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BetterPlayerControllerProvider(
+    return BPControllerProvider(
       controller: widget.controller,
       child: _buildPlayer(),
     );
   }
 
   Widget _buildFullScreenVideo(
-      BuildContext context, Animation<double> animation, BetterPlayerControllerProvider controllerProvider) {
+    BuildContext context,
+    Animation<double> animation,
+    BPControllerProvider controllerProvider,
+  ) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -168,8 +174,12 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     );
   }
 
-  AnimatedWidget _defaultRoutePageBuilder(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, BetterPlayerControllerProvider controllerProvider) {
+  AnimatedWidget _defaultRoutePageBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    BPControllerProvider controllerProvider,
+  ) {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget? child) {
@@ -183,7 +193,7 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    final controllerProvider = BetterPlayerControllerProvider(controller: widget.controller, child: _buildPlayer());
+    final controllerProvider = BPControllerProvider(controller: widget.controller, child: _buildPlayer());
 
     final routePageBuilder = _betterPlayerConfiguration.routePageBuilder;
     if (routePageBuilder == null) {
@@ -234,12 +244,52 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
   }
 
   Widget _buildPlayer() {
+    var sections = widget.controller.betterPlayerDataSource?.sections;
+    return sections == null ? _buildPlayerNoVideoSections() : _buildPlayerHasVideoSections(sections);
+  }
+
+  Widget _buildPlayerNoVideoSections() {
     return VisibilityDetector(
       key: Key("${widget.controller.hashCode}_key"),
       onVisibilityChanged: (VisibilityInfo info) => widget.controller.onPlayerVisibilityChanged(info.visibleFraction),
-      child: BetterPlayerWithControls(
+      child: BPWithControls(
         controller: widget.controller,
       ),
+    );
+  }
+
+  Widget _buildPlayerHasVideoSections(List<Section> sections) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<VideoSectionsState>(create: (_) => VideoSectionsState(sections.length)),
+      ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildPlayerNoVideoSections(),
+          Divider(),
+          Builder(builder: (ctx) {
+            return IconButton(
+              onPressed: () => Provider.of<VideoSectionsState>(ctx, listen: false).setIsShow(true),
+              icon: Icon(Icons.show_chart_rounded),
+            );
+          }),
+          _buildVideoSections(sections),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVideoSections(List<Section> sections) {
+    return Selector<VideoSectionsState, bool>(
+      selector: (_, vs) => vs.isShow,
+      builder: (_, isShow, __) {
+        if (isShow) {
+          return Expanded(child: VideoSections(sections));
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
@@ -251,5 +301,9 @@ class _BetterPlayerState extends State<BetterPlayer> with WidgetsBindingObserver
 }
 
 ///Page route builder used in fullscreen mode.
-typedef BetterPlayerRoutePageBuilder = Widget Function(BuildContext context, Animation<double> animation,
-    Animation<double> secondaryAnimation, BetterPlayerControllerProvider controllerProvider);
+typedef BPRoutePageBuilder = Widget Function(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  BPControllerProvider controllerProvider,
+);

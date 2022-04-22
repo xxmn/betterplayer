@@ -1,5 +1,5 @@
-///Internal events of BetterPlayerController, used in widgets to update state.
-enum BetterPlayerControllerEvent {
+///Internal events of BPController, used in widgets to update state.
+enum BPControllerEvent {
   ///Fullscreen mode has started.
   openFullscreen,
 

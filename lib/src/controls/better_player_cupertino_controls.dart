@@ -10,14 +10,14 @@ import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BetterPlayerCupertinoControls extends StatefulWidget {
+class BPCupertinoControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
   final Function(bool visbility) onControlsVisibilityChanged;
 
   ///Controls config
-  final BetterPlayerControlsConfiguration controlsConfiguration;
+  final BPControlsCfg controlsConfiguration;
 
-  const BetterPlayerCupertinoControls({
+  const BPCupertinoControls({
     required this.onControlsVisibilityChanged,
     required this.controlsConfiguration,
     Key? key,
@@ -25,11 +25,11 @@ class BetterPlayerCupertinoControls extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _BetterPlayerCupertinoControlsState();
+    return _BPCupertinoControlsState();
   }
 }
 
-class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<BetterPlayerCupertinoControls> {
+class _BPCupertinoControlsState extends BPControlsState<BPCupertinoControls> {
   final marginSize = 5.0;
   VideoPlayerValue? _latestValue;
   double? _latestVolume;
@@ -39,19 +39,19 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   bool _wasLoading = false;
 
   VideoPlayerController? _controller;
-  BetterPlayerController? _betterPlayerController;
+  BPController? _betterPlayerController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
 
-  BetterPlayerControlsConfiguration get _controlsConfiguration => widget.controlsConfiguration;
+  BPControlsCfg get _controlsConfiguration => widget.controlsConfiguration;
 
   @override
   VideoPlayerValue? get latestValue => _latestValue;
 
   @override
-  BetterPlayerController? get betterPlayerController => _betterPlayerController;
+  BPController? get bpController => _betterPlayerController;
 
   @override
-  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration => _controlsConfiguration;
+  BPControlsCfg get bpControlsCfg => _controlsConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
 
   ///Builds main widget of the controls.
   Widget _buildMainWidget() {
-    _betterPlayerController = BetterPlayerController.of(context);
+    _betterPlayerController = BPController.of(context);
 
     if (_latestValue?.hasError == true) {
       return Container(
@@ -69,7 +69,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
       );
     }
 
-    _betterPlayerController = BetterPlayerController.of(context);
+    _betterPlayerController = BPController.of(context);
     _controller = _betterPlayerController!.videoPlayerController;
     final backgroundColor = _controlsConfiguration.controlBarColor;
     final iconColor = _controlsConfiguration.iconsColor;
@@ -98,21 +98,21 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     ]);
     return GestureDetector(
       onTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onTap?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onTap?.call();
         }
         controlsNotVisible ? cancelAndRestartTimer() : changePlayerControlsNotVisible(true);
       },
       onDoubleTap: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onDoubleTap?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onDoubleTap?.call();
         }
         cancelAndRestartTimer();
         _onPlayPause();
       },
       onLongPress: () {
-        if (BetterPlayerMultipleGestureDetector.of(context) != null) {
-          BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
+        if (BPMultipleGestureDetector.of(context) != null) {
+          BPMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
       child: AbsorbPointer(
@@ -137,7 +137,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
   @override
   void didChangeDependencies() {
     final _oldController = _betterPlayerController;
-    _betterPlayerController = BetterPlayerController.of(context);
+    _betterPlayerController = BPController.of(context);
     _controller = _betterPlayerController!.videoPlayerController;
 
     if (_oldController != _betterPlayerController) {
@@ -153,7 +153,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     Color iconColor,
     double barHeight,
   ) {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!bpController!.controlsEnabled) {
       return const SizedBox();
     }
     return AnimatedOpacity(
@@ -386,7 +386,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
-        BetterPlayerUtils.formatDuration(position),
+        BPUtils.formatDuration(position),
         style: TextStyle(
           color: _controlsConfiguration.textColor,
           fontSize: 12.0,
@@ -403,7 +403,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
-        '-${BetterPlayerUtils.formatDuration(position)}',
+        '-${BPUtils.formatDuration(position)}',
         style: TextStyle(color: _controlsConfiguration.textColor, fontSize: 12.0),
       ),
     );
@@ -451,7 +451,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     double topBarHeight,
     double buttonPadding,
   ) {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!bpController!.controlsEnabled) {
       return const SizedBox();
     }
     final barHeight = topBarHeight * 0.8;
@@ -598,7 +598,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(right: 12.0),
-        child: BetterPlayerCupertinoVideoProgressBar(
+        child: BPCupertinoVideoProgressBar(
           _controller,
           _betterPlayerController,
           onDragStart: () {
@@ -610,7 +610,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
           onTapDown: () {
             cancelAndRestartTimer();
           },
-          colors: BetterPlayerProgressColors(
+          colors: BPProgressColors(
               playedColor: _controlsConfiguration.progressBarPlayedColor,
               handleColor: _controlsConfiguration.progressBarHandleColor,
               bufferedColor: _controlsConfiguration.progressBarBufferedColor,
@@ -735,7 +735,7 @@ class _BetterPlayerCupertinoControlsState extends BetterPlayerControlsState<Bett
         if (isPipSupported && _betterPlayerController!.betterPlayerGlobalKey != null) {
           return GestureDetector(
             onTap: () {
-              betterPlayerController!.enablePictureInPicture(betterPlayerController!.betterPlayerGlobalKey!);
+              bpController!.enablePictureInPicture(bpController!.betterPlayerGlobalKey!);
             },
             child: AnimatedOpacity(
               opacity: controlsNotVisible ? 0.0 : 1.0,

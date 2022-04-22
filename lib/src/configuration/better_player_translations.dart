@@ -1,5 +1,5 @@
 ///Class used to hold translations for all features within Better Player
-class BetterPlayerTranslations {
+class BPTranslations {
   final String languageCode;
   final String generalDefaultError;
   final String generalNone;
@@ -14,7 +14,7 @@ class BetterPlayerTranslations {
   final String overflowMenuAudioTracks;
   final String qualityAuto;
 
-  BetterPlayerTranslations(
+  BPTranslations(
       {this.languageCode = "en",
       this.generalDefaultError = "Video can't be played",
       this.generalNone = "None",
@@ -29,7 +29,7 @@ class BetterPlayerTranslations {
       this.overflowMenuAudioTracks = "Audio",
       this.qualityAuto = "Auto"});
 
-  factory BetterPlayerTranslations.polish() => BetterPlayerTranslations(
+  factory BPTranslations.polish() => BPTranslations(
         languageCode: "pl",
         generalDefaultError: "Video nie może zostać odtworzone",
         generalNone: "Brak",
@@ -44,7 +44,7 @@ class BetterPlayerTranslations {
         qualityAuto: "Automatycznie",
       );
 
-  factory BetterPlayerTranslations.chinese() => BetterPlayerTranslations(
+  factory BPTranslations.chinese() => BPTranslations(
         languageCode: "zh",
         generalDefaultError: "无法播放视频",
         generalNone: "没有",
@@ -60,7 +60,7 @@ class BetterPlayerTranslations {
         qualityAuto: "汽車",
       );
 
-  factory BetterPlayerTranslations.hindi() => BetterPlayerTranslations(
+  factory BPTranslations.hindi() => BPTranslations(
         languageCode: "hi",
         generalDefaultError: "वीडियो नहीं चलाया जा सकता",
         generalNone: "कोई नहीं",
@@ -76,7 +76,7 @@ class BetterPlayerTranslations {
         qualityAuto: "ऑटो",
       );
 
-  factory BetterPlayerTranslations.arabic() => BetterPlayerTranslations(
+  factory BPTranslations.arabic() => BPTranslations(
         languageCode: "ar",
         generalDefaultError: "لا يمكن تشغيل الفيديو",
         generalNone: "لا يوجد",
@@ -92,7 +92,7 @@ class BetterPlayerTranslations {
         qualityAuto: "ऑटो",
       );
 
-  factory BetterPlayerTranslations.turkish() => BetterPlayerTranslations(
+  factory BPTranslations.turkish() => BPTranslations(
       languageCode: "tr",
       generalDefaultError: "Video oynatılamıyor",
       generalNone: "Hiçbiri",
@@ -107,7 +107,7 @@ class BetterPlayerTranslations {
       overflowMenuAudioTracks: "Ses",
       qualityAuto: "Otomatik");
 
-  factory BetterPlayerTranslations.vietnamese() => BetterPlayerTranslations(
+  factory BPTranslations.vietnamese() => BPTranslations(
         languageCode: "vi",
         generalDefaultError: "Video không thể phát bây giờ",
         generalNone: "Không có",
@@ -123,7 +123,7 @@ class BetterPlayerTranslations {
         qualityAuto: "Tự động",
       );
 
-  factory BetterPlayerTranslations.spanish() => BetterPlayerTranslations(
+  factory BPTranslations.spanish() => BPTranslations(
         languageCode: "es",
         generalDefaultError: "No se puede reproducir el video",
         generalNone: "Ninguno",

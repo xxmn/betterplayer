@@ -5,22 +5,22 @@ import 'package:better_player/src/video_player/video_player.dart';
 import 'package:better_player/src/video_player/video_player_platform_interface.dart';
 import 'package:flutter/material.dart';
 
-class BetterPlayerCupertinoVideoProgressBar extends StatefulWidget {
-  BetterPlayerCupertinoVideoProgressBar(
+class BPCupertinoVideoProgressBar extends StatefulWidget {
+  BPCupertinoVideoProgressBar(
     this.controller,
-    this.betterPlayerController, {
-    BetterPlayerProgressColors? colors,
+    this.bpController, {
+    BPProgressColors? colors,
     this.onDragEnd,
     this.onDragStart,
     this.onDragUpdate,
     this.onTapDown,
     Key? key,
-  })  : colors = colors ?? BetterPlayerProgressColors(),
+  })  : colors = colors ?? BPProgressColors(),
         super(key: key);
 
   final VideoPlayerController? controller;
-  final BetterPlayerController? betterPlayerController;
-  final BetterPlayerProgressColors colors;
+  final BPController? bpController;
+  final BPProgressColors colors;
   final Function()? onDragStart;
   final Function()? onDragEnd;
   final Function()? onDragUpdate;
@@ -32,7 +32,7 @@ class BetterPlayerCupertinoVideoProgressBar extends StatefulWidget {
   }
 }
 
-class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar> {
+class _VideoProgressBarState extends State<BPCupertinoVideoProgressBar> {
   _VideoProgressBarState() {
     listener = () {
       if (mounted) setState(() {});
@@ -44,7 +44,7 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
 
   VideoPlayerController? get controller => widget.controller;
 
-  BetterPlayerController? get betterPlayerController => widget.betterPlayerController;
+  BPController? get bpController => widget.bpController;
 
   bool shouldPlayAfterDragEnd = false;
   Duration? lastSeek;
@@ -65,7 +65,7 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
 
   @override
   Widget build(BuildContext context) {
-    final bool enableProgressBarDrag = betterPlayerController!.betterPlayerControlsConfiguration.enableProgressBarDrag;
+    final bool enableProgressBarDrag = bpController!.bpControlsCfg.enableProgressBarDrag;
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         if (!controller!.value.initialized || !enableProgressBarDrag) {
@@ -95,7 +95,7 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
           return;
         }
         if (_controllerWasPlaying) {
-          betterPlayerController?.play();
+          bpController?.play();
           shouldPlayAfterDragEnd = true;
         }
         _setupUpdateBlockTimer();
@@ -160,11 +160,11 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
       if (relative > 0) {
         final Duration position = controller!.value.duration! * relative;
         lastSeek = position;
-        await betterPlayerController!.seekTo(position);
+        await bpController!.seekTo(position);
         onFinishedLastSeek();
         if (relative >= 1) {
           lastSeek = controller!.value.duration;
-          await betterPlayerController!.seekTo(controller!.value.duration!);
+          await bpController!.seekTo(controller!.value.duration!);
           onFinishedLastSeek();
         }
       }
@@ -174,7 +174,7 @@ class _VideoProgressBarState extends State<BetterPlayerCupertinoVideoProgressBar
   void onFinishedLastSeek() {
     if (shouldPlayAfterDragEnd) {
       shouldPlayAfterDragEnd = false;
-      betterPlayerController?.play();
+      bpController?.play();
     }
   }
 }
@@ -183,7 +183,7 @@ class _ProgressBarPainter extends CustomPainter {
   _ProgressBarPainter(this.value, this.colors);
 
   VideoPlayerValue value;
-  BetterPlayerProgressColors colors;
+  BPProgressColors colors;
 
   @override
   bool shouldRepaint(CustomPainter painter) {

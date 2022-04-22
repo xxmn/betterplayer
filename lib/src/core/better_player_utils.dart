@@ -2,7 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class BetterPlayerUtils {
+class BPUtils {
   static String formatBitrate(int bitrate) {
     if (bitrate < 1000) {
       return "$bitrate bit/s";
@@ -13,6 +13,10 @@ class BetterPlayerUtils {
     }
     final mbit = (bitrate / 1000000).floor();
     return "~$mbit MBit/s";
+  }
+
+  static String formatMilliSecond(int ms) {
+    return formatDuration(Duration(milliseconds: ms));
   }
 
   static String formatDuration(Duration position) {
@@ -42,8 +46,7 @@ class BetterPlayerUtils {
             ? '00'
             : '0$seconds';
 
-    final formattedTime =
-        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
+    final formattedTime = '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
 
     return formattedTime;
   }

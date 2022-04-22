@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +29,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
 
   @override
   Future<int?> create({
-    BetterPlayerBufferingConfiguration? bufferingConfiguration,
+    BPBufferingCfg? bufferingConfiguration,
   }) async {
     late final Map<String, dynamic>? response;
     if (bufferingConfiguration == null) {
@@ -151,6 +152,14 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
   Future<void> pause(int? textureId) {
     return _channel.invokeMethod<void>(
       'pause',
+      <String, dynamic>{'textureId': textureId},
+    );
+  }
+
+  @override
+  Future<Uint8List?> screenshot(int? textureId) {
+    return _channel.invokeMethod<Uint8List?>(
+      'screenshot',
       <String, dynamic>{'textureId': textureId},
     );
   }
@@ -342,7 +351,7 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
               height = heightNum.toDouble();
             }
           } catch (exception) {
-            BetterPlayerUtils.log(exception.toString());
+            BPUtils.log(exception.toString());
           }
 
           final Size size = Size(width, height);
@@ -386,6 +395,12 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
         case 'pause':
           return VideoEvent(
             eventType: VideoEventType.pause,
+            key: key,
+          );
+
+        case 'screenshot':
+          return VideoEvent(
+            eventType: VideoEventType.screenshot,
             key: key,
           );
 

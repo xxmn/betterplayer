@@ -1,6 +1,6 @@
 ///Configuration of notification which is displayed once user moves app to
 ///background.
-class BetterPlayerNotificationConfiguration {
+class BPNotificationCfg {
   ///Is player controls notification enabled
   final bool? showNotification;
 
@@ -20,7 +20,7 @@ class BetterPlayerNotificationConfiguration {
   ///in Android.
   final String? activityName;
 
-  const BetterPlayerNotificationConfiguration({
+  const BPNotificationCfg({
     this.showNotification,
     this.title,
     this.author,

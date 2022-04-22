@@ -1,5 +1,5 @@
 ///Additional configuration used in Better Player Playlist player.
-class BetterPlayerPlaylistConfiguration {
+class BPPlaylistConfiguration {
   ///How long user should wait for next video
   final Duration nextVideoDelay;
 
@@ -10,7 +10,7 @@ class BetterPlayerPlaylistConfiguration {
   ///elements in data source list. Default is 0.
   final int initialStartIndex;
 
-  const BetterPlayerPlaylistConfiguration({
+  const BPPlaylistConfiguration({
     this.nextVideoDelay = const Duration(milliseconds: 3000),
     this.loopVideos = true,
     this.initialStartIndex = 0,

@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 ///Configuration of subtitles - colors/padding/font. Used in
-///BetterPlayerConfiguration.
-class BetterPlayerSubtitlesConfiguration {
+///BPConfiguration.
+class BPSubtitlesCfg {
   ///Subtitle font size
   final double fontSize;
 
@@ -37,7 +37,7 @@ class BetterPlayerSubtitlesConfiguration {
   ///Background color of the subtitle
   final Color backgroundColor;
 
-  const BetterPlayerSubtitlesConfiguration({
+  const BPSubtitlesCfg({
     this.fontSize = 14,
     this.fontColor = Colors.white,
     this.outlineEnabled = true,

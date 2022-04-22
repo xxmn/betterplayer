@@ -163,6 +163,13 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 player.play()
                 result.success(null)
             }
+
+            SCREENSHOT_METHOD -> {
+                val imgdata = player.screenshot()
+                result.success(imgdata)
+            }
+
+
             PAUSE_METHOD -> {
                 player.pause()
                 result.success(null)
@@ -539,6 +546,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         private const val SET_VOLUME_METHOD = "setVolume"
         private const val PLAY_METHOD = "play"
         private const val PAUSE_METHOD = "pause"
+        private const val SCREENSHOT_METHOD = "screenshot"
         private const val SEEK_TO_METHOD = "seekTo"
         private const val POSITION_METHOD = "position"
         private const val ABSOLUTE_POSITION_METHOD = "absolutePosition"

@@ -7,31 +7,27 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'better_player_mock_controller.dart';
 
 void main() {
-  late BetterPlayerMockController _mockController;
+  late BPMockController _mockController;
 
   setUpAll(() {
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
   setUp(() {
-    _mockController =
-        BetterPlayerMockController(const BetterPlayerConfiguration());
+    _mockController = BPMockController(const BPConfiguration());
   });
 
   testWidgets(
-    "One of children is BetterPlayerWithControls",
+    "One of children is BPWithControls",
     (WidgetTester tester) async {
       await tester.pumpWidget(
         _wrapWidget(
-          BetterPlayer(
+          BP(
             controller: _mockController,
           ),
         ),
       );
-      expect(
-          find.byWidgetPredicate(
-              (widget) => widget is BetterPlayerWithControls),
-          findsOneWidget);
+      expect(find.byWidgetPredicate((widget) => widget is BPWithControls), findsOneWidget);
     },
   );
 }

@@ -2,18 +2,18 @@ import 'dart:async';
 import 'package:better_player/better_player.dart';
 
 ///Controller used to manage playlist player.
-class BetterPlayerPlaylistController {
+class BPPlaylistController {
   ///List of data sources set for playlist.
-  final List<BetterPlayerDataSource> _betterPlayerDataSourceList;
+  final List<BPDataSource> _betterPlayerDataSourceList;
 
   //General configuration of Better Player
-  final BetterPlayerConfiguration betterPlayerConfiguration;
+  final BPConfiguration betterPlayerConfiguration;
 
   ///Playlist configuration of Better Player
-  final BetterPlayerPlaylistConfiguration betterPlayerPlaylistConfiguration;
+  final BPPlaylistConfiguration betterPlayerPlaylistConfiguration;
 
-  ///BetterPlayerController instance
-  BetterPlayerController? _betterPlayerController;
+  ///BPController instance
+  BPController? _betterPlayerController;
 
   ///Currently playing data source index
   int _currentDataSourceIndex = 0;
@@ -24,17 +24,17 @@ class BetterPlayerPlaylistController {
   ///Flag that determines whenever player is changing video
   bool _changingToNextVideo = false;
 
-  BetterPlayerPlaylistController(
+  BPPlaylistController(
     this._betterPlayerDataSourceList, {
-    this.betterPlayerConfiguration = const BetterPlayerConfiguration(),
-    this.betterPlayerPlaylistConfiguration = const BetterPlayerPlaylistConfiguration(),
+    this.betterPlayerConfiguration = const BPConfiguration(),
+    this.betterPlayerPlaylistConfiguration = const BPPlaylistConfiguration(),
   }) : assert(_betterPlayerDataSourceList.isNotEmpty, "Better Player data source list can't be empty") {
     _setup();
   }
 
   ///Initialize controller and listeners.
   void _setup() {
-    _betterPlayerController ??= BetterPlayerController(
+    _betterPlayerController ??= BPController(
       betterPlayerConfiguration,
       betterPlayerPlaylistConfiguration: betterPlayerPlaylistConfiguration,
     );
@@ -56,14 +56,14 @@ class BetterPlayerPlaylistController {
 
   /// Setup new data source list. Pauses currently played video and init new data
   /// source list. Previous data source list will be removed.
-  void setupDataSourceList(List<BetterPlayerDataSource> dataSourceList) {
+  void setupDataSourceList(List<BPDataSource> dataSourceList) {
     _betterPlayerController?.pause();
     _betterPlayerDataSourceList.clear();
     _betterPlayerDataSourceList.addAll(dataSourceList);
     _setup();
   }
 
-  ///Handle video change signal from BetterPlayerController. Setup new data
+  ///Handle video change signal from BPController. Setup new data
   ///source based on configuration.
   void _onVideoChange() {
     if (_changingToNextVideo) {
@@ -82,10 +82,10 @@ class BetterPlayerPlaylistController {
     _changingToNextVideo = false;
   }
 
-  ///Handle BetterPlayerEvent from BetterPlayerController. Used to control
+  ///Handle BPEvent from BPController. Used to control
   ///startup of next video timer.
-  void _handleEvent(BetterPlayerEvent betterPlayerEvent) {
-    if (betterPlayerEvent.betterPlayerEventType == BetterPlayerEventType.finished) {
+  void _handleEvent(BPEvent betterPlayerEvent) {
+    if (betterPlayerEvent.betterPlayerEventType == BPEventType.finished) {
       if (_getNextDataSourceIndex() != -1) {
         _betterPlayerController!.startNextVideoTimer();
       }
@@ -129,10 +129,10 @@ class BetterPlayerPlaylistController {
   ///Get size of [_betterPlayerDataSourceList]
   int get _dataSourceLength => _betterPlayerDataSourceList.length;
 
-  ///Get BetterPlayerController instance
-  BetterPlayerController? get betterPlayerController => _betterPlayerController;
+  ///Get BPController instance
+  BPController? get bpController => _betterPlayerController;
 
-  ///Cleanup BetterPlayerPlaylistController
+  ///Cleanup BPPlaylistController
   void dispose() {
     _nextVideoTimeStreamSubscription?.cancel();
   }

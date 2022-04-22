@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 ///UI configuration of Better Player. Allows to change colors/icons/behavior
-///of controls. Used in BetterPlayerConfiguration. Configuration applies only
+///of controls. Used in BPConfiguration. Configuration applies only
 ///for player displayed in app, not in notification or PiP mode.
-class BetterPlayerControlsConfiguration {
+class BPControlsCfg {
   ///Color of the control bars
   final Color controlBarColor;
 
@@ -78,12 +78,12 @@ class BetterPlayerControlsConfiguration {
 
   ///Parameter used to build custom controls
   final Widget Function(
-    BetterPlayerController controller,
+    BPController controller,
     Function(bool) onPlayerVisibilityChanged,
   )? customControlsBuilder;
 
   ///Parameter used to change theme of the player
-  final BetterPlayerTheme? playerTheme;
+  final BPTheme? playerTheme;
 
   ///Flag used to show/hide controls
   final bool showControls;
@@ -120,7 +120,7 @@ class BetterPlayerControlsConfiguration {
   final bool enableAudioTracks;
 
   ///Custom items of overflow menu
-  final List<BetterPlayerOverflowMenuItem> overflowMenuCustomItems;
+  final List<BPOverflowMenuItem> overflowMenuCustomItems;
 
   ///Icon of the overflow menu
   final IconData overflowMenuIcon;
@@ -164,7 +164,7 @@ class BetterPlayerControlsConfiguration {
   ///Color of text in bottom modal sheet used for overflow menu items.
   final Color overflowModalTextColor;
 
-  const BetterPlayerControlsConfiguration({
+  const BPControlsCfg({
     this.controlBarColor = Colors.black45,
     this.textColor = Colors.white,
     this.iconsColor = Colors.white,
@@ -219,8 +219,8 @@ class BetterPlayerControlsConfiguration {
     this.overflowModalTextColor = Colors.black,
   });
 
-  factory BetterPlayerControlsConfiguration.white() {
-    return const BetterPlayerControlsConfiguration(
+  factory BPControlsCfg.white() {
+    return const BPControlsCfg(
         controlBarColor: Colors.white,
         textColor: Colors.black,
         iconsColor: Colors.black,
@@ -230,8 +230,8 @@ class BetterPlayerControlsConfiguration {
         progressBarBackgroundColor: Colors.white70);
   }
 
-  factory BetterPlayerControlsConfiguration.cupertino() {
-    return const BetterPlayerControlsConfiguration(
+  factory BPControlsCfg.cupertino() {
+    return const BPControlsCfg(
       fullscreenEnableIcon: CupertinoIcons.arrow_up_left_arrow_down_right,
       fullscreenDisableIcon: CupertinoIcons.arrow_down_right_arrow_up_left,
       playIcon: CupertinoIcons.play_arrow_solid,
@@ -241,9 +241,9 @@ class BetterPlayerControlsConfiguration {
     );
   }
 
-  ///Setup BetterPlayerControlsConfiguration based on Theme options.
-  factory BetterPlayerControlsConfiguration.theme(ThemeData theme) {
-    return BetterPlayerControlsConfiguration(
+  ///Setup BPControlsCfg based on Theme options.
+  factory BPControlsCfg.theme(ThemeData theme) {
+    return BPControlsCfg(
       textColor: theme.textTheme.bodyText1?.color ?? Colors.white,
       iconsColor: theme.textTheme.button?.color ?? Colors.white,
     );

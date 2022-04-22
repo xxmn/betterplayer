@@ -1,11 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-class BetterPlayerMaterialClickableWidget extends StatelessWidget {
+class BPMaterialClickableWidget extends StatelessWidget {
   final Widget child;
   final void Function() onTap;
 
-  const BetterPlayerMaterialClickableWidget({
+  const BPMaterialClickableWidget({
     Key? key,
     required this.onTap,
     required this.child,
