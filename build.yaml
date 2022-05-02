@@ -1,0 +1,52 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+          include:
+            - lib/models/*
+            # - test/integration/*
+        options:
+          # union_key: type
+          # union_value_case: pascal
+          # Disable the generation of copyWith/== for the entire project
+          copy_with: true
+          equal: true
+      # json_serializable:
+      #   options:
+      #     # Options configure how source code is generated for every
+      #     # `@JsonSerializable`-annotated class in the package.
+      #     #
+      #     # The default value for each is listed.
+      #     any_map: false
+      #     checked: false
+      #     constructor: ""
+      #     create_factory: true
+      #     create_to_json: true
+      #     disallow_unrecognized_keys: false
+      #     explicit_to_json: false
+      #     field_rename: none
+      #     generic_argument_factories: false
+      #     ignore_unannotated: false
+      #     include_if_null: true
+
+# builders:
+#   freezed:
+#     import: "package:freezed/builder.dart"
+#     builder_factories: ["freezed"]
+#     build_extensions: { ".dart": [".freezed.dart"] }
+#     auto_apply: dependents
+#     build_to: cache
+#     runs_before: ["json_serializable|json_serializable"]
+#   json_serializable:
+#     import: "package:json_serializable/builder.dart"
+#     builder_factories: ["jsonSerializable"]
+#     build_extensions: {".dart": [".g.part"]}
+#     auto_apply: dependents
+#     build_to: cache
+#     # build_to: cache  # source
+#     applies_builders: ["source_gen|combining_builder"]
