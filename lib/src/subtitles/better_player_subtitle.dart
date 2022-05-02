@@ -1,4 +1,4 @@
-import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
 
 class BPSubtitle {
   static const String timerSeparator = ' --> ';

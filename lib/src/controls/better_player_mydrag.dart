@@ -1,5 +1,5 @@
 import 'package:better_player/better_player.dart';
-import 'package:better_player/src/video_player/video_player.dart';
+import 'package:better_player/src/native_player/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:brightness_volume/brightness_volume.dart';
 
@@ -10,7 +10,7 @@ class MyDrag {
     required this.isLocked,
   })  : _width = size.width,
         _height = size.height,
-        _controller = bpController?.videoPlayerController;
+        _controller = bpController?.nativePlayerController;
 
   BPController? bpController;
   Size size;
@@ -24,7 +24,7 @@ class MyDrag {
 
   double _newVolume = 0;
   double _newBrightness = 0;
-  VideoPlayerController? _controller;
+  NativePlayerController? _controller;
 
   void onVerticalStart(DragStartDetails details) {
     debugPrint("onVerticalStart");

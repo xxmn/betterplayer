@@ -1,5 +1,5 @@
 import 'package:better_player/better_player.dart';
-import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
 import 'package:flutter/material.dart';
 
 ///Special version of Better Player which is used to play video in list view.
@@ -8,7 +8,7 @@ class BPListVideoPlayer extends StatefulWidget {
   final BPDataSource dataSource;
 
   ///Video player configuration
-  final BPCfg configuration;
+  final BPConfiguration configuration;
 
   ///Fraction of the screen height that will trigger play/pause. For example
   ///if playFraction is 0.6 video will be played if 60% of player height is
@@ -25,7 +25,7 @@ class BPListVideoPlayer extends StatefulWidget {
 
   const BPListVideoPlayer(
     this.dataSource, {
-    this.configuration = const BPCfg(),
+    this.configuration = const BPConfiguration(),
     this.playFraction = 0.6,
     this.autoPlay = true,
     this.autoPause = true,

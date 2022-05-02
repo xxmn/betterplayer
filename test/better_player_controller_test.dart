@@ -20,13 +20,13 @@ void main() {
       );
 
       test("Create controller without data source", () {
-        final BPMockController bpMockController = BPMockController(const BPCfg());
+        final BPMockController bpMockController = BPMockController(const BPConfiguration());
         expect(bpMockController.bpDataSource, null);
         expect(bpMockController.videoPlayerController, null);
       });
 
       test("Setup data source in controller", () async {
-        final BPMockController bpMockController = BPMockController(const BPCfg());
+        final BPMockController bpMockController = BPMockController(const BPConfiguration());
         await bpMockController.setupDataSource(BPDataSource.network(BPTestUtils.forBiggerBlazesUrl));
         expect(bpMockController.bpDataSource != null, true);
         expect(bpMockController.videoPlayerController != null, true);
@@ -104,7 +104,7 @@ void main() {
 
       test("full screen and auto play should work", () async {
         final BPMockController bpMockController = BPMockController(
-          const BPCfg(fullScreenByDefault: true, autoPlay: true),
+          const BPConfiguration(fullScreenByDefault: true, autoPlay: true),
         );
         bpMockController.videoPlayerController = MockVideoPlayerController();
         await bpMockController.setupDataSource(

@@ -6,9 +6,9 @@ import 'package:better_player/src/controls/better_player_material_progress_bar.d
 import 'package:better_player/src/controls/better_player_multiple_gesture_detector.dart';
 import 'package:better_player/src/controls/better_player_progress_colors.dart';
 import 'package:better_player/src/controls/better_player_mydrag.dart';
-import 'package:better_player/src/core/better_player_controller.dart';
-import 'package:better_player/src/core/better_player_utils.dart';
-import 'package:better_player/src/video_player/video_player.dart';
+import 'package:better_player/src/core/controller.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
+import 'package:better_player/src/video_player/native_player_controller.dart';
 
 // Flutter imports:
 import 'package:flutter/material.dart';

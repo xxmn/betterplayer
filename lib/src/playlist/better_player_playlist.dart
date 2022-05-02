@@ -1,5 +1,5 @@
 import 'package:better_player/better_player.dart';
-import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 ///Special version of Better Player used to play videos in playlist.
 class BPPlaylist extends StatefulWidget {
   final List<BPDataSource> bpDataSourceList;
-  final BPCfg bpCfg;
+  final BPConfiguration bpCfg;
   final BPPlaylistCfg bpPlaylistCfg;
 
   const BPPlaylist({

@@ -4,16 +4,16 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
-import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'video_player_platform_interface.dart';
+import 'platform_interface.dart';
 
 const MethodChannel _channel = MethodChannel('better_player_channel');
 
 /// An implementation of [VideoPlayerPlatform] that uses method channels.
-class MethodChannelVideoPlayer extends VideoPlayerPlatform {
+class NativePlayerMethodChannel extends NativePlayerPlatform {
   @override
   Future<void> init() {
     return _channel.invokeMethod<void>('init');

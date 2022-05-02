@@ -21,7 +21,7 @@ void main() {
   });
 
   testWidgets("BP - with controller", (WidgetTester tester) async {
-    final BPMockController bpController = BPMockController(const BPCfg());
+    final BPMockController bpController = BPMockController(const BPConfiguration());
     await tester.pumpWidget(_wrapWidget(BP(
       controller: bpController,
     )));

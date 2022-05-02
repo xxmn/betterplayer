@@ -10,7 +10,7 @@ import 'dart:typed_data';
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'method_channel_video_player.dart';
+import 'method_channel.dart';
 
 /// The interface that implementations of video_player must implement.
 ///
@@ -18,8 +18,8 @@ import 'method_channel_video_player.dart';
 /// does not consider newly added methods to be breaking changes. Extending this class
 /// (using `extends`) ensures that the subclass will get the default implementation, while
 /// platform implementations that `implements` this interface will be broken by newly added
-/// [VideoPlayerPlatform] methods.
-abstract class VideoPlayerPlatform {
+/// [NativePlayerPlatform] methods.
+abstract class NativePlayerPlatform {
   /// Only mock implementations should set this to true.
   ///
   /// Mockito mocks are implementing this class with `implements` which is forbidden for anything
@@ -28,20 +28,20 @@ abstract class VideoPlayerPlatform {
   @visibleForTesting
   bool get isMock => false;
 
-  static VideoPlayerPlatform _instance = MethodChannelVideoPlayer();
+  static NativePlayerPlatform _instance = NativePlayerMethodChannel();
 
-  /// The default instance of [VideoPlayerPlatform] to use.
+  /// The default instance of [NativePlayerPlatform] to use.
   ///
   /// Platform-specific plugins should override this with their own
-  /// platform-specific class that extends [VideoPlayerPlatform] when they
+  /// platform-specific class that extends [NativePlayerPlatform] when they
   /// register themselves.
   ///
-  /// Defaults to [MethodChannelVideoPlayer].
-  static VideoPlayerPlatform get instance => _instance;
+  /// Defaults to [MethodChannelNativePlayer].
+  static NativePlayerPlatform get instance => _instance;
 
   // TODO(amirh): Extract common platform interface logic.
   // https://github.com/flutter/flutter/issues/43368
-  static set instance(VideoPlayerPlatform instance) {
+  static set instance(NativePlayerPlatform instance) {
     if (!instance.isMock) {
       try {
         instance._verifyProvidesDefaultImplementations();
@@ -171,7 +171,7 @@ abstract class VideoPlayerPlatform {
     throw UnimplementedError('buildView() has not been implemented.');
   }
 
-  // This method makes sure that VideoPlayer isn't implemented with `implements`.
+  // This method makes sure that NativePlayer isn't implemented with `implements`.
   //
   // See class docs for more details on why implementing this class is forbidden.
   //
@@ -230,7 +230,7 @@ class DataSource {
     this.videoExtension,
   }) : assert(uri == null || asset == null);
 
-  /// Describes the type of data source this [VideoPlayerController]
+  /// Describes the type of data source this [NativePlayerController]
   /// is constructed with.
   ///
   /// The way in which the video was originally loaded.

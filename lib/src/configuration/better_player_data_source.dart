@@ -1,7 +1,7 @@
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:better_player/src/configuration/better_player_data_source_type.dart';
 import 'package:better_player/src/configuration/better_player_drm_configuration.dart';
-import 'package:better_player/src/configuration/better_player_notification_configuration.dart';
+import 'package:better_player/src/configuration/better_player_notification_cfg.dart';
 import 'package:better_player/src/configuration/better_player_video_format.dart';
 import 'package:better_player/src/subtitles/better_player_subtitles_source.dart';
 import 'package:flutter/widgets.dart';
@@ -11,73 +11,72 @@ import 'better_player_cache_configuration.dart';
 ///Representation of data source which will be played in Better Player. Allows
 ///to setup all necessary configuration connected to video source.
 class BPDataSource {
+  // g_startAt = startAt;
+
   ///Type of source of video
-  final BPDataSourceType type;
+  BPDataSourceType type;
 
   ///Url of the video
-  final String url;
-  final String? audioUrl;
+  String url;
+  String? audioUrl;
 
   ///Subtitles configuration
-  final List<BPSubtitlesSource>? subtitles;
-  final List<Section>? sections;
+  List<BPSubtitlesSource>? subtitles;
+  List<Section>? sections;
 
   ///Flag to determine if current data source is live stream
-  final bool? liveStream;
+  bool isLiveStream = false;
 
   /// Custom headers for player
-  final Map<String, String>? headers;
+  Map<String, String>? headers;
 
   ///Should player use hls / dash subtitles (ASMS - Adaptive Streaming Media Sources).
-  final bool? useAsmsSubtitles;
+  bool? useAsmsSubtitles;
 
   ///Should player use hls tracks
-  final bool? useAsmsTracks;
+  bool? useAsmsTracks;
 
   ///Should player use hls /das audio tracks
-  final bool? useAsmsAudioTracks;
+  bool? useAsmsAudioTracks;
 
   ///List of strings that represents tracks names.
   ///If empty, then better player will choose name based on track parameters
-  final List<String>? asmsTrackNames;
+  List<String>? asmsTrackNames;
 
   ///Optional, alternative resolutions for non-hls/dash video. Used to setup
   ///different qualities for video.
   ///Data should be in given format:
   ///{"360p": "url", "540p": "url2" }
-  final Map<String, String>? resolutions;
+  Map<String, String>? resolutions;
 
   ///Optional cache configuration, used only for network data sources
-  final BPCacheCfg? cacheCfg;
+  BPCacheCfg? cacheCfg;
 
   ///List of bytes, used only in memory player
-  final List<int>? bytes;
-
-  ///Cfg of remote controls notification
-  final BPNotificationCfg? notificationCfg;
+  List<int>? bytes;
 
   ///Duration which will be returned instead of original duration
-  final Duration? overriddenDuration;
-  final int? start;
+  Duration? overriddenDuration;
+  int? start;
 
   ///Video format hint when data source url has not valid extension.
-  final BPVideoFormat? videoFormat;
+  BPVideoFormat? videoFormat;
 
   ///Extension of video without dot.
-  final String? videoExtension;
+  String? videoExtension;
 
   ///Cfg of content protection
-  final BPDrmCfg? drmCfg;
+  BPDrmCfg? drmCfg;
 
   ///Placeholder widget which will be shown until video load or play. This
   ///placeholder may be useful if you want to show placeholder before each video
   ///in playlist. Otherwise, you should use placeholder from
-  /// BPCfg.
-  final Widget? placeholder;
+  /// BPConfiguration.
+  Widget? placeholder;
 
   ///Cfg of video buffering. Currently only supported in Android
   ///platform.
-  final BPBufferingCfg bufferingCfg;
+  BPBufferingCfg bufferingCfg;
 
   BPDataSource(
     this.type,
@@ -86,7 +85,7 @@ class BPDataSource {
     this.bytes,
     this.subtitles,
     this.sections,
-    this.liveStream = false,
+    this.isLiveStream = false,
     this.headers,
     this.useAsmsSubtitles = true,
     this.useAsmsTracks = true,
@@ -94,9 +93,6 @@ class BPDataSource {
     this.asmsTrackNames,
     this.resolutions,
     this.cacheCfg,
-    this.notificationCfg = const BPNotificationCfg(
-      showNotification: false,
-    ),
     this.overriddenDuration,
     this.start,
     this.videoFormat,
@@ -116,14 +112,13 @@ class BPDataSource {
     String? audioUrl,
     List<BPSubtitlesSource>? subtitles,
     List<Section>? sections,
-    bool? liveStream,
+    bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     bool? useAsmsAudioTracks,
     Map<String, String>? qualities,
     BPCacheCfg? cacheCfg,
-    BPNotificationCfg notificationCfg = const BPNotificationCfg(showNotification: false),
     Duration? overriddenDuration,
     int? start,
     BPVideoFormat? videoFormat,
@@ -137,14 +132,13 @@ class BPDataSource {
       audioUrl: audioUrl,
       subtitles: subtitles,
       sections: sections,
-      liveStream: liveStream,
+      isLiveStream: isLiveStream ?? false,
       headers: headers,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       useAsmsAudioTracks: useAsmsAudioTracks,
       resolutions: qualities,
       cacheCfg: cacheCfg,
-      notificationCfg: notificationCfg,
       overriddenDuration: overriddenDuration,
       start: start,
       videoFormat: videoFormat,
@@ -165,7 +159,6 @@ class BPDataSource {
     bool? useAsmsTracks,
     Map<String, String>? qualities,
     BPCacheCfg? cacheCfg,
-    BPNotificationCfg? notificationCfg,
     Duration? overriddenDuration,
     int? start,
     Widget? placeholder,
@@ -180,7 +173,6 @@ class BPDataSource {
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       cacheCfg: cacheCfg,
-      notificationCfg: notificationCfg = const BPNotificationCfg(showNotification: false),
       overriddenDuration: overriddenDuration,
       start: start,
       placeholder: placeholder,
@@ -199,7 +191,6 @@ class BPDataSource {
     bool? useAsmsTracks,
     Map<String, String>? qualities,
     BPCacheCfg? cacheCfg,
-    BPNotificationCfg? notificationCfg,
     Duration? overriddenDuration,
     int? start,
     Widget? placeholder,
@@ -215,7 +206,6 @@ class BPDataSource {
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       cacheCfg: cacheCfg,
-      notificationCfg: notificationCfg = const BPNotificationCfg(showNotification: false),
       overriddenDuration: overriddenDuration,
       start: start,
       placeholder: placeholder,
@@ -229,14 +219,13 @@ class BPDataSource {
     List<int>? bytes,
     List<BPSubtitlesSource>? subtitles,
     List<Section>? sections,
-    bool? liveStream,
+    bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     bool? useAsmsAudioTracks,
     Map<String, String>? resolutions,
     BPCacheCfg? cacheCfg,
-    BPNotificationCfg? notificationCfg = const BPNotificationCfg(showNotification: false),
     Duration? overriddenDuration,
     int? start,
     BPVideoFormat? videoFormat,
@@ -252,14 +241,13 @@ class BPDataSource {
       bytes: bytes ?? this.bytes,
       subtitles: subtitles ?? this.subtitles,
       sections: sections ?? this.sections,
-      liveStream: liveStream ?? this.liveStream,
+      isLiveStream: isLiveStream ?? this.isLiveStream,
       headers: headers ?? this.headers,
       useAsmsSubtitles: useAsmsSubtitles ?? this.useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks ?? this.useAsmsTracks,
       useAsmsAudioTracks: useAsmsAudioTracks ?? this.useAsmsAudioTracks,
       resolutions: resolutions ?? this.resolutions,
       cacheCfg: cacheCfg ?? this.cacheCfg,
-      notificationCfg: notificationCfg ?? this.notificationCfg,
       overriddenDuration: overriddenDuration ?? this.overriddenDuration,
       start: start ?? this.start,
       videoFormat: videoFormat ?? this.videoFormat,
@@ -272,13 +260,13 @@ class BPDataSource {
 }
 
 class Section {
-  final int start; // in millisecond
+  int start; // in millisecond
   int? end; // in millisecond
   int? duration; // in millisecond
 
-  final String title;
-  final String? desc;
-  final String? imgUrl;
+  String title;
+  String? desc;
+  String? imgUrl;
 
   Section(this.title, {required this.start, this.duration, this.end, this.imgUrl, this.desc})
       : assert(duration != null || end != null, "duration or end must be filled."),

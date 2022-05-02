@@ -1,5 +1,5 @@
 import 'package:better_player/better_player.dart';
-import 'package:better_player/src/video_player/video_player.dart';
+import 'package:better_player/src/video_player/native_player_controller.dart';
 
 import 'better_player_mock_controller.dart';
 import 'mock_video_player_controller.dart';
@@ -12,7 +12,7 @@ class BPTestUtils {
   static const String elephantDreamStreamUrl = "http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8";
 
   static BPMockController setupBPMockController({VideoPlayerController? controller}) {
-    final mockController = BPMockController(const BPCfg());
+    final mockController = BPMockController(const BPConfiguration());
     if (controller != null) {
       mockController.videoPlayerController = controller;
     }

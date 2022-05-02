@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 ///UI configuration of Better Player. Allows to change colors/icons/behavior
-///of controls. Used in BPCfg. Cfg applies only
+///of controls. Used in BPConfiguration. Cfg applies only
 ///for player displayed in app, not in notification or PiP mode.
 class BPControlsCfg {
   ///Color of the control bars
@@ -77,10 +77,10 @@ class BPControlsCfg {
   final Duration lockedHideTime;
 
   ///Parameter used to build custom controls
-  final Widget Function(
-    BPController controller,
-    Function(bool) onPlayerVisibilityChanged,
-  )? customControlsBuilder;
+  // final Widget Function(
+  //   BPController controller,
+  //   Function(bool) onPlayerVisibilityChanged,
+  // )? customControlsBuilder;
 
   ///Parameter used to change theme of the player
   final BPTheme? playerTheme;
@@ -190,7 +190,7 @@ class BPControlsCfg {
     this.progressBarBackgroundColor = Colors.white60,
     this.controlsHideTime = const Duration(milliseconds: 300),
     this.lockedHideTime = const Duration(milliseconds: 300),
-    this.customControlsBuilder,
+    // this.customControlsBuilder,
     this.playerTheme,
     this.showControls = true,
     this.showControlsOnInitialize = true,

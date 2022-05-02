@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Cfg of subtitles - colors/padding/font. Used in
-///BPCfg.
+///BPConfiguration.
 class BPSubtitlesCfg {
   ///Subtitle font size
   final double fontSize;

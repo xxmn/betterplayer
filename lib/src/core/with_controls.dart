@@ -5,43 +5,44 @@ import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controller_event.dart';
 import 'package:better_player/src/controls/better_player_cupertino_controls.dart';
 import 'package:better_player/src/controls/better_player_material_controls.dart';
-import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/core/bp_event_bus.dart';
+import 'package:better_player/src/utils/better_player_utils.dart';
 import 'package:better_player/src/subtitles/better_player_subtitles_drawer.dart';
-import 'package:better_player/src/video_player/video_player.dart';
+import 'package:better_player/src/native_player/controller.dart';
 import 'package:flutter/material.dart';
 
 class BPWithControls extends StatefulWidget {
-  final BPController? controller;
+  final BPController? bpController;
 
-  const BPWithControls({Key? key, this.controller}) : super(key: key);
+  const BPWithControls({Key? key, this.bpController}) : super(key: key);
 
   @override
   _BPWithControlsState createState() => _BPWithControlsState();
 }
 
 class _BPWithControlsState extends State<BPWithControls> {
-  BPSubtitlesCfg get subtitlesCfg => widget.controller!.bpCfg.subtitlesCfg;
+  BPSubtitlesCfg get subtitlesCfg => widget.bpController!.bpCfg.subtitlesCfg;
 
-  BPControlsCfg get controlsCfg => widget.controller!.bpControlsCfg;
+  BPControlsCfg get controlsCfg => widget.bpController!.bpControlsCfg;
 
   final StreamController<bool> playerVisibilityStreamController = StreamController();
 
   bool _initialized = false;
 
-  StreamSubscription? _controllerEventSubscription;
+  dynamic? _bpEventListenerKey;
 
   @override
   void initState() {
     playerVisibilityStreamController.add(true);
-    _controllerEventSubscription = widget.controller!.controllerEventStream.listen(_onControllerChanged);
+    _bpEventListenerKey = BpEventBus().addListener(_onControllerChanged);
     super.initState();
   }
 
   @override
   void didUpdateWidget(BPWithControls oldWidget) {
-    if (oldWidget.controller != widget.controller) {
-      _controllerEventSubscription?.cancel();
-      _controllerEventSubscription = widget.controller!.controllerEventStream.listen(_onControllerChanged);
+    if (oldWidget.bpController != widget.bpController) {
+      BpEventBus().cancel(_bpEventListenerKey);
+      _bpEventListenerKey = BpEventBus().addListener(_onControllerChanged);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -49,7 +50,7 @@ class _BPWithControlsState extends State<BPWithControls> {
   @override
   void dispose() {
     playerVisibilityStreamController.close();
-    _controllerEventSubscription?.cancel();
+    BpEventBus().cancel(_bpEventListenerKey);
     super.dispose();
   }
 
@@ -69,7 +70,7 @@ class _BPWithControlsState extends State<BPWithControls> {
     if (bpController.isFullScreen) {
       if (bpController.bpCfg.autoDetectFullscreenDeviceOrientation ||
           bpController.bpCfg.autoDetectFullscreenAspectRatio) {
-        aspectRatio = bpController.videoPlayerController?.value.aspectRatio ?? 1.0;
+        aspectRatio = bpController.nativePlayerController?.value.aspectRatio ?? 1.0;
       } else {
         aspectRatio = bpController.bpCfg.fullScreenAspectRatio ?? BPUtils.calculateAspectRatio(context);
       }
@@ -153,9 +154,7 @@ class _BPWithControlsState extends State<BPWithControls> {
         }
       }
 
-      if (controlsCfg.customControlsBuilder != null && playerTheme == BPTheme.custom) {
-        return controlsCfg.customControlsBuilder!(bpController, onControlsVisibilityChanged);
-      } else if (playerTheme == BPTheme.material) {
+      if (playerTheme == BPTheme.material) {
         return _buildMaterialControl();
       } else if (playerTheme == BPTheme.cupertino) {
         return _buildCupertinoControl();
@@ -200,7 +199,7 @@ class _BPVideoFitWidget extends StatefulWidget {
 }
 
 class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
-  VideoPlayerController? get controller => widget.bpController.videoPlayerController;
+  NativePlayerController? get controller => widget.bpController.nativePlayerController;
 
   bool _initialized = false;
 
@@ -208,7 +207,7 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
 
   bool _started = false;
 
-  StreamSubscription? _controllerEventSubscription;
+  StreamSubscription? _bpEventListenerKey;
 
   @override
   void initState() {
@@ -225,9 +224,9 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
   @override
   void didUpdateWidget(_BPVideoFitWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.bpController.videoPlayerController != controller) {
+    if (oldWidget.bpController.nativePlayerController != controller) {
       if (_initializedListener != null) {
-        oldWidget.bpController.videoPlayerController!.removeListener(_initializedListener!);
+        oldWidget.bpController.nativePlayerController!.removeListener(_initializedListener!);
       }
       _initialized = false;
       _initialize();
@@ -251,7 +250,7 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
       _initialized = true;
     }
 
-    _controllerEventSubscription = widget.bpController.controllerEventStream.listen((event) {
+    _bpEventListenerKey = BpEventBus().addListener((event) {
       if (event == BPControllerEvent.play) {
         if (!_started) {
           setState(() {
@@ -280,7 +279,7 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
               child: SizedBox(
                 width: controller!.value.size?.width ?? 0,
                 height: controller!.value.size?.height ?? 0,
-                child: VideoPlayer(controller),
+                child: NativePlayer(controller),
               ),
             ),
           ),
@@ -294,9 +293,9 @@ class _BPVideoFitWidgetState extends State<_BPVideoFitWidget> {
   @override
   void dispose() {
     if (_initializedListener != null) {
-      widget.bpController.videoPlayerController!.removeListener(_initializedListener!);
+      widget.bpController.nativePlayerController!.removeListener(_initializedListener!);
     }
-    _controllerEventSubscription?.cancel();
+    BpEventBus().cancel(_bpEventListenerKey);
     super.dispose();
   }
 }

@@ -7,7 +7,7 @@ class BPPlaylistController {
   final List<BPDataSource> _bpDataSourceList;
 
   //General configuration of Better Player
-  final BPCfg bpCfg;
+  final BPConfiguration bpCfg;
 
   ///Playlist configuration of Better Player
   final BPPlaylistCfg bpPlaylistCfg;
@@ -26,7 +26,7 @@ class BPPlaylistController {
 
   BPPlaylistController(
     this._bpDataSourceList, {
-    this.bpCfg = const BPCfg(),
+    this.bpCfg = const BPConfiguration(),
     this.bpPlaylistCfg = const BPPlaylistCfg(),
   }) : assert(_bpDataSourceList.isNotEmpty, "Better Player data source list can't be empty") {
     _setup();
