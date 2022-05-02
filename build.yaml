@@ -8,14 +8,14 @@ targets:
             - test
             - example
           include:
-            - lib/models/*
+            - lib/src/core/*
             # - test/integration/*
         options:
           # union_key: type
           # union_value_case: pascal
           # Disable the generation of copyWith/== for the entire project
-          copy_with: true
-          equal: true
+          # copy_with: true
+          # equal: true
       # json_serializable:
       #   options:
       #     # Options configure how source code is generated for every

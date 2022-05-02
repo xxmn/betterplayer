@@ -1,131 +1,107 @@
-import 'package:better_player/better_player.dart';
-import 'package:better_player/src/configuration/better_player_notification_cfg.dart';
-import 'package:better_player/src/configuration/bp_global.dart';
-import 'package:better_player/src/core/bp_data_source_notifier.dart';
-import 'package:better_player/src/core/bp_event_bus.dart';
-import 'package:better_player/src/core/bp_fullscreen_page.dart';
-import 'package:better_player/src/core/bp_normal_page.dart';
-import 'package:better_player/src/core/np_event_bus.dart';
-import 'package:better_player/src/core/bp_notifier.dart';
-import 'package:better_player/src/core/bp_translations_notifier.dart';
-import 'package:better_player/src/utils/better_player_utils.dart';
-import 'package:event_bus/event_bus.dart';
+import 'package:better_player/src/core/app_lifecycle_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../config/bp_config.dart';
+import '../config/bp_data_source_type.dart';
+import '../config/bp_data_source.dart';
+import 'bp_controller.dart';
 
-/// 构造函数
-/// 本地化  TranslationsNotifier
-/// BPNotifier
+///
+///BetterPlayer 接口
+///
 class BetterPlayer extends StatefulWidget {
-  // EventBus bpEventBus = BpEventBus();
-  // EventBus npEventBus = NpEventBus();
-  BetterPlayer({
-    Key? key,
-    // required this.bpDataSource,
-    // required this.bpNotificationCfg,
-  }) : super(key: key) {}
+  final BPController bpController;
 
-  // late BPDataSource bpDataSource;
-  // late BPNotificationCfg bpNotificationCfg;
+  BetterPlayer({Key? key, required this.bpController}) : super(key: key);
 
-  factory BetterPlayer.network(String url) => BetterPlayer(
+  factory BetterPlayer.network(
+    String url, {
+    BPConfig? bpConfig,
+  }) {
+    return BetterPlayer(
+      bpController: BPController(
+        bpConfig ?? const BPConfig(),
         bpDataSource: BPDataSource(BPDataSourceType.network, url),
-        bpNotificationCfg: const BPNotificationCfg(showNotification: false),
-      );
+      ),
+    );
+  }
 
-  factory BetterPlayer.file(String url) => BetterPlayer(
+  factory BetterPlayer.file(
+    String url, {
+    BPConfig? bpConfig,
+  }) {
+    return BetterPlayer(
+      bpController: BPController(
+        bpConfig ?? const BPConfig(),
         bpDataSource: BPDataSource(BPDataSourceType.file, url),
-        bpNotificationCfg: const BPNotificationCfg(showNotification: false),
-      );
+      ),
+    );
+  }
 
   @override
   State<BetterPlayer> createState() => _BetterPlayerState();
 }
 
 class _BetterPlayerState extends State<BetterPlayer> {
-  var locale = const Locale("en", "US");
-
-  @override
-  void initState() {
-    super.initState();
-
-    //Default locale
-    try {
-      if (mounted) {
-        locale = Localizations.localeOf(context);
-      }
-    } catch (exception) {
-      BPUtils.log(exception.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<BPNotifier>(create: (_) => BPNotifier()),
-        ChangeNotifierProvider<TranslationsNotifier>(
-            create: (_) => TranslationsNotifier(locale: locale)),
-        ChangeNotifierProvider<BPDataSourceNotifier>(
-          create: (_) => BPDataSourceNotifier(
-            bpDataSource: widget.bpDataSource,
-            bpNotificationCfg: widget.bpNotificationCfg,
-          ),
-        ),
-      ],
-      builder: (context, child) {
-        BPGlobal.setGlobalBpNotifier(context);
-        BPGlobal.setGlobalBPDataSourceNotifier(context);
-        BPGlobal.setGlobalTranslationsNotifier(context);
-        return _BetterPlayer();
-      },
-    );
+    return ProviderScope(child: _BPInitProviders(widget.bpController));
   }
 }
 
-/// app 生命周期
-/// isFullScreen
-class _BetterPlayer extends StatefulWidget {
-  _BetterPlayer({Key? key}) : super(key: key);
+///
+/// 初始化 providers
+///
+
+void _initProviders(BPController bpController, T Function<T>(ProviderBase<T>) read) {
+  var bpConfig = bpController.bpConfig;
+  read(appLifecycleProvider.notifier).isHandleLifecycle = bpConfig.isHandleLifecycle;
+}
+
+class _BPInitProviders extends HookConsumerWidget {
+  late final BPController bpController;
+
+  _BPInitProviders(this.bpController, {Key? key}) : super(key: key);
 
   @override
-  _BPState createState() {
-    return _BPState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      _initProviders(bpController, ref.read);
+      return null;
+    }, const []);
+
+    return _BPAppLifecycle();
   }
 }
 
-class _BPState extends State<_BetterPlayer> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addObserver(this);
-  }
+///
+///app life cycle 处理
+///
+class _BPAppLifecycle extends StatefulHookConsumerWidget {
+  const _BPAppLifecycle({Key? key}) : super(key: key);
 
   @override
-  void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
-    super.dispose();
-  }
+  ConsumerState<ConsumerStatefulWidget> createState() => __BPAppLifecycleState();
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Selector<BPNotifier, bool>(
-      selector: (_, bpNotifier) => bpNotifier.isFullScreen,
-      builder: (_, isFullScreen, __) {
-        return isFullScreen ? BpFullScreenPage() : BpNormalPage();
-      },
-    );
-  }
-
+class __BPAppLifecycleState extends ConsumerState<_BPAppLifecycle> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    widget.bpController.setAppLifecycleState(state);
+
+    ref.read(appLifecycleProvider.notifier).appLifecycleState = state;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    useEffect(() {
+      WidgetsBinding.instance!.addObserver(this);
+
+      return () => WidgetsBinding.instance!.removeObserver(this);
+    }, const []);
+    return Container(
+      color: Colors.yellow,
+    );
   }
 }
-
-///Page route builder used in fullscreen mode.
-typedef BPRoutePageBuilder = Widget Function(
-  BuildContext context,
-  Animation<double> animation,
-  Animation<double> secondaryAnimation,
-);
