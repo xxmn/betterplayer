@@ -20,5 +20,11 @@ class BPDrmCfg {
   ///Additional headers send with auth request, used only for WIDEVINE DRM
   final Map<String, String>? headers;
 
-  BPDrmCfg({this.drmType, this.token, this.licenseUrl, this.certificateUrl, this.headers, this.clearKey});
+  BPDrmCfg(
+      {this.drmType,
+      this.token,
+      this.licenseUrl,
+      this.certificateUrl,
+      this.headers,
+      this.clearKey});
 }

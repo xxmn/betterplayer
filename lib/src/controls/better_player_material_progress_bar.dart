@@ -1,252 +1,252 @@
-import 'dart:async';
-import 'package:better_player/better_player.dart';
-import 'package:better_player/src/video_player/native_player_controller.dart';
-import 'package:better_player/src/video_player/native_player_platform_interface.dart';
-import 'package:flutter/material.dart';
+// import 'dart:async';
+// import 'package:better_player/better_player.dart';
+// import 'package:better_player/src/video_player/native_player_controller.dart';
+// import 'package:better_player/src/video_player/native_player_platform_interface.dart';
+// import 'package:flutter/material.dart';
 
-class BPMaterialVideoProgressBar extends StatefulWidget {
-  BPMaterialVideoProgressBar(
-    this.controller,
-    this.bpController, {
-    BPProgressColors? colors,
-    this.onDragEnd,
-    this.onDragStart,
-    this.onDragUpdate,
-    this.onTapDown,
-    Key? key,
-  })  : colors = colors ?? BPProgressColors(),
-        super(key: key);
+// class BPMaterialVideoProgressBar extends StatefulWidget {
+//   BPMaterialVideoProgressBar(
+//     this.controller,
+//     this.bpController, {
+//     BPProgressColors? colors,
+//     this.onDragEnd,
+//     this.onDragStart,
+//     this.onDragUpdate,
+//     this.onTapDown,
+//     Key? key,
+//   })  : colors = colors ?? BPProgressColors(),
+//         super(key: key);
 
-  final VideoPlayerController? controller;
-  final BPController? bpController;
-  final BPProgressColors colors;
-  final Function()? onDragStart;
-  final Function()? onDragEnd;
-  final Function()? onDragUpdate;
-  final Function()? onTapDown;
+//   final VideoPlayerController? controller;
+//   final BPController? bpController;
+//   final BPProgressColors colors;
+//   final Function()? onDragStart;
+//   final Function()? onDragEnd;
+//   final Function()? onDragUpdate;
+//   final Function()? onTapDown;
 
-  @override
-  _VideoProgressBarState createState() {
-    return _VideoProgressBarState();
-  }
-}
+//   @override
+//   _VideoProgressBarState createState() {
+//     return _VideoProgressBarState();
+//   }
+// }
 
-class _VideoProgressBarState extends State<BPMaterialVideoProgressBar> {
-  _VideoProgressBarState() {
-    listener = () {
-      if (mounted) setState(() {});
-    };
-  }
+// class _VideoProgressBarState extends State<BPMaterialVideoProgressBar> {
+//   _VideoProgressBarState() {
+//     listener = () {
+//       if (mounted) setState(() {});
+//     };
+//   }
 
-  late VoidCallback listener;
-  bool _controllerWasPlaying = false;
+//   late VoidCallback listener;
+//   bool _controllerWasPlaying = false;
 
-  VideoPlayerController? get controller => widget.controller;
+//   VideoPlayerController? get controller => widget.controller;
 
-  BPController? get bpController => widget.bpController;
+//   BPController? get bpController => widget.bpController;
 
-  bool shouldPlayAfterDragEnd = false;
-  Duration? lastSeek;
-  Timer? _updateBlockTimer;
+//   bool shouldPlayAfterDragEnd = false;
+//   Duration? lastSeek;
+//   Timer? _updateBlockTimer;
 
-  @override
-  void initState() {
-    super.initState();
-    controller!.addListener(listener);
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller!.addListener(listener);
+//   }
 
-  @override
-  void deactivate() {
-    controller!.removeListener(listener);
-    _cancelUpdateBlockTimer();
-    super.deactivate();
-  }
+//   @override
+//   void deactivate() {
+//     controller!.removeListener(listener);
+//     _cancelUpdateBlockTimer();
+//     super.deactivate();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final bool enableProgressBarDrag = bpController!.bpCfg.controlsCfg.enableProgressBarDrag;
-    return GestureDetector(
-      onHorizontalDragStart: (DragStartDetails details) {
-        if (!controller!.value.initialized || !enableProgressBarDrag) {
-          return;
-        }
+//   @override
+//   Widget build(BuildContext context) {
+//     final bool enableProgressBarDrag = bpController!.bpCfg.controlsCfg.enableProgressBarDrag;
+//     return GestureDetector(
+//       onHorizontalDragStart: (DragStartDetails details) {
+//         if (!controller!.value.initialized || !enableProgressBarDrag) {
+//           return;
+//         }
 
-        _controllerWasPlaying = controller!.value.isPlaying;
-        if (_controllerWasPlaying) {
-          controller!.pause();
-        }
+//         _controllerWasPlaying = controller!.value.isPlaying;
+//         if (_controllerWasPlaying) {
+//           controller!.pause();
+//         }
 
-        if (widget.onDragStart != null) {
-          widget.onDragStart!();
-        }
-      },
-      onHorizontalDragUpdate: (DragUpdateDetails details) {
-        if (!controller!.value.initialized || !enableProgressBarDrag) {
-          return;
-        }
+//         if (widget.onDragStart != null) {
+//           widget.onDragStart!();
+//         }
+//       },
+//       onHorizontalDragUpdate: (DragUpdateDetails details) {
+//         if (!controller!.value.initialized || !enableProgressBarDrag) {
+//           return;
+//         }
 
-        seekToRelativePosition(details.globalPosition);
+//         seekToRelativePosition(details.globalPosition);
 
-        if (widget.onDragUpdate != null) {
-          widget.onDragUpdate!();
-        }
-      },
-      onHorizontalDragEnd: (DragEndDetails details) {
-        if (!enableProgressBarDrag) {
-          return;
-        }
+//         if (widget.onDragUpdate != null) {
+//           widget.onDragUpdate!();
+//         }
+//       },
+//       onHorizontalDragEnd: (DragEndDetails details) {
+//         if (!enableProgressBarDrag) {
+//           return;
+//         }
 
-        if (_controllerWasPlaying) {
-          bpController?.play();
-          shouldPlayAfterDragEnd = true;
-        }
-        _setupUpdateBlockTimer();
+//         if (_controllerWasPlaying) {
+//           bpController?.play();
+//           shouldPlayAfterDragEnd = true;
+//         }
+//         _setupUpdateBlockTimer();
 
-        if (widget.onDragEnd != null) {
-          widget.onDragEnd!();
-        }
-      },
-      onTapDown: (TapDownDetails details) {
-        if (!controller!.value.initialized || !enableProgressBarDrag) {
-          return;
-        }
-        seekToRelativePosition(details.globalPosition);
-        _setupUpdateBlockTimer();
-        if (widget.onTapDown != null) {
-          widget.onTapDown!();
-        }
-      },
-      child: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height / 2,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.transparent,
-          child: CustomPaint(
-            painter: _ProgressBarPainter(
-              _getValue(),
-              widget.colors,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+//         if (widget.onDragEnd != null) {
+//           widget.onDragEnd!();
+//         }
+//       },
+//       onTapDown: (TapDownDetails details) {
+//         if (!controller!.value.initialized || !enableProgressBarDrag) {
+//           return;
+//         }
+//         seekToRelativePosition(details.globalPosition);
+//         _setupUpdateBlockTimer();
+//         if (widget.onTapDown != null) {
+//           widget.onTapDown!();
+//         }
+//       },
+//       child: Center(
+//         child: Container(
+//           height: MediaQuery.of(context).size.height / 2,
+//           width: MediaQuery.of(context).size.width,
+//           color: Colors.transparent,
+//           child: CustomPaint(
+//             painter: _ProgressBarPainter(
+//               _getValue(),
+//               widget.colors,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
-  void _setupUpdateBlockTimer() {
-    _updateBlockTimer = Timer(const Duration(milliseconds: 1000), () {
-      lastSeek = null;
-      _cancelUpdateBlockTimer();
-    });
-  }
+//   void _setupUpdateBlockTimer() {
+//     _updateBlockTimer = Timer(const Duration(milliseconds: 1000), () {
+//       lastSeek = null;
+//       _cancelUpdateBlockTimer();
+//     });
+//   }
 
-  void _cancelUpdateBlockTimer() {
-    _updateBlockTimer?.cancel();
-    _updateBlockTimer = null;
-  }
+//   void _cancelUpdateBlockTimer() {
+//     _updateBlockTimer?.cancel();
+//     _updateBlockTimer = null;
+//   }
 
-  VideoPlayerValue _getValue() {
-    if (lastSeek != null) {
-      return controller!.value.copyWith(position: lastSeek);
-    } else {
-      return controller!.value;
-    }
-  }
+//   VideoPlayerValue _getValue() {
+//     if (lastSeek != null) {
+//       return controller!.value.copyWith(position: lastSeek);
+//     } else {
+//       return controller!.value;
+//     }
+//   }
 
-  void seekToRelativePosition(Offset globalPosition) async {
-    final RenderObject? renderObject = context.findRenderObject();
-    if (renderObject != null) {
-      final box = renderObject as RenderBox;
-      final Offset tapPos = box.globalToLocal(globalPosition);
-      final double relative = tapPos.dx / box.size.width;
-      if (relative > 0) {
-        final Duration position = controller!.value.duration! * relative;
-        lastSeek = position;
-        await bpController!.seekTo(position);
-        onFinishedLastSeek();
-        if (relative >= 1) {
-          lastSeek = controller!.value.duration;
-          await bpController!.seekTo(controller!.value.duration!);
-          onFinishedLastSeek();
-        }
-      }
-    }
-  }
+//   void seekToRelativePosition(Offset globalPosition) async {
+//     final RenderObject? renderObject = context.findRenderObject();
+//     if (renderObject != null) {
+//       final box = renderObject as RenderBox;
+//       final Offset tapPos = box.globalToLocal(globalPosition);
+//       final double relative = tapPos.dx / box.size.width;
+//       if (relative > 0) {
+//         final Duration position = controller!.value.duration! * relative;
+//         lastSeek = position;
+//         await bpController!.seekTo(position);
+//         onFinishedLastSeek();
+//         if (relative >= 1) {
+//           lastSeek = controller!.value.duration;
+//           await bpController!.seekTo(controller!.value.duration!);
+//           onFinishedLastSeek();
+//         }
+//       }
+//     }
+//   }
 
-  void onFinishedLastSeek() {
-    if (shouldPlayAfterDragEnd) {
-      shouldPlayAfterDragEnd = false;
-      bpController?.play();
-    }
-  }
-}
+//   void onFinishedLastSeek() {
+//     if (shouldPlayAfterDragEnd) {
+//       shouldPlayAfterDragEnd = false;
+//       bpController?.play();
+//     }
+//   }
+// }
 
-class _ProgressBarPainter extends CustomPainter {
-  _ProgressBarPainter(this.value, this.colors);
+// class _ProgressBarPainter extends CustomPainter {
+//   _ProgressBarPainter(this.value, this.colors);
 
-  VideoPlayerValue value;
-  BPProgressColors colors;
+//   VideoPlayerValue value;
+//   BPProgressColors colors;
 
-  @override
-  bool shouldRepaint(CustomPainter old) {
-    return true;
-  }
+//   @override
+//   bool shouldRepaint(CustomPainter old) {
+//     return true;
+//   }
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    const height = 2.0;
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     const height = 2.0;
 
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromPoints(
-          Offset(0.0, size.height / 2),
-          Offset(size.width, size.height / 2 + height),
-        ),
-        const Radius.circular(4.0),
-      ),
-      colors.backgroundPaint,
-    );
-    if (!value.initialized) {
-      return;
-    }
-    double playedPartPercent = value.position.inMilliseconds / value.duration!.inMilliseconds;
-    if (playedPartPercent.isNaN) {
-      playedPartPercent = 0;
-    }
-    final double playedPart = playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
-    for (final DurationRange range in value.buffered) {
-      double start = range.startFraction(value.duration!) * size.width;
-      if (start.isNaN) {
-        start = 0;
-      }
-      double end = range.endFraction(value.duration!) * size.width;
-      if (end.isNaN) {
-        end = 0;
-      }
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromPoints(
-            Offset(start, size.height / 2),
-            Offset(end, size.height / 2 + height),
-          ),
-          const Radius.circular(4.0),
-        ),
-        colors.bufferedPaint,
-      );
-    }
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromPoints(
-          Offset(0.0, size.height / 2),
-          Offset(playedPart, size.height / 2 + height),
-        ),
-        const Radius.circular(4.0),
-      ),
-      colors.playedPaint,
-    );
-    canvas.drawCircle(
-      Offset(playedPart, size.height / 2 + height / 2),
-      height * 3,
-      colors.handlePaint,
-    );
-  }
-}
+//     canvas.drawRRect(
+//       RRect.fromRectAndRadius(
+//         Rect.fromPoints(
+//           Offset(0.0, size.height / 2),
+//           Offset(size.width, size.height / 2 + height),
+//         ),
+//         const Radius.circular(4.0),
+//       ),
+//       colors.backgroundPaint,
+//     );
+//     if (!value.initialized) {
+//       return;
+//     }
+//     double playedPartPercent = value.position.inMilliseconds / value.duration!.inMilliseconds;
+//     if (playedPartPercent.isNaN) {
+//       playedPartPercent = 0;
+//     }
+//     final double playedPart = playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
+//     for (final DurationRange range in value.buffered) {
+//       double start = range.startFraction(value.duration!) * size.width;
+//       if (start.isNaN) {
+//         start = 0;
+//       }
+//       double end = range.endFraction(value.duration!) * size.width;
+//       if (end.isNaN) {
+//         end = 0;
+//       }
+//       canvas.drawRRect(
+//         RRect.fromRectAndRadius(
+//           Rect.fromPoints(
+//             Offset(start, size.height / 2),
+//             Offset(end, size.height / 2 + height),
+//           ),
+//           const Radius.circular(4.0),
+//         ),
+//         colors.bufferedPaint,
+//       );
+//     }
+//     canvas.drawRRect(
+//       RRect.fromRectAndRadius(
+//         Rect.fromPoints(
+//           Offset(0.0, size.height / 2),
+//           Offset(playedPart, size.height / 2 + height),
+//         ),
+//         const Radius.circular(4.0),
+//       ),
+//       colors.playedPaint,
+//     );
+//     canvas.drawCircle(
+//       Offset(playedPart, size.height / 2 + height / 2),
+//       height * 3,
+//       colors.handlePaint,
+//     );
+//   }
+// }

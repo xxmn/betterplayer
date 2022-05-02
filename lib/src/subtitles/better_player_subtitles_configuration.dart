@@ -1,53 +1,53 @@
-// Flutter imports:
-import 'package:flutter/material.dart';
+// // Flutter imports:
+// import 'package:flutter/material.dart';
 
-///Cfg of subtitles - colors/padding/font. Used in
-///BPConfiguration.
-class BPSubtitlesCfg {
-  ///Subtitle font size
-  final double fontSize;
+// ///Cfg of subtitles - colors/padding/font. Used in
+// ///BPConfiguration.
+// class BPSubtitlesCfg {
+//   ///Subtitle font size
+//   final double fontSize;
 
-  ///Subtitle font color
-  final Color fontColor;
+//   ///Subtitle font color
+//   final Color fontColor;
 
-  ///Enable outline (border) of the text
-  final bool outlineEnabled;
+//   ///Enable outline (border) of the text
+//   final bool outlineEnabled;
 
-  ///Color of the outline stroke
-  final Color outlineColor;
+//   ///Color of the outline stroke
+//   final Color outlineColor;
 
-  ///Outline stroke size
-  final double outlineSize;
+//   ///Outline stroke size
+//   final double outlineSize;
 
-  ///Font family of the subtitle
-  final String fontFamily;
+//   ///Font family of the subtitle
+//   final String fontFamily;
 
-  ///Left padding of the subtitle
-  final double leftPadding;
+//   ///Left padding of the subtitle
+//   final double leftPadding;
 
-  ///Right padding of the subtitle
-  final double rightPadding;
+//   ///Right padding of the subtitle
+//   final double rightPadding;
 
-  ///Bottom padding of the subtitle
-  final double bottomPadding;
+//   ///Bottom padding of the subtitle
+//   final double bottomPadding;
 
-  ///Alignment of the subtitle
-  final Alignment alignment;
+//   ///Alignment of the subtitle
+//   final Alignment alignment;
 
-  ///Background color of the subtitle
-  final Color backgroundColor;
+//   ///Background color of the subtitle
+//   final Color backgroundColor;
 
-  const BPSubtitlesCfg({
-    this.fontSize = 14,
-    this.fontColor = Colors.white,
-    this.outlineEnabled = true,
-    this.outlineColor = Colors.black,
-    this.outlineSize = 2.0,
-    this.fontFamily = "Roboto",
-    this.leftPadding = 8.0,
-    this.rightPadding = 8.0,
-    this.bottomPadding = 20.0,
-    this.alignment = Alignment.center,
-    this.backgroundColor = Colors.transparent,
-  });
-}
+//   const BPSubtitlesCfg({
+//     this.fontSize = 14,
+//     this.fontColor = Colors.white,
+//     this.outlineEnabled = true,
+//     this.outlineColor = Colors.black,
+//     this.outlineSize = 2.0,
+//     this.fontFamily = "Roboto",
+//     this.leftPadding = 8.0,
+//     this.rightPadding = 8.0,
+//     this.bottomPadding = 20.0,
+//     this.alignment = Alignment.center,
+//     this.backgroundColor = Colors.transparent,
+//   });
+// }

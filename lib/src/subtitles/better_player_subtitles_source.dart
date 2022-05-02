@@ -1,70 +1,70 @@
-import 'package:better_player/src/asms/better_player_asms_subtitle_segment.dart';
+// import 'package:better_player/src/asms/better_player_asms_subtitle_segment.dart';
 
-import 'better_player_subtitles_source_type.dart';
+// import 'better_player_subtitles_source_type.dart';
 
-///Representation of subtitles source. Used to define subtitles in Better
-/// Player.
-class BPSubtitlesSource {
-  ///Source type
-  final BPSubtitlesSourceType? type;
+// ///Representation of subtitles source. Used to define subtitles in Better
+// /// Player.
+// class BPSubtitlesSource {
+//   ///Source type
+//   final BPSubtitlesSourceType? type;
 
-  ///Name of the subtitles, default value is "Default subtitles"
-  final String? name;
+//   ///Name of the subtitles, default value is "Default subtitles"
+//   final String? name;
 
-  ///Url of the subtitles, used with file or network subtitles
-  final List<String?>? urls;
+//   ///Url of the subtitles, used with file or network subtitles
+//   final List<String?>? urls;
 
-  ///Content of subtitles, used when type is memory
-  final String? content;
+//   ///Content of subtitles, used when type is memory
+//   final String? content;
 
-  ///Subtitles selected by default, without user interaction
-  final bool? selectedByDefault;
+//   ///Subtitles selected by default, without user interaction
+//   final bool? selectedByDefault;
 
-  //Additional headers used in HTTP request. Works only for
-  // [BPSubtitlesSourceType.memory] source type.
-  final Map<String, String>? headers;
+//   //Additional headers used in HTTP request. Works only for
+//   // [BPSubtitlesSourceType.memory] source type.
+//   final Map<String, String>? headers;
 
-  ///Is ASMS segmented source (more than 1 subtitle file). This shouldn't be
-  ///configured manually.
-  final bool? asmsIsSegmented;
+//   ///Is ASMS segmented source (more than 1 subtitle file). This shouldn't be
+//   ///configured manually.
+//   final bool? asmsIsSegmented;
 
-  ///Max. time between segments in milliseconds. This shouldn't be configured
-  /// manually.
-  final int? asmsSegmentsTime;
+//   ///Max. time between segments in milliseconds. This shouldn't be configured
+//   /// manually.
+//   final int? asmsSegmentsTime;
 
-  ///List of segments (start,end,url of the segment). This shouldn't be
-  ///configured manually.
-  final List<BPAsmsSubtitleSegment>? asmsSegments;
+//   ///List of segments (start,end,url of the segment). This shouldn't be
+//   ///configured manually.
+//   final List<BPAsmsSubtitleSegment>? asmsSegments;
 
-  BPSubtitlesSource({
-    this.type,
-    this.name = "Default subtitles",
-    this.urls,
-    this.content,
-    this.selectedByDefault,
-    this.headers,
-    this.asmsIsSegmented,
-    this.asmsSegmentsTime,
-    this.asmsSegments,
-  });
+//   BPSubtitlesSource({
+//     this.type,
+//     this.name = "Default subtitles",
+//     this.urls,
+//     this.content,
+//     this.selectedByDefault,
+//     this.headers,
+//     this.asmsIsSegmented,
+//     this.asmsSegmentsTime,
+//     this.asmsSegments,
+//   });
 
-  ///Creates list with only one subtitles
-  static List<BPSubtitlesSource> single({
-    BPSubtitlesSourceType? type,
-    String name = "Default subtitles",
-    String? url,
-    String? content,
-    bool? selectedByDefault,
-    Map<String, String>? headers,
-  }) =>
-      [
-        BPSubtitlesSource(
-          type: type,
-          name: name,
-          urls: [url],
-          content: content,
-          selectedByDefault: selectedByDefault,
-          headers: headers,
-        )
-      ];
-}
+//   ///Creates list with only one subtitles
+//   static List<BPSubtitlesSource> single({
+//     BPSubtitlesSourceType? type,
+//     String name = "Default subtitles",
+//     String? url,
+//     String? content,
+//     bool? selectedByDefault,
+//     Map<String, String>? headers,
+//   }) =>
+//       [
+//         BPSubtitlesSource(
+//           type: type,
+//           name: name,
+//           urls: [url],
+//           content: content,
+//           selectedByDefault: selectedByDefault,
+//           headers: headers,
+//         )
+//       ];
+// }

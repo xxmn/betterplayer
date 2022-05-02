@@ -1,17 +1,17 @@
-///Internal events of BPController, used in widgets to update state.
-enum BPControllerEvent {
-  ///Fullscreen mode has started.
-  openFullscreen,
+// ///Internal events of BPController, used in widgets to update state.
+// enum BPControllerEvent {
+//   ///Fullscreen mode has started.
+//   openFullscreen,
 
-  ///Fullscreen mode has ended.
-  hideFullscreen,
+//   ///Fullscreen mode has ended.
+//   hideFullscreen,
 
-  ///Subtitles changed.
-  changeSubtitles,
+//   ///Subtitles changed.
+//   changeSubtitles,
 
-  ///New data source has been set.
-  setupDataSource,
+//   ///New data source has been set.
+//   setupDataSource,
 
-  //Video has started.
-  play
-}
+//   //Video has started.
+//   play
+// }

@@ -11,7 +11,6 @@ import 'package:better_player/src/core/bp_translations_notifier.dart';
 import 'package:better_player/src/utils/better_player_utils.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 /// 构造函数
 /// 本地化  TranslationsNotifier
@@ -21,12 +20,12 @@ class BetterPlayer extends StatefulWidget {
   // EventBus npEventBus = NpEventBus();
   BetterPlayer({
     Key? key,
-    required this.bpDataSource,
-    required this.bpNotificationCfg,
+    // required this.bpDataSource,
+    // required this.bpNotificationCfg,
   }) : super(key: key) {}
 
-  late BPDataSource bpDataSource;
-  late BPNotificationCfg bpNotificationCfg;
+  // late BPDataSource bpDataSource;
+  // late BPNotificationCfg bpNotificationCfg;
 
   factory BetterPlayer.network(String url) => BetterPlayer(
         bpDataSource: BPDataSource(BPDataSourceType.network, url),
@@ -64,7 +63,8 @@ class _BetterPlayerState extends State<BetterPlayer> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<BPNotifier>(create: (_) => BPNotifier()),
-        ChangeNotifierProvider<TranslationsNotifier>(create: (_) => TranslationsNotifier(locale: locale)),
+        ChangeNotifierProvider<TranslationsNotifier>(
+            create: (_) => TranslationsNotifier(locale: locale)),
         ChangeNotifierProvider<BPDataSourceNotifier>(
           create: (_) => BPDataSourceNotifier(
             bpDataSource: widget.bpDataSource,
