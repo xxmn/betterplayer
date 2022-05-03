@@ -17,7 +17,7 @@ import 'bp_with_controls.dart';
 ///
 ////////////////////////////////////////////////////////////////////////
 class BetterPlayer extends StatefulWidget {
-  late _BPInitConfig _bpInitConfig;
+  late final _BPInitConfig _bpInitConfig;
 
   BetterPlayer({
     Key? key,

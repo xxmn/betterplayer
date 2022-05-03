@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:better_player/src/config/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_data_source_provider.dart';
@@ -7,10 +5,7 @@ import 'package:better_player/src/config/bp_placeholder_provider.dart';
 import 'package:better_player/src/config/bp_theme_provider.dart';
 import 'package:better_player/src/types/bp_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'dart:math';
 
 class BPWithControls extends HookConsumerWidget {
   const BPWithControls({Key? key}) : super(key: key);
@@ -23,7 +18,6 @@ class BPWithControls extends HookConsumerWidget {
     } else {
       return _InnerContainer();
     }
-    ;
   }
 }
 
