@@ -339,7 +339,7 @@
 //         final BPController bpMockController = BPTestUtils.setupBPMockController();
 //         expect(() => bpMockController.isLiveStream(), throwsA(isA<StateError>()));
 //         bpMockController
-//             .setupDataSource(BPDataSource(BPDataSourceType.network, BPTestUtils.forBiggerBlazesUrl, liveStream: true));
+//             .setupDataSource(BPDataSource(DataSourceType.network, BPTestUtils.forBiggerBlazesUrl, liveStream: true));
 //         final videoPlayerController = BPTestUtils.setupMockVideoPlayerControler();
 //         bpMockController.videoPlayerController = videoPlayerController;
 //         expect(bpMockController.isLiveStream(), true);

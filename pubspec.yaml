@@ -21,7 +21,7 @@ dependencies:
   wakelock: ^0.5.6
   meta: ^1.7.0
   flutter_widget_from_html_core: ^0.8.4
-  visibility_detector: ^0.2.2
+  visibility_detector: ^0.3.0
   path_provider: ^2.0.8
   collection: ^1.15.0
   dartx: ^1.1.0

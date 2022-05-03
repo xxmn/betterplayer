@@ -9,6 +9,8 @@ targets:
             - example
           include:
             - lib/src/core/*
+            - lib/src/config/*
+            - lib/src/subtitles/*
             # - test/integration/*
         options:
           # union_key: type

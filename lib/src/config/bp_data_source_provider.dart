@@ -1,11 +1,20 @@
-import 'package:flutter/widgets.dart';
-import 'bp_data_source_type.dart';
+import 'package:flutter/material.dart';
+import '../types/data_source_type.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// part 'bp_data_source_provider.freezed.dart';
+
+late final StateNotifierProvider<BPDataSourceNotifier, BPDataSource?> bpDataSourceProvider;
+
+class BPDataSourceNotifier extends StateNotifier<BPDataSource?> {
+  BPDataSourceNotifier({BPDataSource? bpDataSource}) : super(bpDataSource);
+}
 
 ///Representation of data source which will be played in Better Player. Allows
 ///to setup all necessary configuration connected to video source.
 class BPDataSource {
   ///Type of source of video
-  final BPDataSourceType type;
+  final DataSourceType type;
 
   ///Url of the video
   final String url;
@@ -38,6 +47,47 @@ class BPDataSource {
   ///{"360p": "url", "540p": "url2" }
   final Map<String, String>? resolutions;
 
+  /// The total duration of the video.
+  ///
+  /// Is null when [initialized] is false.
+  final Duration? duration;
+
+  ///Duration which will be returned instead of original duration
+  final Duration? overriddenDuration;
+
+  /// Start video at a certain position
+  final Duration? startAt;
+
+  /// The [size] of the currently loaded video.
+  ///
+  /// Is null when [initialized] is false.
+  final Size? size;
+
+  /// A description of the error if present.
+  ///
+  /// If [hasError] is false this is [null].
+  final String? errorDescription;
+
+  /// Indicates whether or not the video has been loaded and is ready to play.
+  bool get initialized => duration != null;
+
+  /// Indicates whether or not the video is in an error state. If this is true
+  /// [errorDescription] should have information about the problem.
+  bool get hasError => errorDescription != null;
+
+  /// Returns [size.width] / [size.height] when size is non-null, or `1.0.` when
+  /// size is null or the aspect ratio would be less than or equal to 0.0.
+  double get aspectRatio {
+    if (size == null) {
+      return 1.0;
+    }
+    final double aspectRatio = size!.width / size!.height;
+    if (aspectRatio <= 0) {
+      return 1.0;
+    }
+    return aspectRatio;
+  }
+
   // ///Optional cache configuration, used only for network data sources
   // final BPCacheConfig? cacheConfig;
 
@@ -46,9 +96,6 @@ class BPDataSource {
 
   // ///Config of remote controls notification
   // final BPNotificationConfig? notificationConfig;
-
-  ///Duration which will be returned instead of original duration
-  final Duration? overriddenDuration;
 
   // ///Video format hint when data source url has not valid extension.
   // final BPVideoFormat? videoFormat;
@@ -72,6 +119,10 @@ class BPDataSource {
   BPDataSource(
     this.type,
     this.url, {
+    this.duration,
+    this.startAt,
+    this.size,
+    this.errorDescription,
     this.bytes,
     // this.subtitles,
     this.liveStream = false,
@@ -83,7 +134,7 @@ class BPDataSource {
     this.resolutions,
     // this.cacheConfig,
     // this.notificationConfig = const BPNotificationConfig(
-    //   showNotification: false,
+    //   isShow: false,
     // ),
     this.overriddenDuration,
     // this.videoFormat,
@@ -92,8 +143,8 @@ class BPDataSource {
     this.placeholder,
     // this.bufferingConfig = const BPBufferingConfig(),
   }) : assert(
-            (type == BPDataSourceType.network || type == BPDataSourceType.file) ||
-                (type == BPDataSourceType.memory && bytes?.isNotEmpty == true),
+            (type == DataSourceType.network || type == DataSourceType.file) ||
+                (type == DataSourceType.memory && bytes?.isNotEmpty == true),
             "Url can't be null in network or file data source | bytes can't be null when using memory data source");
 
   ///Factory method to build network data source which uses url as data source
@@ -108,15 +159,16 @@ class BPDataSource {
     bool? useAsmsAudioTracks,
     Map<String, String>? qualities,
     // BPCacheConfig? cacheConfig,
-    // BPNotificationConfig notificationConfig = const BPNotificationConfig(showNotification: false),
+    // BPNotificationConfig notificationConfig = const BPNotificationConfig(isShow: false),
     Duration? overriddenDuration,
+    Duration? startAt,
     // BPVideoFormat? videoFormat,
     // BPDrmConfig? drmConfig,
     Widget? placeholder,
     // BPBufferingConfig bufferingConfig = const BPBufferingConfig(),
   }) {
     return BPDataSource(
-      BPDataSourceType.network,
+      DataSourceType.network,
       url,
       // subtitles: subtitles,
       liveStream: liveStream,
@@ -128,6 +180,7 @@ class BPDataSource {
       // cacheConfig: cacheConfig,
       // notificationConfig: notificationConfig,
       overriddenDuration: overriddenDuration,
+      startAt: startAt ?? Duration(),
       // videoFormat: videoFormat,
       // drmConfig: drmConfig,
       placeholder: placeholder,
@@ -146,18 +199,20 @@ class BPDataSource {
     // BPCacheConfig? cacheConfig,
     // BPNotificationConfig? notificationConfig,
     Duration? overriddenDuration,
+    Duration? startAt,
     Widget? placeholder,
   }) {
     return BPDataSource(
-      BPDataSourceType.file,
+      DataSourceType.file,
       url,
       // subtitles: subtitles,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       // cacheConfig: cacheConfig,
-      // notificationConfig: notificationConfig = const BPNotificationConfig(showNotification: false),
+      // notificationConfig: notificationConfig = const BPNotificationConfig(isShow: false),
       overriddenDuration: overriddenDuration,
+      startAt: startAt ?? Duration(),
       placeholder: placeholder,
     );
   }
@@ -177,7 +232,7 @@ class BPDataSource {
     Widget? placeholder,
   }) {
     return BPDataSource(
-      BPDataSourceType.memory,
+      DataSourceType.memory,
       "",
       videoExtension: videoExtension,
       bytes: bytes,
@@ -186,7 +241,7 @@ class BPDataSource {
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       // cacheConfig: cacheConfig,
-      // notificationConfig: notificationConfig = const BPNotificationConfig(showNotification: false),
+      // notificationConfig: notificationConfig = const BPNotificationConfig(isShow: false),
       overriddenDuration: overriddenDuration,
       placeholder: placeholder,
     );
