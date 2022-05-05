@@ -3,7 +3,6 @@
 // import 'package:better_player/src/core/video_sections_state.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 
 // // ignore: must_be_immutable
 // class VideoSections extends StatelessWidget {
@@ -32,7 +31,8 @@
 //               Container(
 //                 alignment: Alignment.centerRight,
 //                 child: IconButton(
-//                     onPressed: () => Provider.of<VideoSectionsState>(context, listen: false).setIsShow(false),
+//                     onPressed: () =>
+//                         Provider.of<VideoSectionsState>(context, listen: false).setIsShow(false),
 //                     icon: Icon(Icons.close)),
 //               ),
 //             ],

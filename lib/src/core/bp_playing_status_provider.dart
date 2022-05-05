@@ -4,12 +4,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'bp_playing_status_provider.freezed.dart';
 
-final bpPlayingStatusProvider = StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>(
-  (ref) => BPPlayingStatusNotifier(),
-);
+late final StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus> bpPlayingStatusProvider;
+
+void initBpPlayingStatusProvider() {
+  bpPlayingStatusProvider = StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>(
+    (ref) => BPPlayingStatusNotifier(),
+  );
+}
 
 class BPPlayingStatusNotifier extends StateNotifier<BPPlayingStatus> {
-  BPPlayingStatusNotifier() : super(BPPlayingStatus());
+  BPPlayingStatusNotifier({
+    BPPlayingStatus? bpPlayingStatus,
+  }) : super(bpPlayingStatus ?? BPPlayingStatus());
 }
 
 /// The playing status, The current position, buffering state...
@@ -25,17 +31,34 @@ class BPPlayingStatus with _$BPPlayingStatus {
     //todo: 这个是干什么用的？
     DateTime? absolutePosition,
 
-    /// The currently buffered ranges.
-    @Default(<DurationRange>[]) List<DurationRange> buffered,
+    /// True if the video is isLoading.
+    @Default(false) bool isLoading,
 
-    /// True if the video is playing. False if it's paused.
-    @Default(false) bool isPlayingStatus,
+    /// True if the video is isFinished.
+    @Default(false) bool isFinished,
+
+    /// True if the video is playing.
+    @Default(false) bool isPlaying,
+
+    /// True if it's paused.
+    @Default(false) bool isPaused,
 
     /// True if the video is looping.
     @Default(false) bool isLooping,
 
     /// True if the video is currently buffering.
     @Default(false) bool isBuffering,
+
+    /// The currently buffered ranges.
+    @Default(false) bool isBuffered,
+
+    ///是否错误
+    @Default(false) bool hasError,
+
+    /// A description of the error if present.
+    ///
+    /// If [hasError] is false this is [null].
+    String? errorDescription,
 
     /// The current volume of the playback.
     @Default(1.0) double volume,
@@ -45,5 +68,8 @@ class BPPlayingStatus with _$BPPlayingStatus {
 
     ///Is in Picture in Picture Mode
     @Default(false) bool isPip,
+
+    ///Is in Picture in full screenB Mode
+    @Default(false) bool isFullScreen,
   }) = _BPPlayingStatus;
 }

@@ -1,8 +1,9 @@
 import 'package:better_player/src/config/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
-import 'package:better_player/src/config/bp_data_source_provider.dart';
+import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/config/bp_placeholder_provider.dart';
 import 'package:better_player/src/config/bp_theme_provider.dart';
+import 'package:better_player/src/controls/bp_material_controls.dart';
 import 'package:better_player/src/types/bp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -102,11 +103,7 @@ class _CustomOrOSControls extends HookConsumerWidget {
 
     switch (playerTheme) {
       case BPTheme.material:
-        return Container(
-            child: Text(
-          "material",
-          style: TextStyle(color: Colors.white, fontSize: 48),
-        ));
+        return BPMaterialControls();
       case BPTheme.cupertino:
         return Container(child: Text("cupertino"));
       case BPTheme.custom:
@@ -125,16 +122,8 @@ class _CustomOrOSControls extends HookConsumerWidget {
   }
 }
 
+// Widget _buildCupertinoControl() {
+//   return BPCupertinoControls(
 
-  // Widget _buildMaterialControl() {
-  //   return BPMaterialControls(
-  //     controlsConfig: controlsConfig,
-  //   );
-  // }
-
-  // Widget _buildCupertinoControl() {
-  //   return BPCupertinoControls(
-  //     controlsConfig: controlsConfig,
-  //   );
-  // }
-
+//   );
+// }

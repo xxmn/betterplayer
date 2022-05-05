@@ -7,6 +7,14 @@ part 'bp_subtitles_provider.freezed.dart';
 
 late final StateNotifierProvider<BPSubtitlesNotifier, BPSubtitlesConfig> bpSubtitlesProvider;
 
+void initBpSubtitlesProvider(BPSubtitlesConfig subtitlesConfig) {
+  bpSubtitlesProvider = StateNotifierProvider<BPSubtitlesNotifier, BPSubtitlesConfig>(
+    (ref) => BPSubtitlesNotifier(
+      bpSubtitlesConfig: subtitlesConfig,
+    ),
+  );
+}
+
 class BPSubtitlesNotifier extends StateNotifier<BPSubtitlesConfig> {
   BPSubtitlesNotifier({
     BPSubtitlesConfig? bpSubtitlesConfig,

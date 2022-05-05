@@ -1,29 +1,20 @@
-import 'package:flutter/material.dart';
-import '../types/data_source_type.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-// part 'bp_data_source_provider.freezed.dart';
-
-late final StateNotifierProvider<BPDataSourceNotifier, BPDataSource?> bpDataSourceProvider;
-
-class BPDataSourceNotifier extends StateNotifier<BPDataSource?> {
-  BPDataSourceNotifier({BPDataSource? bpDataSource}) : super(bpDataSource);
-}
+import 'package:flutter/widgets.dart';
 
 ///Representation of data source which will be played in Better Player. Allows
 ///to setup all necessary configuration connected to video source.
 class BPDataSource {
   ///Type of source of video
-  final DataSourceType type;
+  final BPDataSourceType type;
 
   ///Url of the video
   final String url;
+  final String? audioUri;
 
   // ///Subtitles configuration
   // final List<BPSubtitlesSource>? subtitles;
 
   ///Flag to determine if current data source is live stream
-  final bool? liveStream;
+  final bool? isLiveStream;
 
   /// Custom headers for player
   final Map<String, String>? headers;
@@ -119,13 +110,14 @@ class BPDataSource {
   BPDataSource(
     this.type,
     this.url, {
+    this.audioUri,
     this.duration,
     this.startAt,
     this.size,
     this.errorDescription,
     this.bytes,
     // this.subtitles,
-    this.liveStream = false,
+    this.isLiveStream = false,
     this.headers,
     this.useAsmsSubtitles = true,
     this.useAsmsTracks = true,
@@ -143,8 +135,8 @@ class BPDataSource {
     this.placeholder,
     // this.bufferingConfig = const BPBufferingConfig(),
   }) : assert(
-            (type == DataSourceType.network || type == DataSourceType.file) ||
-                (type == DataSourceType.memory && bytes?.isNotEmpty == true),
+            (type == BPDataSourceType.network || type == BPDataSourceType.file) ||
+                (type == BPDataSourceType.memory && bytes?.isNotEmpty == true),
             "Url can't be null in network or file data source | bytes can't be null when using memory data source");
 
   ///Factory method to build network data source which uses url as data source
@@ -152,7 +144,7 @@ class BPDataSource {
   factory BPDataSource.network(
     String url, {
     // List<BPSubtitlesSource>? subtitles,
-    bool? liveStream,
+    bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
@@ -168,10 +160,10 @@ class BPDataSource {
     // BPBufferingConfig bufferingConfig = const BPBufferingConfig(),
   }) {
     return BPDataSource(
-      DataSourceType.network,
+      BPDataSourceType.network,
       url,
       // subtitles: subtitles,
-      liveStream: liveStream,
+      isLiveStream: isLiveStream,
       headers: headers,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
@@ -203,7 +195,7 @@ class BPDataSource {
     Widget? placeholder,
   }) {
     return BPDataSource(
-      DataSourceType.file,
+      BPDataSourceType.file,
       url,
       // subtitles: subtitles,
       useAsmsSubtitles: useAsmsSubtitles,
@@ -232,7 +224,7 @@ class BPDataSource {
     Widget? placeholder,
   }) {
     return BPDataSource(
-      DataSourceType.memory,
+      BPDataSourceType.memory,
       "",
       videoExtension: videoExtension,
       bytes: bytes,
@@ -247,3 +239,8 @@ class BPDataSource {
     );
   }
 }
+
+///Source types of video. Network type is used for videos that are hosted on
+///the web service. File type is used for videos that will be read from
+/// mobile device.
+enum BPDataSourceType { network, file, memory }

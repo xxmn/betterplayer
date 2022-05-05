@@ -25,6 +25,10 @@ mixin _$BPConfig {
   /// or played.
   Widget? get placeholder => throw _privateConstructorUsedError;
 
+  ///Flag which determines if controls (UI interface) is shown. When false,
+  ///UI won't be shown (show only player surface).
+  bool get controlsEnabled => throw _privateConstructorUsedError;
+
   /// Placeholder position of player stack. If false, then placeholder will be
   /// displayed on the bottom, so user need to hide it manually. Default is
   /// true.
@@ -77,6 +81,7 @@ abstract class $BPConfigCopyWith<$Res> {
   $Res call(
       {Widget Function(BuildContext, String?)? errorBuilder,
       Widget? placeholder,
+      bool controlsEnabled,
       bool placeholderOnTop,
       bool showPlaceholderUntilPlay,
       Widget? overlay,
@@ -99,6 +104,7 @@ class _$BPConfigCopyWithImpl<$Res> implements $BPConfigCopyWith<$Res> {
   $Res call({
     Object? errorBuilder = freezed,
     Object? placeholder = freezed,
+    Object? controlsEnabled = freezed,
     Object? placeholderOnTop = freezed,
     Object? showPlaceholderUntilPlay = freezed,
     Object? overlay = freezed,
@@ -117,6 +123,10 @@ class _$BPConfigCopyWithImpl<$Res> implements $BPConfigCopyWith<$Res> {
           ? _value.placeholder
           : placeholder // ignore: cast_nullable_to_non_nullable
               as Widget?,
+      controlsEnabled: controlsEnabled == freezed
+          ? _value.controlsEnabled
+          : controlsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       placeholderOnTop: placeholderOnTop == freezed
           ? _value.placeholderOnTop
           : placeholderOnTop // ignore: cast_nullable_to_non_nullable
@@ -162,6 +172,7 @@ abstract class _$BPConfigCopyWith<$Res> implements $BPConfigCopyWith<$Res> {
   $Res call(
       {Widget Function(BuildContext, String?)? errorBuilder,
       Widget? placeholder,
+      bool controlsEnabled,
       bool placeholderOnTop,
       bool showPlaceholderUntilPlay,
       Widget? overlay,
@@ -185,6 +196,7 @@ class __$BPConfigCopyWithImpl<$Res> extends _$BPConfigCopyWithImpl<$Res>
   $Res call({
     Object? errorBuilder = freezed,
     Object? placeholder = freezed,
+    Object? controlsEnabled = freezed,
     Object? placeholderOnTop = freezed,
     Object? showPlaceholderUntilPlay = freezed,
     Object? overlay = freezed,
@@ -203,6 +215,10 @@ class __$BPConfigCopyWithImpl<$Res> extends _$BPConfigCopyWithImpl<$Res>
           ? _value.placeholder
           : placeholder // ignore: cast_nullable_to_non_nullable
               as Widget?,
+      controlsEnabled: controlsEnabled == freezed
+          ? _value.controlsEnabled
+          : controlsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       placeholderOnTop: placeholderOnTop == freezed
           ? _value.placeholderOnTop
           : placeholderOnTop // ignore: cast_nullable_to_non_nullable
@@ -246,6 +262,7 @@ class _$_BPConfig implements _BPConfig {
   const _$_BPConfig(
       {this.errorBuilder,
       this.placeholder,
+      this.controlsEnabled = true,
       this.placeholderOnTop = true,
       this.showPlaceholderUntilPlay = false,
       this.overlay,
@@ -266,6 +283,12 @@ class _$_BPConfig implements _BPConfig {
   /// or played.
   @override
   final Widget? placeholder;
+
+  ///Flag which determines if controls (UI interface) is shown. When false,
+  ///UI won't be shown (show only player surface).
+  @override
+  @JsonKey()
+  final bool controlsEnabled;
 
   /// Placeholder position of player stack. If false, then placeholder will be
   /// displayed on the bottom, so user need to hide it manually. Default is
@@ -323,7 +346,7 @@ class _$_BPConfig implements _BPConfig {
 
   @override
   String toString() {
-    return 'BPConfig(errorBuilder: $errorBuilder, placeholder: $placeholder, placeholderOnTop: $placeholderOnTop, showPlaceholderUntilPlay: $showPlaceholderUntilPlay, overlay: $overlay, fit: $fit, expandToFill: $expandToFill, rotation: $rotation, playerVisibilityChangedBehavior: $playerVisibilityChangedBehavior, autoDispose: $autoDispose)';
+    return 'BPConfig(errorBuilder: $errorBuilder, placeholder: $placeholder, controlsEnabled: $controlsEnabled, placeholderOnTop: $placeholderOnTop, showPlaceholderUntilPlay: $showPlaceholderUntilPlay, overlay: $overlay, fit: $fit, expandToFill: $expandToFill, rotation: $rotation, playerVisibilityChangedBehavior: $playerVisibilityChangedBehavior, autoDispose: $autoDispose)';
   }
 
   @override
@@ -335,6 +358,8 @@ class _$_BPConfig implements _BPConfig {
                 other.errorBuilder == errorBuilder) &&
             const DeepCollectionEquality()
                 .equals(other.placeholder, placeholder) &&
+            const DeepCollectionEquality()
+                .equals(other.controlsEnabled, controlsEnabled) &&
             const DeepCollectionEquality()
                 .equals(other.placeholderOnTop, placeholderOnTop) &&
             const DeepCollectionEquality().equals(
@@ -357,6 +382,7 @@ class _$_BPConfig implements _BPConfig {
       runtimeType,
       errorBuilder,
       const DeepCollectionEquality().hash(placeholder),
+      const DeepCollectionEquality().hash(controlsEnabled),
       const DeepCollectionEquality().hash(placeholderOnTop),
       const DeepCollectionEquality().hash(showPlaceholderUntilPlay),
       const DeepCollectionEquality().hash(overlay),
@@ -376,6 +402,7 @@ abstract class _BPConfig implements BPConfig {
   const factory _BPConfig(
       {final Widget Function(BuildContext, String?)? errorBuilder,
       final Widget? placeholder,
+      final bool controlsEnabled,
       final bool placeholderOnTop,
       final bool showPlaceholderUntilPlay,
       final Widget? overlay,
@@ -396,6 +423,11 @@ abstract class _BPConfig implements BPConfig {
   /// The placeholder is displayed underneath the Video before it is initialized
   /// or played.
   Widget? get placeholder => throw _privateConstructorUsedError;
+  @override
+
+  ///Flag which determines if controls (UI interface) is shown. When false,
+  ///UI won't be shown (show only player surface).
+  bool get controlsEnabled => throw _privateConstructorUsedError;
   @override
 
   /// Placeholder position of player stack. If false, then placeholder will be

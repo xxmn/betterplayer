@@ -6,6 +6,14 @@ part 'bp_config_provider.freezed.dart';
 
 late final StateNotifierProvider<BPConfigNotifier, BPConfig> bpConfigProvider;
 
+void initBpConfigProvider(BPConfig bpConfig) {
+  bpConfigProvider = StateNotifierProvider<BPConfigNotifier, BPConfig>(
+    (ref) => BPConfigNotifier(
+      bpConfig: bpConfig,
+    ),
+  );
+}
+
 class BPConfigNotifier extends StateNotifier<BPConfig> {
   BPConfigNotifier({BPConfig? bpConfig}) : super(bpConfig ?? BPConfig());
 }
@@ -29,6 +37,10 @@ class BPConfig with _$BPConfig {
     /// The placeholder is displayed underneath the Video before it is initialized
     /// or played.
     Widget? placeholder,
+
+    ///Flag which determines if controls (UI interface) is shown. When false,
+    ///UI won't be shown (show only player surface).
+    @Default(true) bool controlsEnabled,
 
     /// Placeholder position of player stack. If false, then placeholder will be
     /// displayed on the bottom, so user need to hide it manually. Default is

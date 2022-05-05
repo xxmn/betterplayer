@@ -1,14 +1,17 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_app_lifecycle_provider.dart';
+import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_provider.dart';
+import 'package:better_player/src/types/bp_data_source.dart';
+import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../config/bp_config_provider.dart';
-import '../types/data_source_type.dart';
-import '../config/bp_data_source_provider.dart';
+import 'bp_playing_status_provider.dart';
 import 'bp_with_controls.dart';
 
 ////////////////////////////////////////////////////////////////////////
@@ -40,7 +43,7 @@ class BetterPlayer extends StatefulWidget {
     BPConfig? bpConfig,
   }) {
     return BetterPlayer(
-      bpDataSource: BPDataSource(DataSourceType.network, url),
+      bpDataSource: BPDataSource(BPDataSourceType.network, url),
       bpConfig: bpConfig,
     );
   }
@@ -50,7 +53,7 @@ class BetterPlayer extends StatefulWidget {
     BPConfig? bpConfig,
   }) {
     return BetterPlayer(
-      bpDataSource: BPDataSource(DataSourceType.file, url),
+      bpDataSource: BPDataSource(BPDataSourceType.file, url),
       bpConfig: bpConfig,
     );
   }
@@ -104,29 +107,11 @@ void _initProviders(_BPInitConfig _bpInitConfig, T Function<T>(ProviderBase<T>) 
   var bpAppLifecycle = _bpInitConfig.bpAppLifecycle;
   read(bpAppLifecycleProvider.notifier).isHandleLifecycle = bpAppLifecycle.isHandleLifecycle;
 
-  bpDataSourceProvider = StateNotifierProvider<BPDataSourceNotifier, BPDataSource?>(
-    (ref) => BPDataSourceNotifier(
-      bpDataSource: _bpInitConfig.bpDataSource,
-    ),
-  );
-
-  bpConfigProvider = StateNotifierProvider<BPConfigNotifier, BPConfig>(
-    (ref) => BPConfigNotifier(
-      bpConfig: _bpInitConfig.bpConfig,
-    ),
-  );
-
-  bpControlsProvider = StateNotifierProvider<BPControlsNotifier, BPControlsConfig>(
-    (ref) => BPControlsNotifier(
-      bpControlsConfig: _bpInitConfig.controlsConfig,
-    ),
-  );
-
-  bpSubtitlesProvider = StateNotifierProvider<BPSubtitlesNotifier, BPSubtitlesConfig>(
-    (ref) => BPSubtitlesNotifier(
-      bpSubtitlesConfig: _bpInitConfig.subtitlesConfig,
-    ),
-  );
+  initBpDataSourceProvider(_bpInitConfig.bpDataSource);
+  initBpConfigProvider(_bpInitConfig.bpConfig);
+  initBpControlsProvider(_bpInitConfig.controlsConfig);
+  initBpSubtitlesProvider(_bpInitConfig.subtitlesConfig);
+  initBpPlayingStatusProvider();
 }
 
 class _BPInitProviders extends StatefulHookConsumerWidget {
@@ -141,18 +126,16 @@ class _BPInitProviders extends StatefulHookConsumerWidget {
 
 class __BPInitProvidersState extends ConsumerState<_BPInitProviders> {
   @override
-  void initState() {
-    super.initState();
-    _initProviders(widget._bpInitConfig, ref.read);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      _initProviders(widget._bpInitConfig, ref.read);
+      return null;
+    }, const []);
+    useEffect(() {
+      initBpLocaleProvider(context);
+      initBpTranslationsProvider();
+      return null;
+    }, const []);
     return _BPAppLifecycle();
   }
 }
@@ -207,6 +190,7 @@ class _BPVisibilityDetector extends HookConsumerWidget {
     return VisibilityDetector(
       // key: Key("${widget.controller.hashCode}_key"),
       onVisibilityChanged: (VisibilityInfo info) {
+        print("bpIsVisibleProvider: $bpIsVisibleProvider");
         ref.read(bpIsVisibleProvider.notifier).setIsVisible(info.visibleFraction);
       },
       key: id,

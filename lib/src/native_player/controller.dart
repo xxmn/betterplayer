@@ -6,7 +6,7 @@
 // import 'dart:async';
 // import 'dart:io';
 // import 'dart:typed_data';
-// import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
+// import 'package:better_player/src/config/bp_buffering_config.dart';
 // import 'package:better_player/src/native_player/platform_interface.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
@@ -58,7 +58,7 @@
 //   });
 
 //   final Widget child;
-//   final VideoPlayerController controller;
+//   final NativePlayerController controller;
 
 //   @override
 //   _VideoScrubberState createState() => _VideoScrubberState();

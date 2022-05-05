@@ -40,6 +40,26 @@ class IsVisibleNotifier extends StateNotifier<bool> {
 ///
 final bpIsDisposedProvider = StateProvider((ref) => false);
 
+///
+///Has Controls Visible.
+///
+
+final bpControlsVisibleProvider = StateNotifierProvider<ControlsVisible, bool>(
+  (ref) => ControlsVisible(true),
+);
+
+class ControlsVisible extends StateNotifier<bool> {
+  ControlsVisible(bool isVisible) : super(isVisible);
+
+  void setVisible(bool isVisible) {
+    state = isVisible;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
+
 
 // /// Play the video as soon as it's displayed  false
 //   @Default(false) bool autoPlay;

@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 // Flutter imports:
 
+import 'package:better_player/src/types/np_data_source.dart';
 import 'package:better_player/src/types/duration_range.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -72,7 +73,7 @@ abstract class NativePlayerPlatform {
   // }
 
   /// Pre-caches a video.
-  Future<void> preCache(DataSource dataSource, int preCacheSize) {
+  Future<void> preCache(NPDataSource dataSource, int preCacheSize) {
     throw UnimplementedError('preCache() has not been implemented.');
   }
 
@@ -82,7 +83,7 @@ abstract class NativePlayerPlatform {
   }
 
   /// Set data source of video.
-  Future<void> setDataSource(int? textureId, DataSource dataSource) {
+  Future<void> setDataSource(int? textureId, NPDataSource dataSource) {
     throw UnimplementedError('setDataSource() has not been implemented.');
   }
 
@@ -180,193 +181,6 @@ abstract class NativePlayerPlatform {
   // This private method is called by the instance setter, which fails if the class is
   // implemented with `implements`.
   void _verifyProvidesDefaultImplementations() {}
-}
-
-/// Description of the data source used to create an instance of
-/// the video player.
-class DataSource {
-  /// The maximum cache size to keep on disk in bytes.
-  static const int _maxCacheSize = 100 * 1024 * 1024;
-
-  /// The maximum size of each individual file in bytes.
-  static const int _maxCacheFileSize = 10 * 1024 * 1024;
-
-  /// Constructs an instance of [DataSource].
-  ///
-  /// The [sourceType] is always required.
-  ///
-  /// The [uri] argument takes the form of `'https://example.com/video.mp4'` or
-  /// `'file://${file.path}'`.
-  ///
-  /// The [formatHint] argument can be null.
-  ///
-  /// The [asset] argument takes the form of `'assets/video.mp4'`.
-  ///
-  /// The [package] argument must be non-null when the asset comes from a
-  /// package and null otherwise.
-  ///
-  DataSource({
-    required this.sourceType,
-    this.uri,
-    this.audioUri,
-    this.formatHint,
-    this.asset,
-    this.package,
-    this.headers,
-    this.useCache = false,
-    this.maxCacheSize = _maxCacheSize,
-    this.maxCacheFileSize = _maxCacheFileSize,
-    this.cacheKey,
-    this.showNotification = false,
-    this.title,
-    this.author,
-    this.imageUrl,
-    this.notificationChannelName,
-    this.overriddenDuration,
-    this.start,
-    this.licenseUrl,
-    this.certificateUrl,
-    this.drmHeaders,
-    this.activityName,
-    this.clearKey,
-    this.videoExtension,
-  }) : assert(uri == null || asset == null);
-
-  /// Describes the type of data source this [NativePlayerController]
-  /// is constructed with.
-  ///
-  /// The way in which the video was originally loaded.
-  ///
-  /// This has nothing to do with the video's file type. It's just the place
-  /// from which the video is fetched from.
-  final DataSourceType sourceType;
-
-  /// The URI to the video file.
-  ///
-  /// This will be in different formats depending on the [DataSourceType] of
-  /// the original video.
-  final String? uri;
-  final String? audioUri;
-
-  /// **Android only**. Will override the platform's generic file format
-  /// detection with whatever is set here.
-  final VideoFormat? formatHint;
-
-  /// **Android only**. String representation of a formatHint.
-  String? get rawFormalHint {
-    switch (formatHint) {
-      case VideoFormat.ss:
-        return 'ss';
-      case VideoFormat.hls:
-        return 'hls';
-      case VideoFormat.dash:
-        return 'dash';
-      case VideoFormat.other:
-        return 'other';
-      default:
-        return null;
-    }
-  }
-
-  /// The name of the asset. Only set for [DataSourceType.asset] videos.
-  final String? asset;
-
-  /// The package that the asset was loaded from. Only set for
-  /// [DataSourceType.asset] videos.
-  final String? package;
-
-  final Map<String, String?>? headers;
-
-  final bool useCache;
-
-  final int? maxCacheSize;
-
-  final int? maxCacheFileSize;
-
-  final String? cacheKey;
-
-  final bool? showNotification;
-
-  final String? title;
-
-  final String? author;
-
-  final String? imageUrl;
-
-  final String? notificationChannelName;
-
-  final Duration? overriddenDuration;
-  final int? start;
-
-  final String? licenseUrl;
-
-  final String? certificateUrl;
-
-  final Map<String, String>? drmHeaders;
-
-  final String? activityName;
-
-  final String? clearKey;
-
-  final String? videoExtension;
-
-  /// Key to compare DataSource
-  String get key {
-    String? result = "";
-
-    if (uri != null && uri!.isNotEmpty) {
-      result = uri;
-    } else if (package != null && package!.isNotEmpty) {
-      result = "$package:$asset";
-    } else {
-      result = asset;
-    }
-
-    if (formatHint != null) {
-      result = "$result:$rawFormalHint";
-    }
-
-    return result!;
-  }
-
-  @override
-  String toString() {
-    return 'DataSource{sourceType: $sourceType, uri: $uri, audioUrl: $audioUri, certificateUrl: $certificateUrl, formatHint:'
-        ' $formatHint, asset: $asset, package: $package, headers: $headers,'
-        ' useCache: $useCache,maxCacheSize: $maxCacheSize, maxCacheFileSize: '
-        '$maxCacheFileSize, showNotification: $showNotification, title: $title,'
-        ' author: $author}';
-  }
-}
-
-/// The way in which the video was originally loaded.
-///
-/// This has nothing to do with the video's file type. It's just the place
-/// from which the video is fetched from.
-enum DataSourceType {
-  /// The video was included in the app's asset files.
-  asset,
-
-  /// The video was downloaded from the internet.
-  network,
-
-  /// The video was loaded off of the local filesystem.
-  file
-}
-
-/// The file format of the given video.
-enum VideoFormat {
-  /// Dynamic Adaptive Streaming over HTTP, also known as MPEG-DASH.
-  dash,
-
-  /// HTTP Live Streaming.
-  hls,
-
-  /// Smooth Streaming.
-  ss,
-
-  /// Any format other than the other ones defined in this enum.
-  other
 }
 
 /// Event emitted from the platform implementation.

@@ -5,7 +5,8 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/types/duration_range.dart';
-import 'package:better_player/src/utils/better_player_utils.dart';
+import 'package:better_player/src/types/np_data_source.dart';
+import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -54,10 +55,10 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
 
   /// todo: asset 类型不支持audio、video 分离
   @override
-  Future<void> setDataSource(int? textureId, DataSource dataSource) async {
+  Future<void> setDataSource(int? textureId, NPDataSource dataSource) async {
     Map<String, dynamic>? dataSourceDescription;
     switch (dataSource.sourceType) {
-      case DataSourceType.asset:
+      case NPDataSourceType.asset:
         dataSourceDescription = <String, dynamic>{
           'key': dataSource.key,
           'asset': dataSource.asset,
@@ -75,7 +76,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           'activityName': dataSource.activityName
         };
         break;
-      case DataSourceType.network:
+      case NPDataSourceType.network:
         dataSourceDescription = <String, dynamic>{
           'key': dataSource.key,
           'uri': dataSource.uri,
@@ -101,7 +102,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           'videoExtension': dataSource.videoExtension,
         };
         break;
-      case DataSourceType.file:
+      case NPDataSourceType.file:
         dataSourceDescription = <String, dynamic>{
           'key': dataSource.key,
           'uri': dataSource.uri,
@@ -302,7 +303,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
   }
 
   @override
-  Future<void> preCache(DataSource dataSource, int preCacheSize) {
+  Future<void> preCache(NPDataSource dataSource, int preCacheSize) {
     final Map<String, dynamic> dataSourceDescription = <String, dynamic>{
       'key': dataSource.key,
       'uri': dataSource.uri,

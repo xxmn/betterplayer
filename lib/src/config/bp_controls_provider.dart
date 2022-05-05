@@ -7,6 +7,14 @@ part 'bp_controls_provider.freezed.dart';
 
 late final StateNotifierProvider<BPControlsNotifier, BPControlsConfig> bpControlsProvider;
 
+void initBpControlsProvider(BPControlsConfig controlsConfig) {
+  bpControlsProvider = StateNotifierProvider<BPControlsNotifier, BPControlsConfig>(
+    (ref) => BPControlsNotifier(
+      bpControlsConfig: controlsConfig,
+    ),
+  );
+}
+
 class BPControlsNotifier extends StateNotifier<BPControlsConfig> {
   BPControlsNotifier({
     BPControlsConfig? bpControlsConfig,
