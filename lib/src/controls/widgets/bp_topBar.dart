@@ -10,13 +10,13 @@ class MaybeTopBar extends HookConsumerWidget {
   const MaybeTopBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsEnabled = ref.watch(bpConfigProvider.select((v) => v.controlsEnabled));
+    var controlsEnabled = ref.watch(bpConfigProvider!.select((v) => v.controlsEnabled));
 
     if (!controlsEnabled) {
       return const SizedBox();
     }
 
-    var enableOverflowMenu = ref.watch(bpControlsProvider.select((v) => v.enableOverflowMenu));
+    var enableOverflowMenu = ref.watch(bpControlsProvider!.select((v) => v.enableOverflowMenu));
     return Container(
       child: (enableOverflowMenu) ? TopBar() : const SizedBox(),
     );
@@ -28,9 +28,9 @@ class TopBar extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
-    var controlBarHeight = ref.watch(bpControlsProvider.select((v) => v.controlBarHeight));
-    var enablePip = !ref.watch(bpControlsProvider.select((v) => v.enablePip));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
+    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var enablePip = !ref.watch(bpControlsProvider!.select((v) => v.enablePip));
     return AnimatedOpacity(
       opacity: controlsVisible ? 1.0 : 0.0,
       duration: controlsHideTime,

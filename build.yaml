@@ -8,9 +8,12 @@ targets:
             - test
             - example
           include:
+            # - lib/src/*/*
             - lib/src/core/*
+            - lib/src/native_player/*
             - lib/src/config/*
             - lib/src/subtitles/*
+            - lib/src/types/*
             # - test/integration/*
         options:
           # union_key: type

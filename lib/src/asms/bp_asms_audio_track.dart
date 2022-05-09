@@ -18,5 +18,6 @@ class BPAsmsAudioTrack {
   ///mimeType of the audio track
   final String? mimeType;
 
-  BPAsmsAudioTrack({this.id, this.segmentAlignment, this.label, this.language, this.url, this.mimeType});
+  BPAsmsAudioTrack(
+      {this.id, this.segmentAlignment, this.label, this.language, this.url, this.mimeType});
 }

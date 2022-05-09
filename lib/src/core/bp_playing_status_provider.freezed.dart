@@ -28,9 +28,6 @@ mixin _$BPPlayingStatus {
   /// True if the video is isLoading.
   bool get isLoading => throw _privateConstructorUsedError;
 
-  /// True if the video is isFinished.
-  bool get isFinished => throw _privateConstructorUsedError;
-
   /// True if the video is playing.
   bool get isPlaying => throw _privateConstructorUsedError;
 
@@ -53,6 +50,9 @@ mixin _$BPPlayingStatus {
   ///
   /// If [hasError] is false this is [null].
   String? get errorDescription => throw _privateConstructorUsedError;
+
+  /// True if the video is isFinished.
+  bool get isFinished => throw _privateConstructorUsedError;
 
   /// The current volume of the playback.
   double get volume => throw _privateConstructorUsedError;
@@ -80,7 +80,6 @@ abstract class $BPPlayingStatusCopyWith<$Res> {
       {Duration position,
       DateTime? absolutePosition,
       bool isLoading,
-      bool isFinished,
       bool isPlaying,
       bool isPaused,
       bool isLooping,
@@ -88,6 +87,7 @@ abstract class $BPPlayingStatusCopyWith<$Res> {
       bool isBuffered,
       bool hasError,
       String? errorDescription,
+      bool isFinished,
       double volume,
       double speed,
       bool isPip,
@@ -108,7 +108,6 @@ class _$BPPlayingStatusCopyWithImpl<$Res>
     Object? position = freezed,
     Object? absolutePosition = freezed,
     Object? isLoading = freezed,
-    Object? isFinished = freezed,
     Object? isPlaying = freezed,
     Object? isPaused = freezed,
     Object? isLooping = freezed,
@@ -116,6 +115,7 @@ class _$BPPlayingStatusCopyWithImpl<$Res>
     Object? isBuffered = freezed,
     Object? hasError = freezed,
     Object? errorDescription = freezed,
+    Object? isFinished = freezed,
     Object? volume = freezed,
     Object? speed = freezed,
     Object? isPip = freezed,
@@ -133,10 +133,6 @@ class _$BPPlayingStatusCopyWithImpl<$Res>
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFinished: isFinished == freezed
-          ? _value.isFinished
-          : isFinished // ignore: cast_nullable_to_non_nullable
               as bool,
       isPlaying: isPlaying == freezed
           ? _value.isPlaying
@@ -166,6 +162,10 @@ class _$BPPlayingStatusCopyWithImpl<$Res>
           ? _value.errorDescription
           : errorDescription // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFinished: isFinished == freezed
+          ? _value.isFinished
+          : isFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
       volume: volume == freezed
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -197,7 +197,6 @@ abstract class _$BPPlayingStatusCopyWith<$Res>
       {Duration position,
       DateTime? absolutePosition,
       bool isLoading,
-      bool isFinished,
       bool isPlaying,
       bool isPaused,
       bool isLooping,
@@ -205,6 +204,7 @@ abstract class _$BPPlayingStatusCopyWith<$Res>
       bool isBuffered,
       bool hasError,
       String? errorDescription,
+      bool isFinished,
       double volume,
       double speed,
       bool isPip,
@@ -227,7 +227,6 @@ class __$BPPlayingStatusCopyWithImpl<$Res>
     Object? position = freezed,
     Object? absolutePosition = freezed,
     Object? isLoading = freezed,
-    Object? isFinished = freezed,
     Object? isPlaying = freezed,
     Object? isPaused = freezed,
     Object? isLooping = freezed,
@@ -235,6 +234,7 @@ class __$BPPlayingStatusCopyWithImpl<$Res>
     Object? isBuffered = freezed,
     Object? hasError = freezed,
     Object? errorDescription = freezed,
+    Object? isFinished = freezed,
     Object? volume = freezed,
     Object? speed = freezed,
     Object? isPip = freezed,
@@ -252,10 +252,6 @@ class __$BPPlayingStatusCopyWithImpl<$Res>
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFinished: isFinished == freezed
-          ? _value.isFinished
-          : isFinished // ignore: cast_nullable_to_non_nullable
               as bool,
       isPlaying: isPlaying == freezed
           ? _value.isPlaying
@@ -285,6 +281,10 @@ class __$BPPlayingStatusCopyWithImpl<$Res>
           ? _value.errorDescription
           : errorDescription // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFinished: isFinished == freezed
+          ? _value.isFinished
+          : isFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
       volume: volume == freezed
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -312,7 +312,6 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
       {this.position = const Duration(),
       this.absolutePosition,
       this.isLoading = false,
-      this.isFinished = false,
       this.isPlaying = false,
       this.isPaused = false,
       this.isLooping = false,
@@ -320,6 +319,7 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
       this.isBuffered = false,
       this.hasError = false,
       this.errorDescription,
+      this.isFinished = false,
       this.volume = 1.0,
       this.speed = 1.0,
       this.isPip = false,
@@ -341,11 +341,6 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
   @override
   @JsonKey()
   final bool isLoading;
-
-  /// True if the video is isFinished.
-  @override
-  @JsonKey()
-  final bool isFinished;
 
   /// True if the video is playing.
   @override
@@ -383,6 +378,11 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
   @override
   final String? errorDescription;
 
+  /// True if the video is isFinished.
+  @override
+  @JsonKey()
+  final bool isFinished;
+
   /// The current volume of the playback.
   @override
   @JsonKey()
@@ -405,7 +405,7 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
 
   @override
   String toString() {
-    return 'BPPlayingStatus(position: $position, absolutePosition: $absolutePosition, isLoading: $isLoading, isFinished: $isFinished, isPlaying: $isPlaying, isPaused: $isPaused, isLooping: $isLooping, isBuffering: $isBuffering, isBuffered: $isBuffered, hasError: $hasError, errorDescription: $errorDescription, volume: $volume, speed: $speed, isPip: $isPip, isFullScreen: $isFullScreen)';
+    return 'BPPlayingStatus(position: $position, absolutePosition: $absolutePosition, isLoading: $isLoading, isPlaying: $isPlaying, isPaused: $isPaused, isLooping: $isLooping, isBuffering: $isBuffering, isBuffered: $isBuffered, hasError: $hasError, errorDescription: $errorDescription, isFinished: $isFinished, volume: $volume, speed: $speed, isPip: $isPip, isFullScreen: $isFullScreen)';
   }
 
   @override
@@ -417,8 +417,6 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
             const DeepCollectionEquality()
                 .equals(other.absolutePosition, absolutePosition) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.isFinished, isFinished) &&
             const DeepCollectionEquality().equals(other.isPlaying, isPlaying) &&
             const DeepCollectionEquality().equals(other.isPaused, isPaused) &&
             const DeepCollectionEquality().equals(other.isLooping, isLooping) &&
@@ -429,6 +427,8 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
             const DeepCollectionEquality().equals(other.hasError, hasError) &&
             const DeepCollectionEquality()
                 .equals(other.errorDescription, errorDescription) &&
+            const DeepCollectionEquality()
+                .equals(other.isFinished, isFinished) &&
             const DeepCollectionEquality().equals(other.volume, volume) &&
             const DeepCollectionEquality().equals(other.speed, speed) &&
             const DeepCollectionEquality().equals(other.isPip, isPip) &&
@@ -442,7 +442,6 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
       const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(absolutePosition),
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(isFinished),
       const DeepCollectionEquality().hash(isPlaying),
       const DeepCollectionEquality().hash(isPaused),
       const DeepCollectionEquality().hash(isLooping),
@@ -450,6 +449,7 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
       const DeepCollectionEquality().hash(isBuffered),
       const DeepCollectionEquality().hash(hasError),
       const DeepCollectionEquality().hash(errorDescription),
+      const DeepCollectionEquality().hash(isFinished),
       const DeepCollectionEquality().hash(volume),
       const DeepCollectionEquality().hash(speed),
       const DeepCollectionEquality().hash(isPip),
@@ -466,7 +466,6 @@ abstract class _BPPlayingStatus implements BPPlayingStatus {
       {final Duration position,
       final DateTime? absolutePosition,
       final bool isLoading,
-      final bool isFinished,
       final bool isPlaying,
       final bool isPaused,
       final bool isLooping,
@@ -474,6 +473,7 @@ abstract class _BPPlayingStatus implements BPPlayingStatus {
       final bool isBuffered,
       final bool hasError,
       final String? errorDescription,
+      final bool isFinished,
       final double volume,
       final double speed,
       final bool isPip,
@@ -494,10 +494,6 @@ abstract class _BPPlayingStatus implements BPPlayingStatus {
 
   /// True if the video is isLoading.
   bool get isLoading => throw _privateConstructorUsedError;
-  @override
-
-  /// True if the video is isFinished.
-  bool get isFinished => throw _privateConstructorUsedError;
   @override
 
   /// True if the video is playing.
@@ -528,6 +524,10 @@ abstract class _BPPlayingStatus implements BPPlayingStatus {
   ///
   /// If [hasError] is false this is [null].
   String? get errorDescription => throw _privateConstructorUsedError;
+  @override
+
+  /// True if the video is isFinished.
+  bool get isFinished => throw _privateConstructorUsedError;
   @override
 
   /// The current volume of the playback.

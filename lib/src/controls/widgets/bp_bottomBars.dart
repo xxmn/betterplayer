@@ -14,7 +14,7 @@ class MaybeBottomBars extends HookConsumerWidget {
   const MaybeBottomBars({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsEnabled = ref.watch(bpConfigProvider.select((v) => v.controlsEnabled));
+    var controlsEnabled = ref.watch(bpConfigProvider!.select((v) => v.controlsEnabled));
     return controlsEnabled ? _BottomBars() : const SizedBox();
   }
 }
@@ -23,10 +23,10 @@ class _BottomBars extends HookConsumerWidget {
   const _BottomBars({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlBarHeight = ref.watch(bpControlsProvider.select((v) => v.controlBarHeight));
-    var isLiveStream = ref.watch(bpDataSourceProvider.select((v) => v?.isLiveStream ?? false));
+    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
     return AnimatedOpacity(
       opacity: controlsVisible ? 1.0 : 0.0,
       duration: controlsHideTime,

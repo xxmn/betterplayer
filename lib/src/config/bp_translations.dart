@@ -4,30 +4,39 @@ import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-late final StateProvider<Locale> bpLocaleProvider;
-late final Provider<BPTranslations> bpTranslationsProvider;
+StateProvider<Locale>? bpLocaleProvider;
+Provider<BPTranslations>? bpTranslationsProvider;
 
 void initBpLocaleProvider(BuildContext context) {
-  bpLocaleProvider = StateProvider((ref) {
-    //Default locale
-    var locale = const Locale("en", "US");
-    try {
-      locale = Localizations.localeOf(context);
-    } catch (exception) {
-      BPUtils.log(exception.toString());
-    }
-    return locale;
-  });
+  if (bpLocaleProvider == null) {
+    bpLocaleProvider = StateProvider((ref) {
+      //Default locale
+      var locale = const Locale("en", "US");
+      try {
+        locale = Localizations.localeOf(context);
+        print("----------context locale-----------: $context");
+      } catch (exception) {
+        BPUtils.log(exception.toString());
+      }
+      return locale;
+    });
+  }
 }
 
+void disposeBpLocaleProvider() => bpLocaleProvider = null;
+
 void initBpTranslationsProvider() {
-  bpTranslationsProvider = Provider(
-    (ref) {
-      var locale = ref.watch(bpLocaleProvider);
-      return getDefaultTranslations(locale);
-    },
-  );
+  if (bpTranslationsProvider == null) {
+    bpTranslationsProvider = Provider(
+      (ref) {
+        var locale = ref.watch(bpLocaleProvider!);
+        return getDefaultTranslations(locale);
+      },
+    );
+  }
 }
+
+void disposeBpTranslationsProvider() => bpTranslationsProvider == null;
 
 ///Class used to hold translations for all features within Better Player
 

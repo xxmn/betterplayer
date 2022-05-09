@@ -1,20 +1,23 @@
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 ///
 ///Has player been init.
 ///
-final bpIsInitializedProvider = StateProvider((ref) => false);
+final bpIsInitializedProvider = StateProvider(
+  (ref) => ref.watch(npStatusProvider.select((v) => v.initialized)),
+);
+
+final bpIsStartedProvider = StateProvider((ref) => false);
 
 ///
 /// better player width、 height
 ///
-final bpSizeProvider = StateProvider((ref) => Size(0, 0));
-
-///
-///Has player been init.
-///
-final bpIsFullScreenProvider = StateProvider((ref) => false);
+final bpSizeProvider = Provider<Size>((ref) {
+  var size = ref.watch(npStatusProvider.select((v) => v.size));
+  return size == null ? Size(0, 0) : size;
+});
 
 ///
 ///Has player visible.
@@ -34,11 +37,6 @@ class IsVisibleNotifier extends StateNotifier<bool> {
     }
   }
 }
-
-///
-///Has player been disposed.
-///
-final bpIsDisposedProvider = StateProvider((ref) => false);
 
 ///
 ///Has Controls Visible.

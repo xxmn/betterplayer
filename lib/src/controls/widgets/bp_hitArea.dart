@@ -10,7 +10,7 @@ class MaybeHitArea extends HookConsumerWidget {
   const MaybeHitArea({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsEnabled = ref.watch(bpConfigProvider.select((v) => v.controlsEnabled));
+    var controlsEnabled = ref.watch(bpConfigProvider!.select((v) => v.controlsEnabled));
     return controlsEnabled ? HitArea() : SizedBox();
   }
 }
@@ -20,7 +20,7 @@ class HitArea extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var isVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
     return Container(
       child: Center(
         child: AnimatedOpacity(

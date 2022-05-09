@@ -6,7 +6,7 @@ class MaybeProgressBar extends HookConsumerWidget {
   const MaybeProgressBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var enableProgressBar = ref.watch(bpControlsProvider.select((v) => v.enableProgressBar));
+    var enableProgressBar = ref.watch(bpControlsProvider!.select((v) => v.enableProgressBar));
     return enableProgressBar ? ProgressBar() : const SizedBox();
   }
 }

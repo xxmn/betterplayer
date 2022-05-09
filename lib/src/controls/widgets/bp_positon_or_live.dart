@@ -10,8 +10,8 @@ class PositonOrLive extends HookConsumerWidget {
   const PositonOrLive({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var isLiveStream = ref.watch(bpDataSourceProvider.select((v) => v?.isLiveStream ?? false));
-    var enableProgressText = ref.watch(bpControlsProvider.select((v) => v.enableProgressText));
+    var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
+    var enableProgressText = ref.watch(bpControlsProvider!.select((v) => v.enableProgressText));
     if (isLiveStream)
       return LiveText();
     else
@@ -23,8 +23,8 @@ class LiveText extends HookConsumerWidget {
   const LiveText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsLive = ref.watch(bpTranslationsProvider.select((v) => v.controlsLive));
-    var liveTextColor = ref.watch(bpControlsProvider.select((v) => v.liveTextColor));
+    var controlsLive = ref.watch(bpTranslationsProvider!.select((v) => v.controlsLive));
+    var liveTextColor = ref.watch(bpControlsProvider!.select((v) => v.liveTextColor));
     return Text(
       controlsLive,
       style: TextStyle(color: liveTextColor, fontWeight: FontWeight.bold),
@@ -36,10 +36,10 @@ class PositionText extends HookConsumerWidget {
   const PositionText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var position = ref.watch(bpPlayingStatusProvider.select((v) => v.position));
-    var duration = ref.watch(bpDataSourceProvider.select((v) => v?.duration ?? Duration.zero));
-    var enablePlayPause = ref.watch(bpControlsProvider.select((v) => v.enablePlayPause));
-    var textColor = ref.watch(bpControlsProvider.select((v) => v.textColor));
+    var position = ref.watch(bpPlayingStatusProvider!.select((v) => v.position));
+    var duration = ref.watch(bpDataSourceProvider!.select((v) => v?.duration ?? Duration.zero));
+    var enablePlayPause = ref.watch(bpControlsProvider!.select((v) => v.enablePlayPause));
+    var textColor = ref.watch(bpControlsProvider!.select((v) => v.textColor));
 
     return Padding(
       padding: enablePlayPause

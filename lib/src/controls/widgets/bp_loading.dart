@@ -6,9 +6,9 @@ class Loading extends HookConsumerWidget {
   const Loading({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var loadingWidget = ref.watch(bpControlsProvider.select((v) => v.loadingWidget));
-    var loadingColor = ref.watch(bpControlsProvider.select((v) => v.loadingColor));
-    var controlBarColor = ref.watch(bpControlsProvider.select((v) => v.controlBarColor));
+    var loadingWidget = ref.watch(bpControlsProvider!.select((v) => v.loadingWidget));
+    var loadingColor = ref.watch(bpControlsProvider!.select((v) => v.loadingColor));
+    var controlBarColor = ref.watch(bpControlsProvider!.select((v) => v.controlBarColor));
     if (loadingWidget != null) {
       return Container(
         color: controlBarColor,

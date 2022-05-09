@@ -30,8 +30,8 @@ class _AnimatedPipButton extends HookConsumerWidget {
   const _AnimatedPipButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
-    var controlBarHeight = ref.watch(bpControlsProvider.select((v) => v.controlBarHeight));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
+    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
     return AnimatedOpacity(
       opacity: controlsVisible ? 1.0 : 0.0,
@@ -54,8 +54,8 @@ class PipButton extends HookConsumerWidget {
   const PipButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var pipMenuIcon = ref.watch(bpControlsProvider.select((v) => v.pipMenuIcon));
-    var iconsColor = ref.watch(bpControlsProvider.select((v) => v.iconsColor));
+    var pipMenuIcon = ref.watch(bpControlsProvider!.select((v) => v.pipMenuIcon));
+    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
     return BPMaterialClickableWidget(
       onTap: () {
         // todo:

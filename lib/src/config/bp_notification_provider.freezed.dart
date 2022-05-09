@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$_BPNotificationConfig {
+mixin _$BPNtConfig {
   ///Is player controls notification enabled
   bool? get isShow => throw _privateConstructorUsedError;
 
@@ -36,15 +36,15 @@ mixin _$_BPNotificationConfig {
   String? get activityName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  _$BPNotificationConfigCopyWith<_BPNotificationConfig> get copyWith =>
+  $BPNtConfigCopyWith<BPNtConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$BPNotificationConfigCopyWith<$Res> {
-  factory _$BPNotificationConfigCopyWith(_BPNotificationConfig value,
-          $Res Function(_BPNotificationConfig) then) =
-      __$BPNotificationConfigCopyWithImpl<$Res>;
+abstract class $BPNtConfigCopyWith<$Res> {
+  factory $BPNtConfigCopyWith(
+          BPNtConfig value, $Res Function(BPNtConfig) then) =
+      _$BPNtConfigCopyWithImpl<$Res>;
   $Res call(
       {bool? isShow,
       String? title,
@@ -55,13 +55,12 @@ abstract class _$BPNotificationConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$BPNotificationConfigCopyWithImpl<$Res>
-    implements _$BPNotificationConfigCopyWith<$Res> {
-  __$BPNotificationConfigCopyWithImpl(this._value, this._then);
+class _$BPNtConfigCopyWithImpl<$Res> implements $BPNtConfigCopyWith<$Res> {
+  _$BPNtConfigCopyWithImpl(this._value, this._then);
 
-  final _BPNotificationConfig _value;
+  final BPNtConfig _value;
   // ignore: unused_field
-  final $Res Function(_BPNotificationConfig) _then;
+  final $Res Function(BPNtConfig) _then;
 
   @override
   $Res call({
@@ -102,11 +101,10 @@ class __$BPNotificationConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$_BPNotificationConfigCopyWith<$Res>
-    implements _$BPNotificationConfigCopyWith<$Res> {
-  factory _$_BPNotificationConfigCopyWith(__BPNotificationConfig value,
-          $Res Function(__BPNotificationConfig) then) =
-      __$_BPNotificationConfigCopyWithImpl<$Res>;
+abstract class _$BPNtConfigCopyWith<$Res> implements $BPNtConfigCopyWith<$Res> {
+  factory _$BPNtConfigCopyWith(
+          _BPNtConfig value, $Res Function(_BPNtConfig) then) =
+      __$BPNtConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {bool? isShow,
@@ -118,15 +116,14 @@ abstract class _$_BPNotificationConfigCopyWith<$Res>
 }
 
 /// @nodoc
-class __$_BPNotificationConfigCopyWithImpl<$Res>
-    extends __$BPNotificationConfigCopyWithImpl<$Res>
-    implements _$_BPNotificationConfigCopyWith<$Res> {
-  __$_BPNotificationConfigCopyWithImpl(__BPNotificationConfig _value,
-      $Res Function(__BPNotificationConfig) _then)
-      : super(_value, (v) => _then(v as __BPNotificationConfig));
+class __$BPNtConfigCopyWithImpl<$Res> extends _$BPNtConfigCopyWithImpl<$Res>
+    implements _$BPNtConfigCopyWith<$Res> {
+  __$BPNtConfigCopyWithImpl(
+      _BPNtConfig _value, $Res Function(_BPNtConfig) _then)
+      : super(_value, (v) => _then(v as _BPNtConfig));
 
   @override
-  __BPNotificationConfig get _value => super._value as __BPNotificationConfig;
+  _BPNtConfig get _value => super._value as _BPNtConfig;
 
   @override
   $Res call({
@@ -137,7 +134,7 @@ class __$_BPNotificationConfigCopyWithImpl<$Res>
     Object? channelName = freezed,
     Object? activityName = freezed,
   }) {
-    return _then(__BPNotificationConfig(
+    return _then(_BPNtConfig(
       isShow: isShow == freezed
           ? _value.isShow
           : isShow // ignore: cast_nullable_to_non_nullable
@@ -168,10 +165,8 @@ class __$_BPNotificationConfigCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$__BPNotificationConfig
-    with DiagnosticableTreeMixin
-    implements __BPNotificationConfig {
-  const _$__BPNotificationConfig(
+class _$_BPNtConfig with DiagnosticableTreeMixin implements _BPNtConfig {
+  const _$_BPNtConfig(
       {this.isShow = false,
       this.title,
       this.author,
@@ -207,14 +202,14 @@ class _$__BPNotificationConfig
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return '_BPNotificationConfig(isShow: $isShow, title: $title, author: $author, imageUrl: $imageUrl, channelName: $channelName, activityName: $activityName)';
+    return 'BPNtConfig(isShow: $isShow, title: $title, author: $author, imageUrl: $imageUrl, channelName: $channelName, activityName: $activityName)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', '_BPNotificationConfig'))
+      ..add(DiagnosticsProperty('type', 'BPNtConfig'))
       ..add(DiagnosticsProperty('isShow', isShow))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('author', author))
@@ -227,7 +222,7 @@ class _$__BPNotificationConfig
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is __BPNotificationConfig &&
+            other is _BPNtConfig &&
             const DeepCollectionEquality().equals(other.isShow, isShow) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality().equals(other.author, author) &&
@@ -250,19 +245,18 @@ class _$__BPNotificationConfig
 
   @JsonKey(ignore: true)
   @override
-  _$_BPNotificationConfigCopyWith<__BPNotificationConfig> get copyWith =>
-      __$_BPNotificationConfigCopyWithImpl<__BPNotificationConfig>(
-          this, _$identity);
+  _$BPNtConfigCopyWith<_BPNtConfig> get copyWith =>
+      __$BPNtConfigCopyWithImpl<_BPNtConfig>(this, _$identity);
 }
 
-abstract class __BPNotificationConfig implements _BPNotificationConfig {
-  const factory __BPNotificationConfig(
+abstract class _BPNtConfig implements BPNtConfig {
+  const factory _BPNtConfig(
       {final bool? isShow,
       final String? title,
       final String? author,
       final String? imageUrl,
       final String? channelName,
-      final String? activityName}) = _$__BPNotificationConfig;
+      final String? activityName}) = _$_BPNtConfig;
 
   @override
 
@@ -291,6 +285,6 @@ abstract class __BPNotificationConfig implements _BPNotificationConfig {
   String? get activityName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$_BPNotificationConfigCopyWith<__BPNotificationConfig> get copyWith =>
+  _$BPNtConfigCopyWith<_BPNtConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:better_player/src/types/video_format.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:better_player/src/dash/better_player_dash_utils.dart';
 import 'package:better_player/src/hls/bp_hls_utils.dart';
 
-import 'better_player_asms_data_holder.dart';
+import 'bp_asms_data_holder.dart';
 
 ///Base helper class for ASMS parsing.
 class BPAsmsUtils {
@@ -16,6 +17,11 @@ class BPAsmsUtils {
 
   ///Check if given url is HLS / DASH-type data source.
   static bool isDataSourceAsms(String url) => isDataSourceHls(url) || isDataSourceDash(url);
+
+  ///Check if given [bpDataSource] is HLS / DASH-type data source.
+  static bool isDataSourceAsms2(String url, VideoFormat? videoFormat) =>
+      (BPAsmsUtils.isDataSourceHls(url) || videoFormat == VideoFormat.hls) ||
+      (BPAsmsUtils.isDataSourceDash(url) || videoFormat == VideoFormat.dash);
 
   ///Check if given url is HLS-type data source.
   static bool isDataSourceHls(String url) => url.contains(_hlsExtension);

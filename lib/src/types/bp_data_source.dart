@@ -1,4 +1,10 @@
+import 'package:better_player/src/config/bp_buffering_config.dart';
+import 'package:better_player/src/config/bp_cache_config.dart';
+import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
+import 'package:better_player/src/types/bp_drm_config.dart';
+import 'package:better_player/src/config/bp_notification_provider.dart';
 import 'package:flutter/widgets.dart';
+import 'video_format.dart';
 
 ///Representation of data source which will be played in Better Player. Allows
 ///to setup all necessary configuration connected to video source.
@@ -10,8 +16,8 @@ class BPDataSource {
   final String url;
   final String? audioUri;
 
-  // ///Subtitles configuration
-  // final List<BPSubtitlesSource>? subtitles;
+  ///Subtitles configuration
+  final List<BPSubtitlesSource>? subtitlesSources;
 
   ///Flag to determine if current data source is live stream
   final bool? isLiveStream;
@@ -79,23 +85,23 @@ class BPDataSource {
     return aspectRatio;
   }
 
-  // ///Optional cache configuration, used only for network data sources
-  // final BPCacheConfig? cacheConfig;
+  ///Optional cache configuration, used only for network data sources
+  final BPCacheConfig? cacheConfig;
 
   ///List of bytes, used only in memory player
   final List<int>? bytes;
 
-  // ///Config of remote controls notification
-  // final BPNotificationConfig? notificationConfig;
+  ///Config of remote controls notification
+  final BPNtConfig? notificationConfig;
 
-  // ///Video format hint when data source url has not valid extension.
-  // final BPVideoFormat? videoFormat;
+  ///Video format hint when data source url has not valid extension.
+  final VideoFormat? videoFormat;
 
   ///Extension of video without dot.
   final String? videoExtension;
 
-  // ///Config of content protection
-  // final BPDrmConfig? drmConfig;
+  ///Config of content protection
+  final BPDrmConfig? drmConfig;
 
   ///Placeholder widget which will be shown until video load or play. This
   ///placeholder may be useful if you want to show placeholder before each video
@@ -103,9 +109,9 @@ class BPDataSource {
   /// BPConfig.
   final Widget? placeholder;
 
-  // ///Config of video buffering. Currently only supported in Android
-  // ///platform.
-  // final BPBufferingConfig bufferingConfig;
+  ///Config of video buffering. Currently only supported in Android
+  ///platform.
+  final BPBufferingConfig bufferingConfig;
 
   BPDataSource(
     this.type,
@@ -116,7 +122,7 @@ class BPDataSource {
     this.size,
     this.errorDescription,
     this.bytes,
-    // this.subtitles,
+    this.subtitlesSources,
     this.isLiveStream = false,
     this.headers,
     this.useAsmsSubtitles = true,
@@ -124,16 +130,14 @@ class BPDataSource {
     this.useAsmsAudioTracks = true,
     this.asmsTrackNames,
     this.resolutions,
-    // this.cacheConfig,
-    // this.notificationConfig = const BPNotificationConfig(
-    //   isShow: false,
-    // ),
+    this.cacheConfig,
+    this.notificationConfig = const BPNtConfig(isShow: false),
     this.overriddenDuration,
-    // this.videoFormat,
+    this.videoFormat,
     this.videoExtension,
-    // this.drmConfig,
+    this.drmConfig,
     this.placeholder,
-    // this.bufferingConfig = const BPBufferingConfig(),
+    this.bufferingConfig = const BPBufferingConfig(),
   }) : assert(
             (type == BPDataSourceType.network || type == BPDataSourceType.file) ||
                 (type == BPDataSourceType.memory && bytes?.isNotEmpty == true),
@@ -143,38 +147,38 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.network(
     String url, {
-    // List<BPSubtitlesSource>? subtitles,
+    List<BPSubtitlesSource>? subtitlesSources,
     bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     bool? useAsmsAudioTracks,
     Map<String, String>? qualities,
-    // BPCacheConfig? cacheConfig,
-    // BPNotificationConfig notificationConfig = const BPNotificationConfig(isShow: false),
+    BPCacheConfig? cacheConfig,
+    BPNtConfig notificationConfig = const BPNtConfig(isShow: false),
     Duration? overriddenDuration,
     Duration? startAt,
-    // BPVideoFormat? videoFormat,
-    // BPDrmConfig? drmConfig,
+    VideoFormat? videoFormat,
+    BPDrmConfig? drmConfig,
     Widget? placeholder,
     // BPBufferingConfig bufferingConfig = const BPBufferingConfig(),
   }) {
     return BPDataSource(
       BPDataSourceType.network,
       url,
-      // subtitles: subtitles,
+      subtitlesSources: subtitlesSources,
       isLiveStream: isLiveStream,
       headers: headers,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       useAsmsAudioTracks: useAsmsAudioTracks,
       resolutions: qualities,
-      // cacheConfig: cacheConfig,
-      // notificationConfig: notificationConfig,
+      cacheConfig: cacheConfig,
+      notificationConfig: notificationConfig,
       overriddenDuration: overriddenDuration,
       startAt: startAt ?? Duration(),
-      // videoFormat: videoFormat,
-      // drmConfig: drmConfig,
+      videoFormat: videoFormat,
+      drmConfig: drmConfig,
       placeholder: placeholder,
       // bufferingConfig: bufferingConfig,
     );
@@ -184,12 +188,12 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.file(
     String url, {
-    // List<BPSubtitlesSource>? subtitles,
+    List<BPSubtitlesSource>? subtitlesSources,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
     // BPCacheConfig? cacheConfig,
-    // BPNotificationConfig? notificationConfig,
+    BPNtConfig? notificationConfig,
     Duration? overriddenDuration,
     Duration? startAt,
     Widget? placeholder,
@@ -197,12 +201,12 @@ class BPDataSource {
     return BPDataSource(
       BPDataSourceType.file,
       url,
-      // subtitles: subtitles,
+      subtitlesSources: subtitlesSources,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       // cacheConfig: cacheConfig,
-      // notificationConfig: notificationConfig = const BPNotificationConfig(isShow: false),
+      notificationConfig: notificationConfig = const BPNtConfig(isShow: false),
       overriddenDuration: overriddenDuration,
       startAt: startAt ?? Duration(),
       placeholder: placeholder,
@@ -214,12 +218,12 @@ class BPDataSource {
   factory BPDataSource.memory(
     List<int> bytes, {
     String? videoExtension,
-    // List<BPSubtitlesSource>? subtitles,
+    List<BPSubtitlesSource>? subtitlesSources,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
     // BPCacheConfig? cacheConfig,
-    // BPNotificationConfig? notificationConfig,
+    BPNtConfig? notificationConfig,
     Duration? overriddenDuration,
     Widget? placeholder,
   }) {
@@ -228,12 +232,12 @@ class BPDataSource {
       "",
       videoExtension: videoExtension,
       bytes: bytes,
-      // subtitles: subtitles,
+      subtitlesSources: subtitlesSources,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       // cacheConfig: cacheConfig,
-      // notificationConfig: notificationConfig = const BPNotificationConfig(isShow: false),
+      notificationConfig: notificationConfig = const BPNtConfig(isShow: false),
       overriddenDuration: overriddenDuration,
       placeholder: placeholder,
     );

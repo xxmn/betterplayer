@@ -3,9 +3,10 @@ import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_app_lifecycle_provider.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_provider.dart';
+import 'package:better_player/src/native_player/np_create_provider.dart';
+import 'package:better_player/src/subtitles/bp_subtitles_config.dart';
+import 'package:better_player/src/subtitles/bp_subtitles_config_provider.dart';
 import 'package:better_player/src/types/bp_data_source.dart';
-import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -103,15 +104,34 @@ class _BPInitConfig {
 ///
 ////////////////////////////////////////////////////////////////////////
 
-void _initProviders(_BPInitConfig _bpInitConfig, T Function<T>(ProviderBase<T>) read) {
-  var bpAppLifecycle = _bpInitConfig.bpAppLifecycle;
-  read(bpAppLifecycleProvider.notifier).isHandleLifecycle = bpAppLifecycle.isHandleLifecycle;
-
+void _initProviders(_BPInitConfig _bpInitConfig) {
   initBpDataSourceProvider(_bpInitConfig.bpDataSource);
+  initBpSubtitlesConfigProvider(_bpInitConfig.subtitlesConfig);
   initBpConfigProvider(_bpInitConfig.bpConfig);
   initBpControlsProvider(_bpInitConfig.controlsConfig);
-  initBpSubtitlesProvider(_bpInitConfig.subtitlesConfig);
+  initNpCreateProvider();
+  // initNpControllerProvider();
   initBpPlayingStatusProvider();
+}
+
+void _disposeProviders() {
+  disposeBpDataSourceProvider();
+  disposeBpSubtitlesConfigProvider();
+  disposeBpConfigProvider();
+  disposeBpControlsProvider();
+  disposeNpCreateProvider();
+  // disposeNpControllerProvider();
+  disposeBpPlayingStatusProvider();
+}
+
+void _initTranslation(BuildContext context) {
+  initBpLocaleProvider(context);
+  initBpTranslationsProvider();
+}
+
+void _disposeTranslation() {
+  disposeBpLocaleProvider();
+  disposeBpTranslationsProvider();
 }
 
 class _BPInitProviders extends StatefulHookConsumerWidget {
@@ -128,13 +148,19 @@ class __BPInitProvidersState extends ConsumerState<_BPInitProviders> {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      _initProviders(widget._bpInitConfig, ref.read);
+      var bpLife = widget._bpInitConfig.bpAppLifecycle;
+      ref.read(bpAppLifecycleProvider.notifier).isHandleLifecycle = bpLife.isHandleLifecycle;
       return null;
     }, const []);
+
     useEffect(() {
-      initBpLocaleProvider(context);
-      initBpTranslationsProvider();
-      return null;
+      _initProviders(widget._bpInitConfig);
+      return _disposeProviders;
+    }, const []);
+
+    useEffect(() {
+      _initTranslation(context);
+      return _disposeTranslation;
     }, const []);
     return _BPAppLifecycle();
   }
@@ -164,7 +190,6 @@ class __BPAppLifecycleState extends ConsumerState<_BPAppLifecycle> with WidgetsB
   Widget build(BuildContext context) {
     useEffect(() {
       WidgetsBinding.instance!.addObserver(this);
-
       return () => WidgetsBinding.instance!.removeObserver(this);
     }, const []);
     return _BPVisibilityDetector();
@@ -180,18 +205,24 @@ class __BPAppLifecycleState extends ConsumerState<_BPAppLifecycle> with WidgetsB
 class _BPVisibilityDetector extends HookConsumerWidget {
   _BPVisibilityDetector({Key? key}) : super(key: key);
   final Key id = UniqueKey();
+  bool _isDisposed = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      return () => ref.read(bpIsDisposedProvider.notifier).state = true;
+      return () {
+        _isDisposed = true;
+        // ref.read(bpIsDisposedProvider.notifier).state = true;
+      };
     }, const []);
 
     return VisibilityDetector(
       // key: Key("${widget.controller.hashCode}_key"),
       onVisibilityChanged: (VisibilityInfo info) {
-        print("bpIsVisibleProvider: $bpIsVisibleProvider");
-        ref.read(bpIsVisibleProvider.notifier).setIsVisible(info.visibleFraction);
+        // print("bpIsVisibleProvider: $bpIsVisibleProvider");
+        if (!_isDisposed) {
+          ref.read(bpIsVisibleProvider.notifier).setIsVisible(info.visibleFraction);
+        }
       },
       key: id,
       // child: BPWithControls(),

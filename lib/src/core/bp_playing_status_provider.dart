@@ -4,13 +4,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'bp_playing_status_provider.freezed.dart';
 
-late final StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus> bpPlayingStatusProvider;
+StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>? bpPlayingStatusProvider;
 
 void initBpPlayingStatusProvider() {
-  bpPlayingStatusProvider = StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>(
-    (ref) => BPPlayingStatusNotifier(),
-  );
+  if (bpPlayingStatusProvider == null) {
+    bpPlayingStatusProvider = StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>(
+      (ref) => BPPlayingStatusNotifier(),
+    );
+  }
 }
+
+void disposeBpPlayingStatusProvider() => bpPlayingStatusProvider = null;
 
 class BPPlayingStatusNotifier extends StateNotifier<BPPlayingStatus> {
   BPPlayingStatusNotifier({
@@ -34,9 +38,6 @@ class BPPlayingStatus with _$BPPlayingStatus {
     /// True if the video is isLoading.
     @Default(false) bool isLoading,
 
-    /// True if the video is isFinished.
-    @Default(false) bool isFinished,
-
     /// True if the video is playing.
     @Default(false) bool isPlaying,
 
@@ -59,6 +60,9 @@ class BPPlayingStatus with _$BPPlayingStatus {
     ///
     /// If [hasError] is false this is [null].
     String? errorDescription,
+
+    /// True if the video is isFinished.
+    @Default(false) bool isFinished,
 
     /// The current volume of the playback.
     @Default(1.0) double volume,

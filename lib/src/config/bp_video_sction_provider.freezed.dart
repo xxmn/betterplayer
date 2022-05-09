@@ -17,8 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$_BPVideoSctionConfig {
   int get length => throw _privateConstructorUsedError;
-
-  ///Is player controls notification enabled
   bool? get isShow => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
 
@@ -121,8 +119,6 @@ class _$__BPVideoSctionConfig
 
   @override
   final int length;
-
-  ///Is player controls notification enabled
   @override
   @JsonKey()
   final bool? isShow;
@@ -178,8 +174,6 @@ abstract class __BPVideoSctionConfig implements _BPVideoSctionConfig {
   @override
   int get length => throw _privateConstructorUsedError;
   @override
-
-  ///Is player controls notification enabled
   bool? get isShow => throw _privateConstructorUsedError;
   @override
   int get index => throw _privateConstructorUsedError;

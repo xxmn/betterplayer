@@ -20,12 +20,12 @@ class ExpandButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
-    var controlBarHeight = ref.watch(bpControlsProvider.select((v) => v.controlBarHeight));
-    var disableIcon = ref.watch(bpControlsProvider.select((v) => v.fullscreenDisableIcon));
-    var enableIcon = ref.watch(bpControlsProvider.select((v) => v.fullscreenEnableIcon));
-    var iconsColor = ref.watch(bpControlsProvider.select((v) => v.iconsColor));
-    var isFullScreen = ref.watch(bpPlayingStatusProvider.select((v) => v.isFullScreen));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
+    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var disableIcon = ref.watch(bpControlsProvider!.select((v) => v.fullscreenDisableIcon));
+    var enableIcon = ref.watch(bpControlsProvider!.select((v) => v.fullscreenEnableIcon));
+    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
+    var isFullScreen = ref.watch(bpPlayingStatusProvider!.select((v) => v.isFullScreen));
 
     return Padding(
       padding: EdgeInsets.only(right: 12.0),

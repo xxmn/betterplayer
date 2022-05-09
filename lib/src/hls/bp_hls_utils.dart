@@ -1,8 +1,8 @@
-import 'package:better_player/src/asms/better_player_asms_audio_track.dart';
-import 'package:better_player/src/asms/better_player_asms_data_holder.dart';
-import 'package:better_player/src/asms/better_player_asms_subtitle.dart';
-import 'package:better_player/src/asms/better_player_asms_subtitle_segment.dart';
-import 'package:better_player/src/asms/better_player_asms_track.dart';
+import 'package:better_player/src/asms/bp_asms_audio_track.dart';
+import 'package:better_player/src/asms/bp_asms_data_holder.dart';
+import 'package:better_player/src/subtitles/bp_asms_subtitle.dart';
+import 'package:better_player/src/subtitles/bp_asms_subtitle_segment.dart';
+import 'package:better_player/src/asms/bp_asms_track.dart';
 import 'package:better_player/src/asms/bp_asms_utils.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:better_player/src/hls/hls_parser/hls_master_playlist.dart';

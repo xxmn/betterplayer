@@ -1,13 +1,14 @@
 import 'video_format.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'np_data_source.freezed.dart';
 
 /// Description of the data source used to create an instance of
 /// the video player.
-class NPDataSource {
-  /// The maximum cache size to keep on disk in bytes.
-  static const int _maxCacheSize = 100 * 1024 * 1024;
-
-  /// The maximum size of each individual file in bytes.
-  static const int _maxCacheFileSize = 10 * 1024 * 1024;
+@freezed
+class NPDataSource with _$NPDataSource {
+  // Added constructor. Must not have any parameter
+  const NPDataSource._();
 
   /// Constructs an instance of [DataSource].
   ///
@@ -23,52 +24,57 @@ class NPDataSource {
   /// The [package] argument must be non-null when the asset comes from a
   /// package and null otherwise.
   ///
-  NPDataSource({
-    required this.sourceType,
-    this.uri,
-    this.audioUri,
-    this.formatHint,
-    this.asset,
-    this.package,
-    this.headers,
-    this.useCache = false,
-    this.maxCacheSize = _maxCacheSize,
-    this.maxCacheFileSize = _maxCacheFileSize,
-    this.cacheKey,
-    this.showNotification = false,
-    this.title,
-    this.author,
-    this.imageUrl,
-    this.notificationChannelName,
-    this.overriddenDuration,
-    this.start,
-    this.licenseUrl,
-    this.certificateUrl,
-    this.drmHeaders,
-    this.activityName,
-    this.clearKey,
-    this.videoExtension,
-  }) : assert(uri == null || asset == null);
+  @Assert('uri != null || asset != null', "uri or asset should be not null")
+  const factory NPDataSource({
+    /// Describes the type of data source this [VideoPlayerController]
+    /// is constructed with.
+    ///
+    /// The way in which the video was originally loaded.
+    ///
+    /// This has nothing to do with the video's file type. It's just the place
+    /// from which the video is fetched from.
+    required NPDataSourceType sourceType,
 
-  /// Describes the type of data source this [VideoPlayerController]
-  /// is constructed with.
-  ///
-  /// The way in which the video was originally loaded.
-  ///
-  /// This has nothing to do with the video's file type. It's just the place
-  /// from which the video is fetched from.
-  final NPDataSourceType sourceType;
+    /// The URI to the video file.
+    ///
+    /// This will be in different formats depending on the [DataSourceType] of
+    /// the original video.
+    String? uri,
+    String? audioUri,
 
-  /// The URI to the video file.
-  ///
-  /// This will be in different formats depending on the [DataSourceType] of
-  /// the original video.
-  final String? uri;
-  final String? audioUri;
+    /// **Android only**. Will override the platform's generic file format
+    /// detection with whatever is set here.
+    VideoFormat? formatHint,
 
-  /// **Android only**. Will override the platform's generic file format
-  /// detection with whatever is set here.
-  final VideoFormat? formatHint;
+    /// The name of the asset. Only set for [DataSourceType.asset] videos.
+    String? asset,
+
+    /// The package that the asset was loaded from. Only set for
+    /// [DataSourceType.asset] videos.
+    String? package,
+    Map<String, String?>? headers,
+    @Default(false) bool useCache,
+
+    /// The maximum cache size to keep on disk in bytes.
+    @Default(100 * 1024 * 1024) int? maxCacheSize,
+
+    /// The maximum size of each individual file in bytes.
+    @Default(10 * 1024 * 1024) int? maxCacheFileSize,
+    String? cacheKey,
+    @Default(false) bool? showNotification,
+    String? title,
+    String? author,
+    String? imageUrl,
+    String? notificationChannelName,
+    Duration? overriddenDuration,
+    int? start,
+    String? licenseUrl,
+    String? certificateUrl,
+    Map<String, String>? drmHeaders,
+    String? activityName,
+    String? clearKey,
+    String? videoExtension,
+  }) = _NPDataSource;
 
   /// **Android only**. String representation of a formatHint.
   String? get rawFormalHint {
@@ -85,49 +91,6 @@ class NPDataSource {
         return null;
     }
   }
-
-  /// The name of the asset. Only set for [DataSourceType.asset] videos.
-  final String? asset;
-
-  /// The package that the asset was loaded from. Only set for
-  /// [DataSourceType.asset] videos.
-  final String? package;
-
-  final Map<String, String?>? headers;
-
-  final bool useCache;
-
-  final int? maxCacheSize;
-
-  final int? maxCacheFileSize;
-
-  final String? cacheKey;
-
-  final bool? showNotification;
-
-  final String? title;
-
-  final String? author;
-
-  final String? imageUrl;
-
-  final String? notificationChannelName;
-
-  final Duration? overriddenDuration;
-
-  final int? start;
-
-  final String? licenseUrl;
-
-  final String? certificateUrl;
-
-  final Map<String, String>? drmHeaders;
-
-  final String? activityName;
-
-  final String? clearKey;
-
-  final String? videoExtension;
 
   /// Key to compare DataSource
   String get key {
@@ -146,15 +109,6 @@ class NPDataSource {
     }
 
     return result!;
-  }
-
-  @override
-  String toString() {
-    return 'DataSource{sourceType: $sourceType, uri: $uri certificateUrl: $certificateUrl, formatHint:'
-        ' $formatHint, asset: $asset, package: $package, headers: $headers,'
-        ' useCache: $useCache,maxCacheSize: $maxCacheSize, maxCacheFileSize: '
-        '$maxCacheFileSize, showNotification: $showNotification, title: $title,'
-        ' author: $author}';
   }
 }
 

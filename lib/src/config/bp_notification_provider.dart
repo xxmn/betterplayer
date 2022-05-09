@@ -4,20 +4,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'bp_notification_provider.freezed.dart';
 
-final bpNotificationProvider =
-    StateNotifierProvider<_BPNotificationNotifier, _BPNotificationConfig>(
-  (ref) => _BPNotificationNotifier(),
+final bpNotificationProvider = StateNotifierProvider<_BPNtNotifier, BPNtConfig>(
+  (ref) => _BPNtNotifier(),
 );
 
-class _BPNotificationNotifier extends StateNotifier<_BPNotificationConfig> {
-  _BPNotificationNotifier() : super(_BPNotificationConfig());
+class _BPNtNotifier extends StateNotifier<BPNtConfig> {
+  _BPNtNotifier() : super(BPNtConfig());
 }
 
 ///Configuration of notification which is displayed once user moves app to
 ///background.
 @freezed
-class _BPNotificationConfig with _$_BPNotificationConfig {
-  const factory _BPNotificationConfig({
+class BPNtConfig with _$BPNtConfig {
+  const factory BPNtConfig({
     ///Is player controls notification enabled
     @Default(false) bool? isShow,
 
@@ -36,5 +35,5 @@ class _BPNotificationConfig with _$_BPNotificationConfig {
     ///Name of activity used to open application from notification. Used only
     ///in Android.
     String? activityName,
-  }) = __BPNotificationConfig;
+  }) = _BPNtConfig;
 }

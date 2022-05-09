@@ -8,7 +8,7 @@ class MaybePlayOrPause extends HookConsumerWidget {
   const MaybePlayOrPause({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var enablePlayPause = ref.watch(bpControlsProvider.select((v) => v.enablePlayPause));
+    var enablePlayPause = ref.watch(bpControlsProvider!.select((v) => v.enablePlayPause));
     return enablePlayPause ? PlayOrPause() : const SizedBox();
   }
 }
@@ -17,10 +17,10 @@ class PlayOrPause extends HookConsumerWidget {
   const PlayOrPause({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var isPlaying = ref.watch(bpPlayingStatusProvider.select((v) => v.isPlaying));
-    var pauseIcon = ref.watch(bpControlsProvider.select((v) => v.pauseIcon));
-    var playIcon = ref.watch(bpControlsProvider.select((v) => v.playIcon));
-    var iconsColor = ref.watch(bpControlsProvider.select((v) => v.iconsColor));
+    var isPlaying = ref.watch(bpPlayingStatusProvider!.select((v) => v.isPlaying));
+    var pauseIcon = ref.watch(bpControlsProvider!.select((v) => v.pauseIcon));
+    var playIcon = ref.watch(bpControlsProvider!.select((v) => v.playIcon));
+    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
     return BPMaterialClickableWidget(
       key: const Key("better_player_material_controls_play_pause_button"),
       onTap: _onPlayPause,

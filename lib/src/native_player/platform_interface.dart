@@ -5,12 +5,9 @@
 // Dart imports:
 import 'dart:async';
 import 'dart:typed_data';
-
-// Flutter imports:
-
+import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/types/np_data_source.dart';
-import 'package:better_player/src/types/duration_range.dart';
-import 'package:flutter/foundation.dart';
+import 'package:better_player/src/types/np_event.dart';
 import 'package:flutter/widgets.dart';
 import 'method_channel.dart';
 
@@ -67,10 +64,10 @@ abstract class NativePlayerPlatform {
     throw UnimplementedError('dispose() has not been implemented.');
   }
 
-  // /// Creates an instance of a video player and returns its textureId.
-  // Future<int?> create({BPBufferingCfg? bufferingCfg}) {
-  //   throw UnimplementedError('create() has not been implemented.');
-  // }
+  /// Creates an instance of a video player and returns its textureId.
+  Future<int?> create({BPBufferingConfig? bufferingConfig}) {
+    throw UnimplementedError('create() has not been implemented.');
+  }
 
   /// Pre-caches a video.
   Future<void> preCache(NPDataSource dataSource, int preCacheSize) {
@@ -88,7 +85,7 @@ abstract class NativePlayerPlatform {
   }
 
   /// Returns a Stream of [VideoEventType]s.
-  Stream<VideoEvent> videoEventsFor(int? textureId) {
+  Stream<NPVideoEvent> videoEventsFor(int textureId) {
     throw UnimplementedError('videoEventsFor() has not been implemented.');
   }
 
@@ -181,103 +178,4 @@ abstract class NativePlayerPlatform {
   // This private method is called by the instance setter, which fails if the class is
   // implemented with `implements`.
   void _verifyProvidesDefaultImplementations() {}
-}
-
-/// Event emitted from the platform implementation.
-class VideoEvent {
-  /// Creates an instance of [VideoEvent].
-  ///
-  /// The [eventType] argument is required.
-  ///
-  /// Depending on the [eventType], the [duration], [size] and [buffered]
-  /// arguments can be null.
-  VideoEvent({
-    required this.eventType,
-    required this.key,
-    this.duration,
-    this.size,
-    this.buffered,
-    this.position,
-  });
-
-  /// The type of the event.
-  final VideoEventType eventType;
-
-  /// Data source of the video.
-  ///
-  /// Used to determine which video the event belongs to.
-  final String? key;
-
-  /// Duration of the video.
-  ///
-  /// Only used if [eventType] is [VideoEventType.initialized].
-  final Duration? duration;
-
-  /// Size of the video.
-  ///
-  /// Only used if [eventType] is [VideoEventType.initialized].
-  final Size? size;
-
-  /// Buffered parts of the video.
-  ///
-  /// Only used if [eventType] is [VideoEventType.bufferingUpdate].
-  final List<DurationRange>? buffered;
-
-  ///Seek position
-  final Duration? position;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is VideoEvent &&
-            runtimeType == other.runtimeType &&
-            key == other.key &&
-            eventType == other.eventType &&
-            duration == other.duration &&
-            size == other.size &&
-            listEquals(buffered, other.buffered);
-  }
-
-  @override
-  int get hashCode => eventType.hashCode ^ duration.hashCode ^ size.hashCode ^ buffered.hashCode;
-}
-
-/// Type of the event.
-///
-/// Emitted by the platform implementation when the video is initialized or
-/// completed or to communicate buffering events.
-enum VideoEventType {
-  /// The video has been initialized.
-  initialized,
-
-  /// The playback has ended.
-  completed,
-
-  /// Updated information on the buffering state.
-  bufferingUpdate,
-
-  /// The video started to buffer.
-  bufferingStart,
-
-  /// The video stopped to buffer.
-  bufferingEnd,
-
-  /// The video is set to play
-  play,
-
-  /// The video is set to pause
-  pause,
-  screenshot,
-
-  /// The video is set to given to position
-  seek,
-
-  /// The video is displayed in Picture in Picture mode
-  pipStart,
-
-  /// Picture in picture mode has been dismissed
-  pipStop,
-
-  /// An unknown event has been received.
-  unknown,
 }

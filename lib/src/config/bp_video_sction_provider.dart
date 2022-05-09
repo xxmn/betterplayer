@@ -7,15 +7,6 @@ part 'bp_video_sction_provider.freezed.dart';
 ///
 /// [ChangeNotifier] is a class in `flutter:foundation`. [Counter] does
 /// _not_ depend on Provider.
-class VideoSectionsState with ChangeNotifier {
-  VideoSectionsState(this.length);
-  late final int length;
-  // 当前显示的章节
-  int index = 0;
-
-  // 是否显示
-  bool isShow = true;
-}
 
 final bpVideoSectionProvider = StateNotifierProvider<_BPVideoSctionNotifier, _BPVideoSctionConfig>(
   (ref) => _BPVideoSctionNotifier(10),

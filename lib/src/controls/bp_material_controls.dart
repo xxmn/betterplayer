@@ -26,7 +26,7 @@ class _ControlsMainOrErrorPage extends HookConsumerWidget {
   const _ControlsMainOrErrorPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var hasError = ref.watch(bpPlayingStatusProvider.select((v) => v.hasError));
+    var hasError = ref.watch(bpPlayingStatusProvider!.select((v) => v.hasError));
     return hasError ? ErrorPage() : _ControlsMainPage();
   }
 }
@@ -38,7 +38,7 @@ class _ControlsMainPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // todo: watch 不能使用notifier，不能及时更新
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var isLoading = ref.watch(bpPlayingStatusProvider.select((v) => v.isLoading));
+    var isLoading = ref.watch(bpPlayingStatusProvider!.select((v) => v.isLoading));
     //todo: 手势事件处理
     return GestureDetector(
       onTap: () {

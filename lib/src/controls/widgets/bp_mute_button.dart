@@ -9,7 +9,7 @@ class MaybeMuteButton extends HookConsumerWidget {
   const MaybeMuteButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var enableMute = ref.watch(bpControlsProvider.select((v) => v.enableMute));
+    var enableMute = ref.watch(bpControlsProvider!.select((v) => v.enableMute));
     return enableMute ? MuteButton() : const SizedBox();
   }
 }
@@ -19,12 +19,12 @@ class MuteButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider.select((v) => v.controlsHideTime));
-    var controlBarHeight = ref.watch(bpControlsProvider.select((v) => v.controlBarHeight));
-    var muteIcon = ref.watch(bpControlsProvider.select((v) => v.muteIcon));
-    var unMuteIcon = ref.watch(bpControlsProvider.select((v) => v.unMuteIcon));
-    var iconsColor = ref.watch(bpControlsProvider.select((v) => v.iconsColor));
-    var volume = ref.watch(bpPlayingStatusProvider.select((v) => v.volume));
+    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
+    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var muteIcon = ref.watch(bpControlsProvider!.select((v) => v.muteIcon));
+    var unMuteIcon = ref.watch(bpControlsProvider!.select((v) => v.unMuteIcon));
+    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
+    var volume = ref.watch(bpPlayingStatusProvider!.select((v) => v.volume));
     return BPMaterialClickableWidget(
       onTap: () {
         print("MuteButton on tap");

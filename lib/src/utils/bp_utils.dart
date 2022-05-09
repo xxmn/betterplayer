@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:better_player/src/types/bp_drm_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -66,4 +67,15 @@ class BPUtils {
       print(logMessage);
     }
   }
+}
+
+///Build headers map that will be used to setup video player controller. Apply
+///DRM headers if available.
+///static const String _authorizationHeader = "Authorization";
+Map<String, String?> getHeaders(Map<String, String>? dsheaders, BPDrmConfig? drmConfig) {
+  final headers = dsheaders ?? {};
+  if (drmConfig?.drmType == BPDrmType.token && drmConfig?.token != null) {
+    headers["Authorization"] = drmConfig!.token!;
+  }
+  return headers;
 }

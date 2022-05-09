@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/types/duration_range.dart';
 import 'package:better_player/src/types/np_data_source.dart';
+import 'package:better_player/src/types/np_event.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -31,19 +32,19 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
 
   @override
   Future<int?> create({
-    BPBufferingConfig? bufferingCfg,
+    BPBufferingConfig? bufferingConfig,
   }) async {
     late final Map<String, dynamic>? response;
-    if (bufferingCfg == null) {
+    if (bufferingConfig == null) {
       response = await _channel.invokeMapMethod<String, dynamic>('create');
     } else {
       final responseLinkedHashMap = await _channel.invokeMethod<Map?>(
         'create',
         <String, dynamic>{
-          'minBufferMs': bufferingCfg.minBufferMs,
-          'maxBufferMs': bufferingCfg.maxBufferMs,
-          'bufferForPlaybackMs': bufferingCfg.bufferForPlaybackMs,
-          'bufferForPlaybackAfterRebufferMs': bufferingCfg.bufferForPlaybackAfterRebufferMs,
+          'minBufferMs': bufferingConfig.minBufferMs,
+          'maxBufferMs': bufferingConfig.maxBufferMs,
+          'bufferForPlaybackMs': bufferingConfig.bufferForPlaybackMs,
+          'bufferForPlaybackAfterRebufferMs': bufferingConfig.bufferForPlaybackAfterRebufferMs,
         },
       );
 
@@ -332,7 +333,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
   }
 
   @override
-  Stream<VideoEvent> videoEventsFor(int? textureId) {
+  Stream<NPVideoEvent> videoEventsFor(int textureId) {
     return _eventChannelFor(textureId).receiveBroadcastStream().map((dynamic event) {
       late Map<dynamic, dynamic> map;
       if (event is Map) {
@@ -360,76 +361,76 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
 
           final Size size = Size(width, height);
 
-          return VideoEvent(
-            eventType: VideoEventType.initialized,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.initialized,
             key: key,
             duration: Duration(milliseconds: map['duration'] as int),
             size: size,
           );
         case 'completed':
-          return VideoEvent(
-            eventType: VideoEventType.completed,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.completed,
             key: key,
           );
         case 'bufferingUpdate':
           final List<dynamic> values = map['values'] as List;
 
-          return VideoEvent(
-            eventType: VideoEventType.bufferingUpdate,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.bufferingUpdate,
             key: key,
             buffered: values.map<DurationRange>(_toDurationRange).toList(),
           );
         case 'bufferingStart':
-          return VideoEvent(
-            eventType: VideoEventType.bufferingStart,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.bufferingStart,
             key: key,
           );
         case 'bufferingEnd':
-          return VideoEvent(
-            eventType: VideoEventType.bufferingEnd,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.bufferingEnd,
             key: key,
           );
 
         case 'play':
-          return VideoEvent(
-            eventType: VideoEventType.play,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.play,
             key: key,
           );
 
         case 'pause':
-          return VideoEvent(
-            eventType: VideoEventType.pause,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.pause,
             key: key,
           );
 
         case 'screenshot':
-          return VideoEvent(
-            eventType: VideoEventType.screenshot,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.screenshot,
             key: key,
           );
 
         case 'seek':
-          return VideoEvent(
-            eventType: VideoEventType.seek,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.seek,
             key: key,
             position: Duration(milliseconds: map['position'] as int),
           );
 
         case 'pipStart':
-          return VideoEvent(
-            eventType: VideoEventType.pipStart,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.pipStart,
             key: key,
           );
 
         case 'pipStop':
-          return VideoEvent(
-            eventType: VideoEventType.pipStop,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.pipStop,
             key: key,
           );
 
         default:
-          return VideoEvent(
-            eventType: VideoEventType.unknown,
+          return NPVideoEvent(
+            eventType: NPVideoEventType.unknown,
             key: key,
           );
       }

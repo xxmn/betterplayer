@@ -1,63 +1,88 @@
-// Flutter imports:
-import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:better_player/src/asms/bp_asms_datas_provider.dart';
+import 'package:better_player/src/subtitles/bp_subtitle.dart';
+import 'package:better_player/src/subtitles/bp_subtitles_factory.dart';
+import 'package:better_player/src/core/bp_data_source_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_subtitles_provider.freezed.dart';
+import 'bp_subtitles_source.dart';
 
-late final StateNotifierProvider<BPSubtitlesNotifier, BPSubtitlesConfig> bpSubtitlesProvider;
+final bpSubtitlesProvider = StateNotifierProvider<BPSubtitlesNotifier, SubtitlesDatas>(
+  (ref) {
+    var ds = ref.watch(bpDataSourceProvider!.select((v) => v!.subtitlesSources ?? []));
+    var asmsDs = ref.watch(bpAsmsDatasProvider.select((v) => v.subtitlesSources));
+    ds.addAll(asmsDs);
+    var source = _selectSubtitlesSource(ds);
+    return BPSubtitlesNotifier(source: source);
+  },
+);
 
-void initBpSubtitlesProvider(BPSubtitlesConfig subtitlesConfig) {
-  bpSubtitlesProvider = StateNotifierProvider<BPSubtitlesNotifier, BPSubtitlesConfig>(
-    (ref) => BPSubtitlesNotifier(
-      bpSubtitlesConfig: subtitlesConfig,
-    ),
+class BPSubtitlesNotifier extends StateNotifier<SubtitlesDatas> {
+  BPSubtitlesNotifier({required BPSubtitlesSource source})
+      : super(SubtitlesDatas(subtitlesSource: source)) {
+    fetchSubtitles(source).then((d) => state = d);
+  }
+}
+
+class SubtitlesDatas {
+  ///Currently used subtitles source.
+  BPSubtitlesSource? subtitlesSource;
+
+  ///Flag which determines whether are ASMS segments loading
+  bool _asmsSegmentsLoading;
+
+  ///List of loaded ASMS segments
+  List<String> _asmsSegmentsLoaded;
+
+  ///Subtitles lines for current data source.
+  List<BPSubtitle> subtitlesLines = [];
+
+  SubtitlesDatas({
+    this.subtitlesSource,
+    bool asmsSegmentsLoading = false,
+    List<String> asmsSegmentsLoaded = const [],
+    this.subtitlesLines = const [],
+  })  : this._asmsSegmentsLoading = asmsSegmentsLoading,
+        this._asmsSegmentsLoaded = asmsSegmentsLoaded;
+
+  // SubtitlesDatas copyWith({
+  //   List<BPAsmsTrack>? bpAsmsTracks,
+  // }) {
+  //   return AsmsDatas(
+  //     bpAsmsTracks: bpAsmsTracks ?? this.bpAsmsTracks,
+  //   );
+  // }
+}
+
+///Configure subtitles based on subtitles source.
+BPSubtitlesSource _selectSubtitlesSource(List<BPSubtitlesSource> subtitlesSources) {
+  subtitlesSources.add(
+    BPSubtitlesSource(type: BPSubtitlesSourceType.none),
   );
+  final defaultSubtitle = subtitlesSources.firstWhereOrNull(
+    (element) => element.selectedByDefault == true,
+  );
+
+  ///Setup subtitles (none is default)
+  return defaultSubtitle ?? subtitlesSources.last;
 }
 
-class BPSubtitlesNotifier extends StateNotifier<BPSubtitlesConfig> {
-  BPSubtitlesNotifier({
-    BPSubtitlesConfig? bpSubtitlesConfig,
-  }) : super(bpSubtitlesConfig ?? BPSubtitlesConfig());
-}
+///Setup subtitles to be displayed from given subtitle source.
+///If subtitles source is segmented then don't load videos at start. Videos
+///will load with just in time policy.
+Future<SubtitlesDatas> fetchSubtitles(BPSubtitlesSource subtitlesSource) async {
+  List<BPSubtitle> subtitlesLines = [];
 
-///Cfg of subtitles - colors/padding/font. Used in
-///BPConfiguration.
-///
-@freezed
-class BPSubtitlesConfig with _$BPSubtitlesConfig {
-  const factory BPSubtitlesConfig({
-    ///Subtitle font size
-    @Default(14) double fontSize,
-
-    ///Subtitle font color
-    @Default(Colors.white) Color fontColor,
-
-    ///Enable outline (border) of the text
-    @Default(true) bool outlineEnabled,
-
-    ///Color of the outline stroke
-    @Default(Colors.black) Color outlineColor,
-
-    ///Outline stroke size
-    @Default(2.0) double outlineSize,
-
-    ///Font family of the subtitle
-    @Default("Roboto") String fontFamily,
-
-    ///Left padding of the subtitle
-    @Default(8.0) double leftPadding,
-
-    ///Right padding of the subtitle
-    @Default(8.0) double rightPadding,
-
-    ///Bottom padding of the subtitle
-    @Default(20.0) double bottomPadding,
-
-    ///Alignment of the subtitle
-    @Default(Alignment.center) Alignment alignment,
-
-    ///Background color of the subtitle
-    @Default(Colors.transparent) Color backgroundColor,
-  }) = _BPSubtitlesConfig;
+  if (subtitlesSource.type != BPSubtitlesSourceType.none) {
+    if (subtitlesSource.asmsIsSegmented != true) {
+      final subtitlesParsed = await BPSubtitlesFactory.parseSubtitles(subtitlesSource);
+      subtitlesLines.addAll(subtitlesParsed);
+    }
+  }
+  return SubtitlesDatas(
+    subtitlesSource: subtitlesSource,
+    asmsSegmentsLoading: false,
+    asmsSegmentsLoaded: <String>[],
+    subtitlesLines: subtitlesLines,
+  );
 }

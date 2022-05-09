@@ -4,15 +4,19 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bp_config_provider.freezed.dart';
 
-late final StateNotifierProvider<BPConfigNotifier, BPConfig> bpConfigProvider;
+StateNotifierProvider<BPConfigNotifier, BPConfig>? bpConfigProvider;
 
 void initBpConfigProvider(BPConfig bpConfig) {
-  bpConfigProvider = StateNotifierProvider<BPConfigNotifier, BPConfig>(
-    (ref) => BPConfigNotifier(
-      bpConfig: bpConfig,
-    ),
-  );
+  if (bpConfigProvider == null) {
+    bpConfigProvider = StateNotifierProvider<BPConfigNotifier, BPConfig>(
+      (ref) => BPConfigNotifier(
+        bpConfig: bpConfig,
+      ),
+    );
+  }
 }
+
+void disposeBpConfigProvider() => bpConfigProvider = null;
 
 class BPConfigNotifier extends StateNotifier<BPConfig> {
   BPConfigNotifier({BPConfig? bpConfig}) : super(bpConfig ?? BPConfig());
