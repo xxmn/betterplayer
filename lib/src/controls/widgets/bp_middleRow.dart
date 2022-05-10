@@ -9,8 +9,8 @@ class MiddleRow extends HookConsumerWidget {
   const MiddleRow({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlBarColor = ref.watch(bpControlsProvider!.select((v) => v.controlBarColor));
-    var enableSkips = ref.watch(bpControlsProvider!.select((v) => v.enableSkips));
+    var controlBarColor = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarColor));
+    var enableSkips = ref.watch(bpControlsConfigProvider!.select((v) => v.enableSkips));
     var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
     return Container(
       color: controlBarColor,
@@ -34,8 +34,8 @@ class SkipButton extends HookConsumerWidget {
   const SkipButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
-    var skipBackIcon = ref.watch(bpControlsProvider!.select((v) => v.skipBackIcon));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
+    var skipBackIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.skipBackIcon));
     return HitAreaClickableButton(
       icon: Icon(
         skipBackIcon,
@@ -65,8 +65,8 @@ class ForwardButton extends HookConsumerWidget {
   const ForwardButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
-    var skipForwardIcon = ref.watch(bpControlsProvider!.select((v) => v.skipForwardIcon));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
+    var skipForwardIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.skipForwardIcon));
     return HitAreaClickableButton(
       icon: Icon(
         skipForwardIcon,
@@ -99,9 +99,9 @@ class ReplayButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var isPlaying = ref.watch(bpPlayingStatusProvider!.select((v) => v.isPlaying));
     var isFinished = ref.watch(bpPlayingStatusProvider!.select((v) => v.isFinished));
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
-    var pauseIcon = ref.watch(bpControlsProvider!.select((v) => v.pauseIcon));
-    var playIcon = ref.watch(bpControlsProvider!.select((v) => v.playIcon));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
+    var pauseIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.pauseIcon));
+    var playIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.playIcon));
     return HitAreaClickableButton(
       icon: isFinished
           ? Icon(

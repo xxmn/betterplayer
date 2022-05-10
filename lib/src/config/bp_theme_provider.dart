@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_controls_provider.dart';
 
 final bpThemeProvider = Provider((ref) {
-  var playerTheme = ref.watch(bpControlsProvider!.select((v) => v.playerTheme));
+  var playerTheme = ref.watch(bpControlsConfigProvider!.select((v) => v.playerTheme));
 
   if (playerTheme == null) {
     if (Platform.isAndroid) {

@@ -490,11 +490,11 @@ class _$BPControlsConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPControlsConfigCopyWith<$Res>
+abstract class _$$_BPControlsConfigCopyWith<$Res>
     implements $BPControlsConfigCopyWith<$Res> {
-  factory _$BPControlsConfigCopyWith(
-          _BPControlsConfig value, $Res Function(_BPControlsConfig) then) =
-      __$BPControlsConfigCopyWithImpl<$Res>;
+  factory _$$_BPControlsConfigCopyWith(
+          _$_BPControlsConfig value, $Res Function(_$_BPControlsConfig) then) =
+      __$$_BPControlsConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {Color controlBarColor,
@@ -549,15 +549,15 @@ abstract class _$BPControlsConfigCopyWith<$Res>
 }
 
 /// @nodoc
-class __$BPControlsConfigCopyWithImpl<$Res>
+class __$$_BPControlsConfigCopyWithImpl<$Res>
     extends _$BPControlsConfigCopyWithImpl<$Res>
-    implements _$BPControlsConfigCopyWith<$Res> {
-  __$BPControlsConfigCopyWithImpl(
-      _BPControlsConfig _value, $Res Function(_BPControlsConfig) _then)
-      : super(_value, (v) => _then(v as _BPControlsConfig));
+    implements _$$_BPControlsConfigCopyWith<$Res> {
+  __$$_BPControlsConfigCopyWithImpl(
+      _$_BPControlsConfig _value, $Res Function(_$_BPControlsConfig) _then)
+      : super(_value, (v) => _then(v as _$_BPControlsConfig));
 
   @override
-  _BPControlsConfig get _value => super._value as _BPControlsConfig;
+  _$_BPControlsConfig get _value => super._value as _$_BPControlsConfig;
 
   @override
   $Res call({
@@ -611,7 +611,7 @@ class __$BPControlsConfigCopyWithImpl<$Res>
     Object? overflowModalColor = freezed,
     Object? overflowModalTextColor = freezed,
   }) {
-    return _then(_BPControlsConfig(
+    return _then(_$_BPControlsConfig(
       controlBarColor: controlBarColor == freezed
           ? _value.controlBarColor
           : controlBarColor // ignore: cast_nullable_to_non_nullable
@@ -1118,7 +1118,7 @@ class _$_BPControlsConfig implements _BPControlsConfig {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPControlsConfig &&
+            other is _$_BPControlsConfig &&
             const DeepCollectionEquality()
                 .equals(other.controlBarColor, controlBarColor) &&
             const DeepCollectionEquality().equals(other.textColor, textColor) &&
@@ -1269,8 +1269,8 @@ class _$_BPControlsConfig implements _BPControlsConfig {
 
   @JsonKey(ignore: true)
   @override
-  _$BPControlsConfigCopyWith<_BPControlsConfig> get copyWith =>
-      __$BPControlsConfigCopyWithImpl<_BPControlsConfig>(this, _$identity);
+  _$$_BPControlsConfigCopyWith<_$_BPControlsConfig> get copyWith =>
+      __$$_BPControlsConfigCopyWithImpl<_$_BPControlsConfig>(this, _$identity);
 }
 
 abstract class _BPControlsConfig implements BPControlsConfig {
@@ -1524,6 +1524,6 @@ abstract class _BPControlsConfig implements BPControlsConfig {
   Color get overflowModalTextColor => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPControlsConfigCopyWith<_BPControlsConfig> get copyWith =>
+  _$$_BPControlsConfigCopyWith<_$_BPControlsConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

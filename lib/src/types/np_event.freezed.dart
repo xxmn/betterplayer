@@ -108,11 +108,11 @@ class _$NPVideoEventCopyWithImpl<$Res> implements $NPVideoEventCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$NPVideoEventCopyWith<$Res>
+abstract class _$$_NPVideoEventCopyWith<$Res>
     implements $NPVideoEventCopyWith<$Res> {
-  factory _$NPVideoEventCopyWith(
-          _NPVideoEvent value, $Res Function(_NPVideoEvent) then) =
-      __$NPVideoEventCopyWithImpl<$Res>;
+  factory _$$_NPVideoEventCopyWith(
+          _$_NPVideoEvent value, $Res Function(_$_NPVideoEvent) then) =
+      __$$_NPVideoEventCopyWithImpl<$Res>;
   @override
   $Res call(
       {NPVideoEventType eventType,
@@ -124,14 +124,15 @@ abstract class _$NPVideoEventCopyWith<$Res>
 }
 
 /// @nodoc
-class __$NPVideoEventCopyWithImpl<$Res> extends _$NPVideoEventCopyWithImpl<$Res>
-    implements _$NPVideoEventCopyWith<$Res> {
-  __$NPVideoEventCopyWithImpl(
-      _NPVideoEvent _value, $Res Function(_NPVideoEvent) _then)
-      : super(_value, (v) => _then(v as _NPVideoEvent));
+class __$$_NPVideoEventCopyWithImpl<$Res>
+    extends _$NPVideoEventCopyWithImpl<$Res>
+    implements _$$_NPVideoEventCopyWith<$Res> {
+  __$$_NPVideoEventCopyWithImpl(
+      _$_NPVideoEvent _value, $Res Function(_$_NPVideoEvent) _then)
+      : super(_value, (v) => _then(v as _$_NPVideoEvent));
 
   @override
-  _NPVideoEvent get _value => super._value as _NPVideoEvent;
+  _$_NPVideoEvent get _value => super._value as _$_NPVideoEvent;
 
   @override
   $Res call({
@@ -142,7 +143,7 @@ class __$NPVideoEventCopyWithImpl<$Res> extends _$NPVideoEventCopyWithImpl<$Res>
     Object? buffered = freezed,
     Object? position = freezed,
   }) {
-    return _then(_NPVideoEvent(
+    return _then(_$_NPVideoEvent(
       eventType: eventType == freezed
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
@@ -160,7 +161,7 @@ class __$NPVideoEventCopyWithImpl<$Res> extends _$NPVideoEventCopyWithImpl<$Res>
           : size // ignore: cast_nullable_to_non_nullable
               as Size?,
       buffered: buffered == freezed
-          ? _value.buffered
+          ? _value._buffered
           : buffered // ignore: cast_nullable_to_non_nullable
               as List<DurationRange>?,
       position: position == freezed
@@ -247,12 +248,12 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _NPVideoEvent &&
+            other is _$_NPVideoEvent &&
             const DeepCollectionEquality().equals(other.eventType, eventType) &&
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.duration, duration) &&
             const DeepCollectionEquality().equals(other.size, size) &&
-            const DeepCollectionEquality().equals(other.buffered, buffered) &&
+            const DeepCollectionEquality().equals(other._buffered, _buffered) &&
             const DeepCollectionEquality().equals(other.position, position));
   }
 
@@ -263,13 +264,13 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
       const DeepCollectionEquality().hash(key),
       const DeepCollectionEquality().hash(duration),
       const DeepCollectionEquality().hash(size),
-      const DeepCollectionEquality().hash(buffered),
+      const DeepCollectionEquality().hash(_buffered),
       const DeepCollectionEquality().hash(position));
 
   @JsonKey(ignore: true)
   @override
-  _$NPVideoEventCopyWith<_NPVideoEvent> get copyWith =>
-      __$NPVideoEventCopyWithImpl<_NPVideoEvent>(this, _$identity);
+  _$$_NPVideoEventCopyWith<_$_NPVideoEvent> get copyWith =>
+      __$$_NPVideoEventCopyWithImpl<_$_NPVideoEvent>(this, _$identity);
 }
 
 abstract class _NPVideoEvent implements NPVideoEvent {
@@ -315,6 +316,6 @@ abstract class _NPVideoEvent implements NPVideoEvent {
   Duration? get position => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$NPVideoEventCopyWith<_NPVideoEvent> get copyWith =>
+  _$$_NPVideoEventCopyWith<_$_NPVideoEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }

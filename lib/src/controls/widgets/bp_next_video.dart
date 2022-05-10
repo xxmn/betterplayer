@@ -8,8 +8,8 @@ class NextVideo extends HookConsumerWidget {
   const NextVideo({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlBarColor = ref.watch(bpControlsProvider!.select((v) => v.controlBarColor));
-    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var controlBarColor = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarColor));
+    var controlBarHeight = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarHeight));
     var nextVideoIn = ref.watch(bpTranslationsProvider!.select((v) => v.controlsNextVideoIn));
 
     // todo: next video

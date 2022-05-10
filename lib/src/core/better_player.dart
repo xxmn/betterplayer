@@ -218,14 +218,12 @@ class _BPVisibilityDetector extends HookConsumerWidget {
 
     return VisibilityDetector(
       // key: Key("${widget.controller.hashCode}_key"),
+      key: id,
       onVisibilityChanged: (VisibilityInfo info) {
-        // print("bpIsVisibleProvider: $bpIsVisibleProvider");
         if (!_isDisposed) {
           ref.read(bpIsVisibleProvider.notifier).setIsVisible(info.visibleFraction);
         }
       },
-      key: id,
-      // child: BPWithControls(),
       child: BPWithControls(),
     );
   }

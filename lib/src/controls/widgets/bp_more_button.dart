@@ -9,8 +9,8 @@ class MoreButton extends HookConsumerWidget {
   const MoreButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var overflowMenuIcon = ref.watch(bpControlsProvider!.select((v) => v.overflowMenuIcon));
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
+    var overflowMenuIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.overflowMenuIcon));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
     return BPMaterialClickableWidget(
       onTap: () {
         onShowMoreClicked();
@@ -222,8 +222,10 @@ class MoreOptionsList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final translations = ref.watch(bpTranslationsProvider!);
-    final enablePlaybackSpeed = ref.watch(bpControlsProvider!.select((v) => v.enablePlaybackSpeed));
-    final playbackSpeedIcon = ref.watch(bpControlsProvider!.select((v) => v.playbackSpeedIcon));
+    final enablePlaybackSpeed =
+        ref.watch(bpControlsConfigProvider!.select((v) => v.enablePlaybackSpeed));
+    final playbackSpeedIcon =
+        ref.watch(bpControlsConfigProvider!.select((v) => v.playbackSpeedIcon));
     return SingleChildScrollView(
       // ignore: avoid_unnecessary_containers
       child: Container(
@@ -332,7 +334,7 @@ class SpeedRow extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var overflowModalTextColor =
-        ref.watch(bpControlsProvider!.select((v) => v.overflowModalTextColor));
+        ref.watch(bpControlsConfigProvider!.select((v) => v.overflowModalTextColor));
     var speed = ref.watch(bpPlayingStatusProvider!.select((v) => v.speed));
     final bool isSelected = speed == value;
 
@@ -372,8 +374,8 @@ class MoreOptionsListRow extends HookConsumerWidget {
   const MoreOptionsListRow(this.icon, this.name, this.onTap, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.overflowMenuIconsColor));
-    var textColor = ref.watch(bpControlsProvider!.select((v) => v.overflowModalTextColor));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.overflowMenuIconsColor));
+    var textColor = ref.watch(bpControlsConfigProvider!.select((v) => v.overflowModalTextColor));
     return BPMaterialClickableWidget(
       onTap: onTap,
       child: Padding(

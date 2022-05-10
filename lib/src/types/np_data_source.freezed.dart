@@ -239,11 +239,11 @@ class _$NPDataSourceCopyWithImpl<$Res> implements $NPDataSourceCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$NPDataSourceCopyWith<$Res>
+abstract class _$$_NPDataSourceCopyWith<$Res>
     implements $NPDataSourceCopyWith<$Res> {
-  factory _$NPDataSourceCopyWith(
-          _NPDataSource value, $Res Function(_NPDataSource) then) =
-      __$NPDataSourceCopyWithImpl<$Res>;
+  factory _$$_NPDataSourceCopyWith(
+          _$_NPDataSource value, $Res Function(_$_NPDataSource) then) =
+      __$$_NPDataSourceCopyWithImpl<$Res>;
   @override
   $Res call(
       {NPDataSourceType sourceType,
@@ -273,14 +273,15 @@ abstract class _$NPDataSourceCopyWith<$Res>
 }
 
 /// @nodoc
-class __$NPDataSourceCopyWithImpl<$Res> extends _$NPDataSourceCopyWithImpl<$Res>
-    implements _$NPDataSourceCopyWith<$Res> {
-  __$NPDataSourceCopyWithImpl(
-      _NPDataSource _value, $Res Function(_NPDataSource) _then)
-      : super(_value, (v) => _then(v as _NPDataSource));
+class __$$_NPDataSourceCopyWithImpl<$Res>
+    extends _$NPDataSourceCopyWithImpl<$Res>
+    implements _$$_NPDataSourceCopyWith<$Res> {
+  __$$_NPDataSourceCopyWithImpl(
+      _$_NPDataSource _value, $Res Function(_$_NPDataSource) _then)
+      : super(_value, (v) => _then(v as _$_NPDataSource));
 
   @override
-  _NPDataSource get _value => super._value as _NPDataSource;
+  _$_NPDataSource get _value => super._value as _$_NPDataSource;
 
   @override
   $Res call({
@@ -309,7 +310,7 @@ class __$NPDataSourceCopyWithImpl<$Res> extends _$NPDataSourceCopyWithImpl<$Res>
     Object? clearKey = freezed,
     Object? videoExtension = freezed,
   }) {
-    return _then(_NPDataSource(
+    return _then(_$_NPDataSource(
       sourceType: sourceType == freezed
           ? _value.sourceType
           : sourceType // ignore: cast_nullable_to_non_nullable
@@ -335,7 +336,7 @@ class __$NPDataSourceCopyWithImpl<$Res> extends _$NPDataSourceCopyWithImpl<$Res>
           : package // ignore: cast_nullable_to_non_nullable
               as String?,
       headers: headers == freezed
-          ? _value.headers
+          ? _value._headers
           : headers // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>?,
       useCache: useCache == freezed
@@ -391,7 +392,7 @@ class __$NPDataSourceCopyWithImpl<$Res> extends _$NPDataSourceCopyWithImpl<$Res>
           : certificateUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       drmHeaders: drmHeaders == freezed
-          ? _value.drmHeaders
+          ? _value._drmHeaders
           : drmHeaders // ignore: cast_nullable_to_non_nullable
               as Map<String, String>?,
       activityName: activityName == freezed
@@ -543,7 +544,7 @@ class _$_NPDataSource extends _NPDataSource {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _NPDataSource &&
+            other is _$_NPDataSource &&
             const DeepCollectionEquality()
                 .equals(other.sourceType, sourceType) &&
             const DeepCollectionEquality().equals(other.uri, uri) &&
@@ -552,7 +553,7 @@ class _$_NPDataSource extends _NPDataSource {
                 .equals(other.formatHint, formatHint) &&
             const DeepCollectionEquality().equals(other.asset, asset) &&
             const DeepCollectionEquality().equals(other.package, package) &&
-            const DeepCollectionEquality().equals(other.headers, headers) &&
+            const DeepCollectionEquality().equals(other._headers, _headers) &&
             const DeepCollectionEquality().equals(other.useCache, useCache) &&
             const DeepCollectionEquality()
                 .equals(other.maxCacheSize, maxCacheSize) &&
@@ -574,7 +575,7 @@ class _$_NPDataSource extends _NPDataSource {
             const DeepCollectionEquality()
                 .equals(other.certificateUrl, certificateUrl) &&
             const DeepCollectionEquality()
-                .equals(other.drmHeaders, drmHeaders) &&
+                .equals(other._drmHeaders, _drmHeaders) &&
             const DeepCollectionEquality()
                 .equals(other.activityName, activityName) &&
             const DeepCollectionEquality().equals(other.clearKey, clearKey) &&
@@ -591,7 +592,7 @@ class _$_NPDataSource extends _NPDataSource {
         const DeepCollectionEquality().hash(formatHint),
         const DeepCollectionEquality().hash(asset),
         const DeepCollectionEquality().hash(package),
-        const DeepCollectionEquality().hash(headers),
+        const DeepCollectionEquality().hash(_headers),
         const DeepCollectionEquality().hash(useCache),
         const DeepCollectionEquality().hash(maxCacheSize),
         const DeepCollectionEquality().hash(maxCacheFileSize),
@@ -605,7 +606,7 @@ class _$_NPDataSource extends _NPDataSource {
         const DeepCollectionEquality().hash(start),
         const DeepCollectionEquality().hash(licenseUrl),
         const DeepCollectionEquality().hash(certificateUrl),
-        const DeepCollectionEquality().hash(drmHeaders),
+        const DeepCollectionEquality().hash(_drmHeaders),
         const DeepCollectionEquality().hash(activityName),
         const DeepCollectionEquality().hash(clearKey),
         const DeepCollectionEquality().hash(videoExtension)
@@ -613,8 +614,8 @@ class _$_NPDataSource extends _NPDataSource {
 
   @JsonKey(ignore: true)
   @override
-  _$NPDataSourceCopyWith<_NPDataSource> get copyWith =>
-      __$NPDataSourceCopyWithImpl<_NPDataSource>(this, _$identity);
+  _$$_NPDataSourceCopyWith<_$_NPDataSource> get copyWith =>
+      __$$_NPDataSourceCopyWithImpl<_$_NPDataSource>(this, _$identity);
 }
 
 abstract class _NPDataSource extends NPDataSource {
@@ -720,6 +721,6 @@ abstract class _NPDataSource extends NPDataSource {
   String? get videoExtension => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$NPDataSourceCopyWith<_NPDataSource> get copyWith =>
+  _$$_NPDataSourceCopyWith<_$_NPDataSource> get copyWith =>
       throw _privateConstructorUsedError;
 }

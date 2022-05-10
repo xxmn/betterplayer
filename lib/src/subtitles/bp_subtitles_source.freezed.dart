@@ -132,11 +132,11 @@ class _$BPSubtitlesSourceCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPSubtitlesSourceCopyWith<$Res>
+abstract class _$$_BPSubtitlesSourceCopyWith<$Res>
     implements $BPSubtitlesSourceCopyWith<$Res> {
-  factory _$BPSubtitlesSourceCopyWith(
-          _BPSubtitlesSource value, $Res Function(_BPSubtitlesSource) then) =
-      __$BPSubtitlesSourceCopyWithImpl<$Res>;
+  factory _$$_BPSubtitlesSourceCopyWith(_$_BPSubtitlesSource value,
+          $Res Function(_$_BPSubtitlesSource) then) =
+      __$$_BPSubtitlesSourceCopyWithImpl<$Res>;
   @override
   $Res call(
       {BPSubtitlesSourceType? type,
@@ -151,15 +151,15 @@ abstract class _$BPSubtitlesSourceCopyWith<$Res>
 }
 
 /// @nodoc
-class __$BPSubtitlesSourceCopyWithImpl<$Res>
+class __$$_BPSubtitlesSourceCopyWithImpl<$Res>
     extends _$BPSubtitlesSourceCopyWithImpl<$Res>
-    implements _$BPSubtitlesSourceCopyWith<$Res> {
-  __$BPSubtitlesSourceCopyWithImpl(
-      _BPSubtitlesSource _value, $Res Function(_BPSubtitlesSource) _then)
-      : super(_value, (v) => _then(v as _BPSubtitlesSource));
+    implements _$$_BPSubtitlesSourceCopyWith<$Res> {
+  __$$_BPSubtitlesSourceCopyWithImpl(
+      _$_BPSubtitlesSource _value, $Res Function(_$_BPSubtitlesSource) _then)
+      : super(_value, (v) => _then(v as _$_BPSubtitlesSource));
 
   @override
-  _BPSubtitlesSource get _value => super._value as _BPSubtitlesSource;
+  _$_BPSubtitlesSource get _value => super._value as _$_BPSubtitlesSource;
 
   @override
   $Res call({
@@ -173,7 +173,7 @@ class __$BPSubtitlesSourceCopyWithImpl<$Res>
     Object? asmsSegmentsTime = freezed,
     Object? asmsSegments = freezed,
   }) {
-    return _then(_BPSubtitlesSource(
+    return _then(_$_BPSubtitlesSource(
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -183,7 +183,7 @@ class __$BPSubtitlesSourceCopyWithImpl<$Res>
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
       urls: urls == freezed
-          ? _value.urls
+          ? _value._urls
           : urls // ignore: cast_nullable_to_non_nullable
               as List<String?>?,
       content: content == freezed
@@ -195,7 +195,7 @@ class __$BPSubtitlesSourceCopyWithImpl<$Res>
           : selectedByDefault // ignore: cast_nullable_to_non_nullable
               as bool?,
       headers: headers == freezed
-          ? _value.headers
+          ? _value._headers
           : headers // ignore: cast_nullable_to_non_nullable
               as Map<String, String>?,
       asmsIsSegmented: asmsIsSegmented == freezed
@@ -207,7 +207,7 @@ class __$BPSubtitlesSourceCopyWithImpl<$Res>
           : asmsSegmentsTime // ignore: cast_nullable_to_non_nullable
               as int?,
       asmsSegments: asmsSegments == freezed
-          ? _value.asmsSegments
+          ? _value._asmsSegments
           : asmsSegments // ignore: cast_nullable_to_non_nullable
               as List<BPAsmsSubtitleSegment>?,
     ));
@@ -306,20 +306,20 @@ class _$_BPSubtitlesSource extends _BPSubtitlesSource {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPSubtitlesSource &&
+            other is _$_BPSubtitlesSource &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.urls, urls) &&
+            const DeepCollectionEquality().equals(other._urls, _urls) &&
             const DeepCollectionEquality().equals(other.content, content) &&
             const DeepCollectionEquality()
                 .equals(other.selectedByDefault, selectedByDefault) &&
-            const DeepCollectionEquality().equals(other.headers, headers) &&
+            const DeepCollectionEquality().equals(other._headers, _headers) &&
             const DeepCollectionEquality()
                 .equals(other.asmsIsSegmented, asmsIsSegmented) &&
             const DeepCollectionEquality()
                 .equals(other.asmsSegmentsTime, asmsSegmentsTime) &&
             const DeepCollectionEquality()
-                .equals(other.asmsSegments, asmsSegments));
+                .equals(other._asmsSegments, _asmsSegments));
   }
 
   @override
@@ -327,18 +327,19 @@ class _$_BPSubtitlesSource extends _BPSubtitlesSource {
       runtimeType,
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(urls),
+      const DeepCollectionEquality().hash(_urls),
       const DeepCollectionEquality().hash(content),
       const DeepCollectionEquality().hash(selectedByDefault),
-      const DeepCollectionEquality().hash(headers),
+      const DeepCollectionEquality().hash(_headers),
       const DeepCollectionEquality().hash(asmsIsSegmented),
       const DeepCollectionEquality().hash(asmsSegmentsTime),
-      const DeepCollectionEquality().hash(asmsSegments));
+      const DeepCollectionEquality().hash(_asmsSegments));
 
   @JsonKey(ignore: true)
   @override
-  _$BPSubtitlesSourceCopyWith<_BPSubtitlesSource> get copyWith =>
-      __$BPSubtitlesSourceCopyWithImpl<_BPSubtitlesSource>(this, _$identity);
+  _$$_BPSubtitlesSourceCopyWith<_$_BPSubtitlesSource> get copyWith =>
+      __$$_BPSubtitlesSourceCopyWithImpl<_$_BPSubtitlesSource>(
+          this, _$identity);
 }
 
 abstract class _BPSubtitlesSource extends BPSubtitlesSource {
@@ -395,6 +396,6 @@ abstract class _BPSubtitlesSource extends BPSubtitlesSource {
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPSubtitlesSourceCopyWith<_BPSubtitlesSource> get copyWith =>
+  _$$_BPSubtitlesSourceCopyWith<_$_BPSubtitlesSource> get copyWith =>
       throw _privateConstructorUsedError;
 }

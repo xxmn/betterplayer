@@ -187,11 +187,11 @@ class _$BPPlayingStatusCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPPlayingStatusCopyWith<$Res>
+abstract class _$$_BPPlayingStatusCopyWith<$Res>
     implements $BPPlayingStatusCopyWith<$Res> {
-  factory _$BPPlayingStatusCopyWith(
-          _BPPlayingStatus value, $Res Function(_BPPlayingStatus) then) =
-      __$BPPlayingStatusCopyWithImpl<$Res>;
+  factory _$$_BPPlayingStatusCopyWith(
+          _$_BPPlayingStatus value, $Res Function(_$_BPPlayingStatus) then) =
+      __$$_BPPlayingStatusCopyWithImpl<$Res>;
   @override
   $Res call(
       {Duration position,
@@ -212,15 +212,15 @@ abstract class _$BPPlayingStatusCopyWith<$Res>
 }
 
 /// @nodoc
-class __$BPPlayingStatusCopyWithImpl<$Res>
+class __$$_BPPlayingStatusCopyWithImpl<$Res>
     extends _$BPPlayingStatusCopyWithImpl<$Res>
-    implements _$BPPlayingStatusCopyWith<$Res> {
-  __$BPPlayingStatusCopyWithImpl(
-      _BPPlayingStatus _value, $Res Function(_BPPlayingStatus) _then)
-      : super(_value, (v) => _then(v as _BPPlayingStatus));
+    implements _$$_BPPlayingStatusCopyWith<$Res> {
+  __$$_BPPlayingStatusCopyWithImpl(
+      _$_BPPlayingStatus _value, $Res Function(_$_BPPlayingStatus) _then)
+      : super(_value, (v) => _then(v as _$_BPPlayingStatus));
 
   @override
-  _BPPlayingStatus get _value => super._value as _BPPlayingStatus;
+  _$_BPPlayingStatus get _value => super._value as _$_BPPlayingStatus;
 
   @override
   $Res call({
@@ -240,7 +240,7 @@ class __$BPPlayingStatusCopyWithImpl<$Res>
     Object? isPip = freezed,
     Object? isFullScreen = freezed,
   }) {
-    return _then(_BPPlayingStatus(
+    return _then(_$_BPPlayingStatus(
       position: position == freezed
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -412,7 +412,7 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPPlayingStatus &&
+            other is _$_BPPlayingStatus &&
             const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality()
                 .equals(other.absolutePosition, absolutePosition) &&
@@ -457,8 +457,8 @@ class _$_BPPlayingStatus implements _BPPlayingStatus {
 
   @JsonKey(ignore: true)
   @override
-  _$BPPlayingStatusCopyWith<_BPPlayingStatus> get copyWith =>
-      __$BPPlayingStatusCopyWithImpl<_BPPlayingStatus>(this, _$identity);
+  _$$_BPPlayingStatusCopyWith<_$_BPPlayingStatus> get copyWith =>
+      __$$_BPPlayingStatusCopyWithImpl<_$_BPPlayingStatus>(this, _$identity);
 }
 
 abstract class _BPPlayingStatus implements BPPlayingStatus {
@@ -546,6 +546,6 @@ abstract class _BPPlayingStatus implements BPPlayingStatus {
   bool get isFullScreen => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPPlayingStatusCopyWith<_BPPlayingStatus> get copyWith =>
+  _$$_BPPlayingStatusCopyWith<_$_BPPlayingStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }

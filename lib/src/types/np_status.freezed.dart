@@ -45,6 +45,9 @@ mixin _$NPStatus {
   /// True if the video is currently buffering.
   bool get isBuffering => throw _privateConstructorUsedError;
 
+  /// 播放完成
+  bool get isCompleted => throw _privateConstructorUsedError;
+
   /// The current volume of the playback.
   double get volume => throw _privateConstructorUsedError;
 
@@ -83,6 +86,7 @@ abstract class $NPStatusCopyWith<$Res> {
       bool isPlayWhenReady,
       bool isLooping,
       bool isBuffering,
+      bool isCompleted,
       double volume,
       double speed,
       String? errorDescription,
@@ -109,6 +113,7 @@ class _$NPStatusCopyWithImpl<$Res> implements $NPStatusCopyWith<$Res> {
     Object? isPlayWhenReady = freezed,
     Object? isLooping = freezed,
     Object? isBuffering = freezed,
+    Object? isCompleted = freezed,
     Object? volume = freezed,
     Object? speed = freezed,
     Object? errorDescription = freezed,
@@ -152,6 +157,10 @@ class _$NPStatusCopyWithImpl<$Res> implements $NPStatusCopyWith<$Res> {
           ? _value.isBuffering
           : isBuffering // ignore: cast_nullable_to_non_nullable
               as bool,
+      isCompleted: isCompleted == freezed
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       volume: volume == freezed
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -177,9 +186,10 @@ class _$NPStatusCopyWithImpl<$Res> implements $NPStatusCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$NPStatusCopyWith<$Res> implements $NPStatusCopyWith<$Res> {
-  factory _$NPStatusCopyWith(_NPStatus value, $Res Function(_NPStatus) then) =
-      __$NPStatusCopyWithImpl<$Res>;
+abstract class _$$_NPStatusCopyWith<$Res> implements $NPStatusCopyWith<$Res> {
+  factory _$$_NPStatusCopyWith(
+          _$_NPStatus value, $Res Function(_$_NPStatus) then) =
+      __$$_NPStatusCopyWithImpl<$Res>;
   @override
   $Res call(
       {Duration? duration,
@@ -191,6 +201,7 @@ abstract class _$NPStatusCopyWith<$Res> implements $NPStatusCopyWith<$Res> {
       bool isPlayWhenReady,
       bool isLooping,
       bool isBuffering,
+      bool isCompleted,
       double volume,
       double speed,
       String? errorDescription,
@@ -199,13 +210,14 @@ abstract class _$NPStatusCopyWith<$Res> implements $NPStatusCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
-    implements _$NPStatusCopyWith<$Res> {
-  __$NPStatusCopyWithImpl(_NPStatus _value, $Res Function(_NPStatus) _then)
-      : super(_value, (v) => _then(v as _NPStatus));
+class __$$_NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
+    implements _$$_NPStatusCopyWith<$Res> {
+  __$$_NPStatusCopyWithImpl(
+      _$_NPStatus _value, $Res Function(_$_NPStatus) _then)
+      : super(_value, (v) => _then(v as _$_NPStatus));
 
   @override
-  _NPStatus get _value => super._value as _NPStatus;
+  _$_NPStatus get _value => super._value as _$_NPStatus;
 
   @override
   $Res call({
@@ -218,13 +230,14 @@ class __$NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
     Object? isPlayWhenReady = freezed,
     Object? isLooping = freezed,
     Object? isBuffering = freezed,
+    Object? isCompleted = freezed,
     Object? volume = freezed,
     Object? speed = freezed,
     Object? errorDescription = freezed,
     Object? size = freezed,
     Object? isPip = freezed,
   }) {
-    return _then(_NPStatus(
+    return _then(_$_NPStatus(
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -242,7 +255,7 @@ class __$NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
           : absolutePosition // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       buffered: buffered == freezed
-          ? _value.buffered
+          ? _value._buffered
           : buffered // ignore: cast_nullable_to_non_nullable
               as List<DurationRange>?,
       isPlaying: isPlaying == freezed
@@ -260,6 +273,10 @@ class __$NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
       isBuffering: isBuffering == freezed
           ? _value.isBuffering
           : isBuffering // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCompleted: isCompleted == freezed
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
       volume: volume == freezed
           ? _value.volume
@@ -298,6 +315,7 @@ class _$_NPStatus extends _NPStatus {
       this.isPlayWhenReady = true,
       this.isLooping = false,
       this.isBuffering = false,
+      this.isCompleted = false,
       this.volume = 1.0,
       this.speed = 1.0,
       this.errorDescription,
@@ -356,6 +374,11 @@ class _$_NPStatus extends _NPStatus {
   @JsonKey()
   final bool isBuffering;
 
+  /// 播放完成
+  @override
+  @JsonKey()
+  final bool isCompleted;
+
   /// The current volume of the playback.
   @override
   @JsonKey()
@@ -385,26 +408,28 @@ class _$_NPStatus extends _NPStatus {
 
   @override
   String toString() {
-    return 'NPStatus(duration: $duration, position: $position, seekTo: $seekTo, absolutePosition: $absolutePosition, buffered: $buffered, isPlaying: $isPlaying, isPlayWhenReady: $isPlayWhenReady, isLooping: $isLooping, isBuffering: $isBuffering, volume: $volume, speed: $speed, errorDescription: $errorDescription, size: $size, isPip: $isPip)';
+    return 'NPStatus(duration: $duration, position: $position, seekTo: $seekTo, absolutePosition: $absolutePosition, buffered: $buffered, isPlaying: $isPlaying, isPlayWhenReady: $isPlayWhenReady, isLooping: $isLooping, isBuffering: $isBuffering, isCompleted: $isCompleted, volume: $volume, speed: $speed, errorDescription: $errorDescription, size: $size, isPip: $isPip)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _NPStatus &&
+            other is _$_NPStatus &&
             const DeepCollectionEquality().equals(other.duration, duration) &&
             const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality().equals(other.seekTo, seekTo) &&
             const DeepCollectionEquality()
                 .equals(other.absolutePosition, absolutePosition) &&
-            const DeepCollectionEquality().equals(other.buffered, buffered) &&
+            const DeepCollectionEquality().equals(other._buffered, _buffered) &&
             const DeepCollectionEquality().equals(other.isPlaying, isPlaying) &&
             const DeepCollectionEquality()
                 .equals(other.isPlayWhenReady, isPlayWhenReady) &&
             const DeepCollectionEquality().equals(other.isLooping, isLooping) &&
             const DeepCollectionEquality()
                 .equals(other.isBuffering, isBuffering) &&
+            const DeepCollectionEquality()
+                .equals(other.isCompleted, isCompleted) &&
             const DeepCollectionEquality().equals(other.volume, volume) &&
             const DeepCollectionEquality().equals(other.speed, speed) &&
             const DeepCollectionEquality()
@@ -420,11 +445,12 @@ class _$_NPStatus extends _NPStatus {
       const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(seekTo),
       const DeepCollectionEquality().hash(absolutePosition),
-      const DeepCollectionEquality().hash(buffered),
+      const DeepCollectionEquality().hash(_buffered),
       const DeepCollectionEquality().hash(isPlaying),
       const DeepCollectionEquality().hash(isPlayWhenReady),
       const DeepCollectionEquality().hash(isLooping),
       const DeepCollectionEquality().hash(isBuffering),
+      const DeepCollectionEquality().hash(isCompleted),
       const DeepCollectionEquality().hash(volume),
       const DeepCollectionEquality().hash(speed),
       const DeepCollectionEquality().hash(errorDescription),
@@ -433,8 +459,8 @@ class _$_NPStatus extends _NPStatus {
 
   @JsonKey(ignore: true)
   @override
-  _$NPStatusCopyWith<_NPStatus> get copyWith =>
-      __$NPStatusCopyWithImpl<_NPStatus>(this, _$identity);
+  _$$_NPStatusCopyWith<_$_NPStatus> get copyWith =>
+      __$$_NPStatusCopyWithImpl<_$_NPStatus>(this, _$identity);
 }
 
 abstract class _NPStatus extends NPStatus {
@@ -448,6 +474,7 @@ abstract class _NPStatus extends NPStatus {
       final bool isPlayWhenReady,
       final bool isLooping,
       final bool isBuffering,
+      final bool isCompleted,
       final double volume,
       final double speed,
       final String? errorDescription,
@@ -495,6 +522,10 @@ abstract class _NPStatus extends NPStatus {
   bool get isBuffering => throw _privateConstructorUsedError;
   @override
 
+  /// 播放完成
+  bool get isCompleted => throw _privateConstructorUsedError;
+  @override
+
   /// The current volume of the playback.
   double get volume => throw _privateConstructorUsedError;
   @override
@@ -519,6 +550,6 @@ abstract class _NPStatus extends NPStatus {
   bool get isPip => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$NPStatusCopyWith<_NPStatus> get copyWith =>
+  _$$_NPStatusCopyWith<_$_NPStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }

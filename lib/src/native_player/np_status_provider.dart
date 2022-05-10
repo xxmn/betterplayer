@@ -20,7 +20,7 @@ class NPControllerNotifier extends StateNotifier<NPStatus> {
   int? textureId;
   StreamSubscription<NPVideoEvent>? _eventSubscription;
   NPControllerNotifier({this.textureId}) : super(NPStatus()) {
-    print("in NPControllerNotifier constructor, textureId: $textureId");
+    // print("in NPControllerNotifier constructor, textureId: $textureId");
     if (textureId != null) {
       _eventSubscription = npPlatform.videoEventsFor(textureId!).listen(
             eventListener,
@@ -36,7 +36,7 @@ class NPControllerNotifier extends StateNotifier<NPStatus> {
   }
 
   void eventListener(NPVideoEvent event) {
-    print("np status provider recieved a event: $event");
+    // print("np status provider recieved a event: $event");
     if (!mounted) return;
 
     switch (event.eventType) {
@@ -48,7 +48,7 @@ class NPControllerNotifier extends StateNotifier<NPStatus> {
         npPlatform.play(textureId);
         break;
       case NPVideoEventType.completed:
-        state = state.copyWith(isPlaying: false);
+        state = state.copyWith(isPlaying: false, isCompleted: true);
         break;
       case NPVideoEventType.bufferingUpdate:
         state = state.copyWith(buffered: event.buffered!);

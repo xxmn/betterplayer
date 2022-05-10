@@ -8,9 +8,7 @@ class NativePlayer extends HookConsumerWidget {
   const NativePlayer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var npPlayerStatus = ref.watch(npCreateProvider!);
-    return npPlayerStatus.isCreated && npPlayerStatus.textureId != null
-        ? npPlatform.buildView(npPlayerStatus.textureId)
-        : Container();
+    var textureId = ref.watch(npCreateProvider!.select((v) => v.textureId));
+    return textureId != null ? npPlatform.buildView(textureId) : SizedBox();
   }
 }

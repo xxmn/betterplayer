@@ -24,15 +24,16 @@ dependencies:
   visibility_detector: ^0.3.2
   path_provider: ^2.0.8
   collection: ^1.15.0
-  dartx: ^1.1.0
+  # dartx: ^1.1.0
   # get_it: ^7.2.0
   after_layout: ^1.1.0
   xml: ^5.3.1
   brightness_volume: ^1.0.3
   cached_network_image: ^3.2.0
   font_awesome_flutter: ^10.1.0
-  event_bus:
-    path: ../dart-event-bus
+  easy_debounce: ^2.0.2+1
+  # event_bus:
+  #   path: ../dart-event-bus
 
 dev_dependencies:
   # lint: ^1.8.1

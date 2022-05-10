@@ -66,25 +66,25 @@ class __$BPVideoSctionConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$_BPVideoSctionConfigCopyWith<$Res>
+abstract class _$$__BPVideoSctionConfigCopyWith<$Res>
     implements _$BPVideoSctionConfigCopyWith<$Res> {
-  factory _$_BPVideoSctionConfigCopyWith(__BPVideoSctionConfig value,
-          $Res Function(__BPVideoSctionConfig) then) =
-      __$_BPVideoSctionConfigCopyWithImpl<$Res>;
+  factory _$$__BPVideoSctionConfigCopyWith(_$__BPVideoSctionConfig value,
+          $Res Function(_$__BPVideoSctionConfig) then) =
+      __$$__BPVideoSctionConfigCopyWithImpl<$Res>;
   @override
   $Res call({int length, bool? isShow, int index});
 }
 
 /// @nodoc
-class __$_BPVideoSctionConfigCopyWithImpl<$Res>
+class __$$__BPVideoSctionConfigCopyWithImpl<$Res>
     extends __$BPVideoSctionConfigCopyWithImpl<$Res>
-    implements _$_BPVideoSctionConfigCopyWith<$Res> {
-  __$_BPVideoSctionConfigCopyWithImpl(
-      __BPVideoSctionConfig _value, $Res Function(__BPVideoSctionConfig) _then)
-      : super(_value, (v) => _then(v as __BPVideoSctionConfig));
+    implements _$$__BPVideoSctionConfigCopyWith<$Res> {
+  __$$__BPVideoSctionConfigCopyWithImpl(_$__BPVideoSctionConfig _value,
+      $Res Function(_$__BPVideoSctionConfig) _then)
+      : super(_value, (v) => _then(v as _$__BPVideoSctionConfig));
 
   @override
-  __BPVideoSctionConfig get _value => super._value as __BPVideoSctionConfig;
+  _$__BPVideoSctionConfig get _value => super._value as _$__BPVideoSctionConfig;
 
   @override
   $Res call({
@@ -92,7 +92,7 @@ class __$_BPVideoSctionConfigCopyWithImpl<$Res>
     Object? isShow = freezed,
     Object? index = freezed,
   }) {
-    return _then(__BPVideoSctionConfig(
+    return _then(_$__BPVideoSctionConfig(
       length: length == freezed
           ? _value.length
           : length // ignore: cast_nullable_to_non_nullable
@@ -145,7 +145,7 @@ class _$__BPVideoSctionConfig
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is __BPVideoSctionConfig &&
+            other is _$__BPVideoSctionConfig &&
             const DeepCollectionEquality().equals(other.length, length) &&
             const DeepCollectionEquality().equals(other.isShow, isShow) &&
             const DeepCollectionEquality().equals(other.index, index));
@@ -160,8 +160,8 @@ class _$__BPVideoSctionConfig
 
   @JsonKey(ignore: true)
   @override
-  _$_BPVideoSctionConfigCopyWith<__BPVideoSctionConfig> get copyWith =>
-      __$_BPVideoSctionConfigCopyWithImpl<__BPVideoSctionConfig>(
+  _$$__BPVideoSctionConfigCopyWith<_$__BPVideoSctionConfig> get copyWith =>
+      __$$__BPVideoSctionConfigCopyWithImpl<_$__BPVideoSctionConfig>(
           this, _$identity);
 }
 
@@ -179,6 +179,6 @@ abstract class __BPVideoSctionConfig implements _BPVideoSctionConfig {
   int get index => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$_BPVideoSctionConfigCopyWith<__BPVideoSctionConfig> get copyWith =>
+  _$$__BPVideoSctionConfigCopyWith<_$__BPVideoSctionConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

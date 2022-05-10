@@ -165,9 +165,10 @@ class _$BPConfigCopyWithImpl<$Res> implements $BPConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$BPConfigCopyWith<$Res> implements $BPConfigCopyWith<$Res> {
-  factory _$BPConfigCopyWith(_BPConfig value, $Res Function(_BPConfig) then) =
-      __$BPConfigCopyWithImpl<$Res>;
+abstract class _$$_BPConfigCopyWith<$Res> implements $BPConfigCopyWith<$Res> {
+  factory _$$_BPConfigCopyWith(
+          _$_BPConfig value, $Res Function(_$_BPConfig) then) =
+      __$$_BPConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {Widget Function(BuildContext, String?)? errorBuilder,
@@ -184,13 +185,14 @@ abstract class _$BPConfigCopyWith<$Res> implements $BPConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$BPConfigCopyWithImpl<$Res> extends _$BPConfigCopyWithImpl<$Res>
-    implements _$BPConfigCopyWith<$Res> {
-  __$BPConfigCopyWithImpl(_BPConfig _value, $Res Function(_BPConfig) _then)
-      : super(_value, (v) => _then(v as _BPConfig));
+class __$$_BPConfigCopyWithImpl<$Res> extends _$BPConfigCopyWithImpl<$Res>
+    implements _$$_BPConfigCopyWith<$Res> {
+  __$$_BPConfigCopyWithImpl(
+      _$_BPConfig _value, $Res Function(_$_BPConfig) _then)
+      : super(_value, (v) => _then(v as _$_BPConfig));
 
   @override
-  _BPConfig get _value => super._value as _BPConfig;
+  _$_BPConfig get _value => super._value as _$_BPConfig;
 
   @override
   $Res call({
@@ -206,7 +208,7 @@ class __$BPConfigCopyWithImpl<$Res> extends _$BPConfigCopyWithImpl<$Res>
     Object? playerVisibilityChangedBehavior = freezed,
     Object? autoDispose = freezed,
   }) {
-    return _then(_BPConfig(
+    return _then(_$_BPConfig(
       errorBuilder: errorBuilder == freezed
           ? _value.errorBuilder
           : errorBuilder // ignore: cast_nullable_to_non_nullable
@@ -266,7 +268,7 @@ class _$_BPConfig implements _BPConfig {
       this.placeholderOnTop = true,
       this.showPlaceholderUntilPlay = false,
       this.overlay,
-      this.fit = BoxFit.fill,
+      this.fit = BoxFit.contain,
       this.expandToFill = true,
       this.rotation = 0,
       this.playerVisibilityChangedBehavior,
@@ -353,7 +355,7 @@ class _$_BPConfig implements _BPConfig {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPConfig &&
+            other is _$_BPConfig &&
             (identical(other.errorBuilder, errorBuilder) ||
                 other.errorBuilder == errorBuilder) &&
             const DeepCollectionEquality()
@@ -394,8 +396,8 @@ class _$_BPConfig implements _BPConfig {
 
   @JsonKey(ignore: true)
   @override
-  _$BPConfigCopyWith<_BPConfig> get copyWith =>
-      __$BPConfigCopyWithImpl<_BPConfig>(this, _$identity);
+  _$$_BPConfigCopyWith<_$_BPConfig> get copyWith =>
+      __$$_BPConfigCopyWithImpl<_$_BPConfig>(this, _$identity);
 }
 
 abstract class _BPConfig implements BPConfig {
@@ -477,6 +479,6 @@ abstract class _BPConfig implements BPConfig {
   bool get autoDispose => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPConfigCopyWith<_BPConfig> get copyWith =>
+  _$$_BPConfigCopyWith<_$_BPConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

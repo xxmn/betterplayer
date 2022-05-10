@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'duration_range.dart';
 part 'np_status.freezed.dart';
 
@@ -38,6 +36,9 @@ class NPStatus with _$NPStatus {
 
     /// True if the video is currently buffering.
     @Default(false) bool isBuffering,
+
+    /// 播放完成
+    @Default(false) bool isCompleted,
 
     /// The current volume of the playback.
     @Default(1.0) double volume,

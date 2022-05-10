@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

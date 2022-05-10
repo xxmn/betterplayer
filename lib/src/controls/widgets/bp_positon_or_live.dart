@@ -11,7 +11,8 @@ class PositonOrLive extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
-    var enableProgressText = ref.watch(bpControlsProvider!.select((v) => v.enableProgressText));
+    var enableProgressText =
+        ref.watch(bpControlsConfigProvider!.select((v) => v.enableProgressText));
     if (isLiveStream)
       return LiveText();
     else
@@ -24,7 +25,7 @@ class LiveText extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var controlsLive = ref.watch(bpTranslationsProvider!.select((v) => v.controlsLive));
-    var liveTextColor = ref.watch(bpControlsProvider!.select((v) => v.liveTextColor));
+    var liveTextColor = ref.watch(bpControlsConfigProvider!.select((v) => v.liveTextColor));
     return Text(
       controlsLive,
       style: TextStyle(color: liveTextColor, fontWeight: FontWeight.bold),
@@ -38,8 +39,8 @@ class PositionText extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var position = ref.watch(bpPlayingStatusProvider!.select((v) => v.position));
     var duration = ref.watch(bpDataSourceProvider!.select((v) => v?.duration ?? Duration.zero));
-    var enablePlayPause = ref.watch(bpControlsProvider!.select((v) => v.enablePlayPause));
-    var textColor = ref.watch(bpControlsProvider!.select((v) => v.textColor));
+    var enablePlayPause = ref.watch(bpControlsConfigProvider!.select((v) => v.enablePlayPause));
+    var textColor = ref.watch(bpControlsConfigProvider!.select((v) => v.textColor));
 
     return Padding(
       padding: enablePlayPause

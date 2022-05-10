@@ -65,7 +65,7 @@ class BPConfig with _$BPConfig {
 
     ///Defines fit of the video, allows to fix video stretching, see possible
     ///values here: https://api.flutter.dev/flutter/painting/BoxFit-class.html
-    @Default(BoxFit.fill) BoxFit fit,
+    @Default(BoxFit.contain) BoxFit fit,
 
     ///Flag which causes to player expand to fill all remaining space. Set to false
     ///to use minimum constraints

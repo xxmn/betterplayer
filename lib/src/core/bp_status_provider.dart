@@ -1,3 +1,5 @@
+import 'package:better_player/src/config/bp_config_provider.dart';
+import 'package:better_player/src/native_player/np_set_data_source_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +11,13 @@ final bpIsInitializedProvider = StateProvider(
   (ref) => ref.watch(npStatusProvider.select((v) => v.initialized)),
 );
 
-final bpIsStartedProvider = StateProvider((ref) => false);
+/// 显示 _MaybeBPVideoFitWidget-->NativePlayer，观看视频
+final bpShouldShowVideoProvider = StateProvider((ref) {
+  var showholder = ref.watch(bpConfigProvider!.select((v) => v.showPlaceholderUntilPlay));
+  // if (!showholder) return true;
+  var setDS = ref.watch(npSetDataSourceProvider);
+  return setDS;
+});
 
 ///
 /// better player width、 height
@@ -21,6 +29,7 @@ final bpSizeProvider = Provider<Size>((ref) {
 
 ///
 ///Has player visible.
+///播放器是否可见
 ///
 
 final bpIsVisibleProvider = StateNotifierProvider<IsVisibleNotifier, bool>(
@@ -37,14 +46,6 @@ class IsVisibleNotifier extends StateNotifier<bool> {
     }
   }
 }
-
-///
-///Has Controls Visible.
-///
-
-final bpControlsVisibleProvider = StateNotifierProvider<ControlsVisible, bool>(
-  (ref) => ControlsVisible(true),
-);
 
 class ControlsVisible extends StateNotifier<bool> {
   ControlsVisible(bool isVisible) : super(isVisible);

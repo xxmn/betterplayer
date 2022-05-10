@@ -64,32 +64,32 @@ class _$BPAppLifecycleCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPAppLifecycleCopyWith<$Res>
+abstract class _$$_BPAppLifecycleCopyWith<$Res>
     implements $BPAppLifecycleCopyWith<$Res> {
-  factory _$BPAppLifecycleCopyWith(
-          _BPAppLifecycle value, $Res Function(_BPAppLifecycle) then) =
-      __$BPAppLifecycleCopyWithImpl<$Res>;
+  factory _$$_BPAppLifecycleCopyWith(
+          _$_BPAppLifecycle value, $Res Function(_$_BPAppLifecycle) then) =
+      __$$_BPAppLifecycleCopyWithImpl<$Res>;
   @override
   $Res call({AppLifecycleState appLifecycleState, bool isHandleLifecycle});
 }
 
 /// @nodoc
-class __$BPAppLifecycleCopyWithImpl<$Res>
+class __$$_BPAppLifecycleCopyWithImpl<$Res>
     extends _$BPAppLifecycleCopyWithImpl<$Res>
-    implements _$BPAppLifecycleCopyWith<$Res> {
-  __$BPAppLifecycleCopyWithImpl(
-      _BPAppLifecycle _value, $Res Function(_BPAppLifecycle) _then)
-      : super(_value, (v) => _then(v as _BPAppLifecycle));
+    implements _$$_BPAppLifecycleCopyWith<$Res> {
+  __$$_BPAppLifecycleCopyWithImpl(
+      _$_BPAppLifecycle _value, $Res Function(_$_BPAppLifecycle) _then)
+      : super(_value, (v) => _then(v as _$_BPAppLifecycle));
 
   @override
-  _BPAppLifecycle get _value => super._value as _BPAppLifecycle;
+  _$_BPAppLifecycle get _value => super._value as _$_BPAppLifecycle;
 
   @override
   $Res call({
     Object? appLifecycleState = freezed,
     Object? isHandleLifecycle = freezed,
   }) {
-    return _then(_BPAppLifecycle(
+    return _then(_$_BPAppLifecycle(
       appLifecycleState: appLifecycleState == freezed
           ? _value.appLifecycleState
           : appLifecycleState // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ class _$_BPAppLifecycle
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPAppLifecycle &&
+            other is _$_BPAppLifecycle &&
             const DeepCollectionEquality()
                 .equals(other.appLifecycleState, appLifecycleState) &&
             const DeepCollectionEquality()
@@ -155,8 +155,8 @@ class _$_BPAppLifecycle
 
   @JsonKey(ignore: true)
   @override
-  _$BPAppLifecycleCopyWith<_BPAppLifecycle> get copyWith =>
-      __$BPAppLifecycleCopyWithImpl<_BPAppLifecycle>(this, _$identity);
+  _$$_BPAppLifecycleCopyWith<_$_BPAppLifecycle> get copyWith =>
+      __$$_BPAppLifecycleCopyWithImpl<_$_BPAppLifecycle>(this, _$identity);
 }
 
 abstract class _BPAppLifecycle implements BPAppLifecycle {
@@ -175,6 +175,6 @@ abstract class _BPAppLifecycle implements BPAppLifecycle {
   bool get isHandleLifecycle => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPAppLifecycleCopyWith<_BPAppLifecycle> get copyWith =>
+  _$$_BPAppLifecycleCopyWith<_$_BPAppLifecycle> get copyWith =>
       throw _privateConstructorUsedError;
 }

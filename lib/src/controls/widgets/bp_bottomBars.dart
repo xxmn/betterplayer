@@ -1,5 +1,6 @@
 import 'package:better_player/src/config/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/controls/widgets/bp_mute_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
@@ -23,12 +24,12 @@ class _BottomBars extends HookConsumerWidget {
   const _BottomBars({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
+    var controlBarHeight = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarHeight));
     var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
-    var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
+    var showControls = ref.watch(bpShowControlsProvider);
+    var controlsHideTime = ref.watch(bpControlsConfigProvider!.select((v) => v.controlsHideTime));
     return AnimatedOpacity(
-      opacity: controlsVisible ? 1.0 : 0.0,
+      opacity: showControls ? 1.0 : 0.0,
       duration: controlsHideTime,
       onEnd: () => _onPlayerHide(ref.read),
       child: Container(
@@ -57,5 +58,5 @@ class _BottomBars extends HookConsumerWidget {
 }
 
 void _onPlayerHide(T Function<T>(ProviderBase<T>) read) {
-  read(bpControlsVisibleProvider.notifier).setVisible(false);
+  // read(bpShowControlsProvider.notifier).toggle();
 }

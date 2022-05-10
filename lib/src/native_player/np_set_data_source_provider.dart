@@ -32,7 +32,7 @@ class NPDataSourceNotifier extends StateNotifier<bool> {
       var _initializingCompleter = Completer<void>();
       _initializingCompleter.complete(null);
 
-      print("set data source for native player ok.");
+      // print("set data source for native player ok.");
       //set data source successed
       state = true;
     }

@@ -26,7 +26,7 @@ class VideoSections extends HookConsumerWidget {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
-              Expanded(child: Container()),
+              Expanded(child: SizedBox()),
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(

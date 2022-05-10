@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'np_event.freezed.dart';
 
 /// Event emitted from the platform implementation.
+
 @freezed
 class NPVideoEvent with _$NPVideoEvent {
   /// Creates an instance of [NPVideoEvent].

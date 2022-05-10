@@ -146,11 +146,11 @@ class _$BPSubtitlesConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPSubtitlesConfigCopyWith<$Res>
+abstract class _$$_BPSubtitlesConfigCopyWith<$Res>
     implements $BPSubtitlesConfigCopyWith<$Res> {
-  factory _$BPSubtitlesConfigCopyWith(
-          _BPSubtitlesConfig value, $Res Function(_BPSubtitlesConfig) then) =
-      __$BPSubtitlesConfigCopyWithImpl<$Res>;
+  factory _$$_BPSubtitlesConfigCopyWith(_$_BPSubtitlesConfig value,
+          $Res Function(_$_BPSubtitlesConfig) then) =
+      __$$_BPSubtitlesConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {double fontSize,
@@ -167,15 +167,15 @@ abstract class _$BPSubtitlesConfigCopyWith<$Res>
 }
 
 /// @nodoc
-class __$BPSubtitlesConfigCopyWithImpl<$Res>
+class __$$_BPSubtitlesConfigCopyWithImpl<$Res>
     extends _$BPSubtitlesConfigCopyWithImpl<$Res>
-    implements _$BPSubtitlesConfigCopyWith<$Res> {
-  __$BPSubtitlesConfigCopyWithImpl(
-      _BPSubtitlesConfig _value, $Res Function(_BPSubtitlesConfig) _then)
-      : super(_value, (v) => _then(v as _BPSubtitlesConfig));
+    implements _$$_BPSubtitlesConfigCopyWith<$Res> {
+  __$$_BPSubtitlesConfigCopyWithImpl(
+      _$_BPSubtitlesConfig _value, $Res Function(_$_BPSubtitlesConfig) _then)
+      : super(_value, (v) => _then(v as _$_BPSubtitlesConfig));
 
   @override
-  _BPSubtitlesConfig get _value => super._value as _BPSubtitlesConfig;
+  _$_BPSubtitlesConfig get _value => super._value as _$_BPSubtitlesConfig;
 
   @override
   $Res call({
@@ -191,7 +191,7 @@ class __$BPSubtitlesConfigCopyWithImpl<$Res>
     Object? alignment = freezed,
     Object? backgroundColor = freezed,
   }) {
-    return _then(_BPSubtitlesConfig(
+    return _then(_$_BPSubtitlesConfig(
       fontSize: fontSize == freezed
           ? _value.fontSize
           : fontSize // ignore: cast_nullable_to_non_nullable
@@ -320,7 +320,7 @@ class _$_BPSubtitlesConfig implements _BPSubtitlesConfig {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPSubtitlesConfig &&
+            other is _$_BPSubtitlesConfig &&
             const DeepCollectionEquality().equals(other.fontSize, fontSize) &&
             const DeepCollectionEquality().equals(other.fontColor, fontColor) &&
             const DeepCollectionEquality()
@@ -359,8 +359,9 @@ class _$_BPSubtitlesConfig implements _BPSubtitlesConfig {
 
   @JsonKey(ignore: true)
   @override
-  _$BPSubtitlesConfigCopyWith<_BPSubtitlesConfig> get copyWith =>
-      __$BPSubtitlesConfigCopyWithImpl<_BPSubtitlesConfig>(this, _$identity);
+  _$$_BPSubtitlesConfigCopyWith<_$_BPSubtitlesConfig> get copyWith =>
+      __$$_BPSubtitlesConfigCopyWithImpl<_$_BPSubtitlesConfig>(
+          this, _$identity);
 }
 
 abstract class _BPSubtitlesConfig implements BPSubtitlesConfig {
@@ -423,6 +424,6 @@ abstract class _BPSubtitlesConfig implements BPSubtitlesConfig {
   Color get backgroundColor => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPSubtitlesConfigCopyWith<_BPSubtitlesConfig> get copyWith =>
+  _$$_BPSubtitlesConfigCopyWith<_$_BPSubtitlesConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

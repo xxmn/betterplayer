@@ -142,11 +142,11 @@ class _$BPFullscreenConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$BPFullscreenConfigCopyWith<$Res>
+abstract class _$$_BPFullscreenConfigCopyWith<$Res>
     implements $BPFullscreenConfigCopyWith<$Res> {
-  factory _$BPFullscreenConfigCopyWith(
-          _BPFullscreenConfig value, $Res Function(_BPFullscreenConfig) then) =
-      __$BPFullscreenConfigCopyWithImpl<$Res>;
+  factory _$$_BPFullscreenConfigCopyWith(_$_BPFullscreenConfig value,
+          $Res Function(_$_BPFullscreenConfig) then) =
+      __$$_BPFullscreenConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {bool enableFullscreen,
@@ -161,15 +161,15 @@ abstract class _$BPFullscreenConfigCopyWith<$Res>
 }
 
 /// @nodoc
-class __$BPFullscreenConfigCopyWithImpl<$Res>
+class __$$_BPFullscreenConfigCopyWithImpl<$Res>
     extends _$BPFullscreenConfigCopyWithImpl<$Res>
-    implements _$BPFullscreenConfigCopyWith<$Res> {
-  __$BPFullscreenConfigCopyWithImpl(
-      _BPFullscreenConfig _value, $Res Function(_BPFullscreenConfig) _then)
-      : super(_value, (v) => _then(v as _BPFullscreenConfig));
+    implements _$$_BPFullscreenConfigCopyWith<$Res> {
+  __$$_BPFullscreenConfigCopyWithImpl(
+      _$_BPFullscreenConfig _value, $Res Function(_$_BPFullscreenConfig) _then)
+      : super(_value, (v) => _then(v as _$_BPFullscreenConfig));
 
   @override
-  _BPFullscreenConfig get _value => super._value as _BPFullscreenConfig;
+  _$_BPFullscreenConfig get _value => super._value as _$_BPFullscreenConfig;
 
   @override
   $Res call({
@@ -183,7 +183,7 @@ class __$BPFullscreenConfigCopyWithImpl<$Res>
     Object? fullScreenAspectRatio = freezed,
     Object? autoDetectFullscreenAspectRatio = freezed,
   }) {
-    return _then(_BPFullscreenConfig(
+    return _then(_$_BPFullscreenConfig(
       enableFullscreen: enableFullscreen == freezed
           ? _value.enableFullscreen
           : enableFullscreen // ignore: cast_nullable_to_non_nullable
@@ -197,16 +197,16 @@ class __$BPFullscreenConfigCopyWithImpl<$Res>
           : allowedScreenSleep // ignore: cast_nullable_to_non_nullable
               as bool,
       deviceOrientationsOnFullScreen: deviceOrientationsOnFullScreen == freezed
-          ? _value.deviceOrientationsOnFullScreen
+          ? _value._deviceOrientationsOnFullScreen
           : deviceOrientationsOnFullScreen // ignore: cast_nullable_to_non_nullable
               as List<DeviceOrientation>,
       systemOverlaysAfterFullScreen: systemOverlaysAfterFullScreen == freezed
-          ? _value.systemOverlaysAfterFullScreen
+          ? _value._systemOverlaysAfterFullScreen
           : systemOverlaysAfterFullScreen // ignore: cast_nullable_to_non_nullable
               as List<SystemUiOverlay>,
       deviceOrientationsAfterFullScreen: deviceOrientationsAfterFullScreen ==
               freezed
-          ? _value.deviceOrientationsAfterFullScreen
+          ? _value._deviceOrientationsAfterFullScreen
           : deviceOrientationsAfterFullScreen // ignore: cast_nullable_to_non_nullable
               as List<DeviceOrientation>,
       autoDetectFullscreenDeviceOrientation:
@@ -330,7 +330,7 @@ class _$_BPFullscreenConfig implements _BPFullscreenConfig {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPFullscreenConfig &&
+            other is _$_BPFullscreenConfig &&
             const DeepCollectionEquality()
                 .equals(other.enableFullscreen, enableFullscreen) &&
             const DeepCollectionEquality()
@@ -338,14 +338,14 @@ class _$_BPFullscreenConfig implements _BPFullscreenConfig {
             const DeepCollectionEquality()
                 .equals(other.allowedScreenSleep, allowedScreenSleep) &&
             const DeepCollectionEquality().equals(
-                other.deviceOrientationsOnFullScreen,
-                deviceOrientationsOnFullScreen) &&
+                other._deviceOrientationsOnFullScreen,
+                _deviceOrientationsOnFullScreen) &&
             const DeepCollectionEquality().equals(
-                other.systemOverlaysAfterFullScreen,
-                systemOverlaysAfterFullScreen) &&
+                other._systemOverlaysAfterFullScreen,
+                _systemOverlaysAfterFullScreen) &&
             const DeepCollectionEquality().equals(
-                other.deviceOrientationsAfterFullScreen,
-                deviceOrientationsAfterFullScreen) &&
+                other._deviceOrientationsAfterFullScreen,
+                _deviceOrientationsAfterFullScreen) &&
             const DeepCollectionEquality().equals(
                 other.autoDetectFullscreenDeviceOrientation,
                 autoDetectFullscreenDeviceOrientation) &&
@@ -362,9 +362,9 @@ class _$_BPFullscreenConfig implements _BPFullscreenConfig {
       const DeepCollectionEquality().hash(enableFullscreen),
       const DeepCollectionEquality().hash(fullScreenByDefault),
       const DeepCollectionEquality().hash(allowedScreenSleep),
-      const DeepCollectionEquality().hash(deviceOrientationsOnFullScreen),
-      const DeepCollectionEquality().hash(systemOverlaysAfterFullScreen),
-      const DeepCollectionEquality().hash(deviceOrientationsAfterFullScreen),
+      const DeepCollectionEquality().hash(_deviceOrientationsOnFullScreen),
+      const DeepCollectionEquality().hash(_systemOverlaysAfterFullScreen),
+      const DeepCollectionEquality().hash(_deviceOrientationsAfterFullScreen),
       const DeepCollectionEquality()
           .hash(autoDetectFullscreenDeviceOrientation),
       const DeepCollectionEquality().hash(fullScreenAspectRatio),
@@ -372,8 +372,9 @@ class _$_BPFullscreenConfig implements _BPFullscreenConfig {
 
   @JsonKey(ignore: true)
   @override
-  _$BPFullscreenConfigCopyWith<_BPFullscreenConfig> get copyWith =>
-      __$BPFullscreenConfigCopyWithImpl<_BPFullscreenConfig>(this, _$identity);
+  _$$_BPFullscreenConfigCopyWith<_$_BPFullscreenConfig> get copyWith =>
+      __$$_BPFullscreenConfigCopyWithImpl<_$_BPFullscreenConfig>(
+          this, _$identity);
 }
 
 abstract class _BPFullscreenConfig implements BPFullscreenConfig {
@@ -437,6 +438,6 @@ abstract class _BPFullscreenConfig implements BPFullscreenConfig {
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPFullscreenConfigCopyWith<_BPFullscreenConfig> get copyWith =>
+  _$$_BPFullscreenConfigCopyWith<_$_BPFullscreenConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }

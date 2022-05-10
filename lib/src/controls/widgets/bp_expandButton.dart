@@ -1,6 +1,7 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_fullscreen_provider.dart';
 import 'package:better_player/src/controls/bp_material_clickable_widget.dart';
+import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/core/bp_playing_status_provider.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,12 @@ class ExpandButton extends HookConsumerWidget {
   const ExpandButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var controlsVisible = ref.watch(bpControlsVisibleProvider);
-    var controlsHideTime = ref.watch(bpControlsProvider!.select((v) => v.controlsHideTime));
-    var controlBarHeight = ref.watch(bpControlsProvider!.select((v) => v.controlBarHeight));
-    var disableIcon = ref.watch(bpControlsProvider!.select((v) => v.fullscreenDisableIcon));
-    var enableIcon = ref.watch(bpControlsProvider!.select((v) => v.fullscreenEnableIcon));
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
+    var controlsVisible = ref.watch(bpShowControlsProvider);
+    var controlsHideTime = ref.watch(bpControlsConfigProvider!.select((v) => v.controlsHideTime));
+    var controlBarHeight = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarHeight));
+    var disableIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.fullscreenDisableIcon));
+    var enableIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.fullscreenEnableIcon));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
     var isFullScreen = ref.watch(bpPlayingStatusProvider!.select((v) => v.isFullScreen));
 
     return Padding(
@@ -51,7 +52,7 @@ class ExpandButton extends HookConsumerWidget {
 }
 
 void _onExpandCollapse(T Function<T>(ProviderBase<T>) read) {
-  read(bpControlsVisibleProvider.notifier).setVisible(false);
+  // read(bpShowControlsProvider.notifier).toggle();
 
   //todo:
   // _betterPlayerController!.toggleFullScreen();

@@ -24,9 +24,9 @@ class _DefaultErrorPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var textColor = ref.watch(bpControlsProvider!.select((v) => v.textColor));
-    var iconsColor = ref.watch(bpControlsProvider!.select((v) => v.iconsColor));
-    var enableRetry = ref.watch(bpControlsProvider!.select((v) => v.enableRetry));
+    var textColor = ref.watch(bpControlsConfigProvider!.select((v) => v.textColor));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
+    var enableRetry = ref.watch(bpControlsConfigProvider!.select((v) => v.enableRetry));
     var defaultError = ref.watch(bpTranslationsProvider!.select((v) => v.generalDefaultError));
     var generalRetry = ref.watch(bpTranslationsProvider!.select((v) => v.generalRetry));
 

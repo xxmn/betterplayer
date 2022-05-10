@@ -101,10 +101,11 @@ class _$BPNtConfigCopyWithImpl<$Res> implements $BPNtConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$BPNtConfigCopyWith<$Res> implements $BPNtConfigCopyWith<$Res> {
-  factory _$BPNtConfigCopyWith(
-          _BPNtConfig value, $Res Function(_BPNtConfig) then) =
-      __$BPNtConfigCopyWithImpl<$Res>;
+abstract class _$$_BPNtConfigCopyWith<$Res>
+    implements $BPNtConfigCopyWith<$Res> {
+  factory _$$_BPNtConfigCopyWith(
+          _$_BPNtConfig value, $Res Function(_$_BPNtConfig) then) =
+      __$$_BPNtConfigCopyWithImpl<$Res>;
   @override
   $Res call(
       {bool? isShow,
@@ -116,14 +117,14 @@ abstract class _$BPNtConfigCopyWith<$Res> implements $BPNtConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$BPNtConfigCopyWithImpl<$Res> extends _$BPNtConfigCopyWithImpl<$Res>
-    implements _$BPNtConfigCopyWith<$Res> {
-  __$BPNtConfigCopyWithImpl(
-      _BPNtConfig _value, $Res Function(_BPNtConfig) _then)
-      : super(_value, (v) => _then(v as _BPNtConfig));
+class __$$_BPNtConfigCopyWithImpl<$Res> extends _$BPNtConfigCopyWithImpl<$Res>
+    implements _$$_BPNtConfigCopyWith<$Res> {
+  __$$_BPNtConfigCopyWithImpl(
+      _$_BPNtConfig _value, $Res Function(_$_BPNtConfig) _then)
+      : super(_value, (v) => _then(v as _$_BPNtConfig));
 
   @override
-  _BPNtConfig get _value => super._value as _BPNtConfig;
+  _$_BPNtConfig get _value => super._value as _$_BPNtConfig;
 
   @override
   $Res call({
@@ -134,7 +135,7 @@ class __$BPNtConfigCopyWithImpl<$Res> extends _$BPNtConfigCopyWithImpl<$Res>
     Object? channelName = freezed,
     Object? activityName = freezed,
   }) {
-    return _then(_BPNtConfig(
+    return _then(_$_BPNtConfig(
       isShow: isShow == freezed
           ? _value.isShow
           : isShow // ignore: cast_nullable_to_non_nullable
@@ -222,7 +223,7 @@ class _$_BPNtConfig with DiagnosticableTreeMixin implements _BPNtConfig {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BPNtConfig &&
+            other is _$_BPNtConfig &&
             const DeepCollectionEquality().equals(other.isShow, isShow) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality().equals(other.author, author) &&
@@ -245,8 +246,8 @@ class _$_BPNtConfig with DiagnosticableTreeMixin implements _BPNtConfig {
 
   @JsonKey(ignore: true)
   @override
-  _$BPNtConfigCopyWith<_BPNtConfig> get copyWith =>
-      __$BPNtConfigCopyWithImpl<_BPNtConfig>(this, _$identity);
+  _$$_BPNtConfigCopyWith<_$_BPNtConfig> get copyWith =>
+      __$$_BPNtConfigCopyWithImpl<_$_BPNtConfig>(this, _$identity);
 }
 
 abstract class _BPNtConfig implements BPNtConfig {
@@ -285,6 +286,6 @@ abstract class _BPNtConfig implements BPNtConfig {
   String? get activityName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BPNtConfigCopyWith<_BPNtConfig> get copyWith =>
+  _$$_BPNtConfigCopyWith<_$_BPNtConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
