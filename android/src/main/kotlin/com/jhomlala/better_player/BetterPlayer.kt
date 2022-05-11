@@ -591,6 +591,7 @@ internal class BetterPlayer(
                         eventSink.success(event)
                     }
                     Player.STATE_ENDED -> {
+                        // completed 消息
                         val event: MutableMap<String, Any?> = HashMap()
                         event["event"] = "completed"
                         event["key"] = key
@@ -602,13 +603,32 @@ internal class BetterPlayer(
                 }
             }
 
+            override fun onIsPlayingChanged(isPlaying: Boolean){
+                sendPosition()
+
+                val event: MutableMap<String, Any?> = HashMap()
+                event["event"] = "playingChanged"
+                event["value"] = isPlaying.toString()
+                eventSink.success(event)
+            }
+
             override fun onPlayerError(error: PlaybackException) {
                 eventSink.error("VideoError", "Video player had error $error", "")
             }
+
+
         })
         val reply: MutableMap<String, Any> = HashMap()
         reply["textureId"] = textureEntry.id()
         result.success(reply)
+    }
+
+    fun sendPosition(){
+        val event: MutableMap<String, Any?> = HashMap()
+        event["event"] = "updatePosition"
+        event["position"] = position
+        event["absolutePosition"] = absolutePosition
+        eventSink.success(event)
     }
 
     fun sendBufferingUpdate(isFromBufferingStart: Boolean) {

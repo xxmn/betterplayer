@@ -5,38 +5,96 @@ import 'package:better_player/src/types/np_status.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';
-import 'np_set_data_source_provider.dart';
 
-final npStatusProvider = StateNotifierProvider<NPControllerNotifier, NPStatus>(
+final npStatusProvider = StateNotifierProvider<NPStatusNotifier, NPStatus>(
   (ref) {
     var createStatus = ref.watch(npCreateProvider!);
-    return NPControllerNotifier(
-      textureId: createStatus.textureId,
-    );
+    return NPStatusNotifier(textureId: createStatus.textureId);
   },
 );
 
-class NPControllerNotifier extends StateNotifier<NPStatus> {
+class NPStatusNotifier extends StateNotifier<NPStatus> {
   int? textureId;
   StreamSubscription<NPVideoEvent>? _eventSubscription;
-  NPControllerNotifier({this.textureId}) : super(NPStatus()) {
-    // print("in NPControllerNotifier constructor, textureId: $textureId");
+  Timer? _updatePositionTimer;
+  NPStatusNotifier({this.textureId}) : super(NPStatus()) {
+    // print("in NPStatusNotifier constructor, textureId: $textureId");
     if (textureId != null) {
       _eventSubscription = npPlatform.videoEventsFor(textureId!).listen(
-            eventListener,
-            onError: errorListener,
+            _eventListener,
+            onError: _errorListener,
           );
+      _updatePositionTimer = Timer.periodic(const Duration(milliseconds: 300), _updatePosition);
     }
   }
 
   @override
   void dispose() async {
+    _updatePositionTimer?.cancel();
     await _eventSubscription?.cancel();
+
     super.dispose();
   }
 
-  void eventListener(NPVideoEvent event) {
-    // print("np status provider recieved a event: $event");
+  /// Starts playing the video.
+  ///
+  /// This method returns a future that completes as soon as the "play" command
+  /// has been sent to the platform, not when playback itself is totally
+  /// finished.
+  Future<void> play() async {
+    await npPlatform.play(textureId);
+    // print("---------------maybe play video, isPlaying: ${state.isPlaying}---------");
+    // if (!mounted) return;
+    // if (!state.isPlaying) {
+    //   print("---------------play video---------");
+    //   state = state.copyWith(isPlaying: true);
+    //   await npPlatform.play(textureId);
+    // }
+  }
+
+  Future<void> pause() async {
+    await npPlatform.pause(textureId);
+    // if (!mounted) return;
+
+    // if (state.isPlaying) {
+    //   print("---------------pause video---------");
+    //   state = state.copyWith(isPlaying: false);
+    //   await npPlatform.pause(textureId);
+    // }
+  }
+
+  Future<void> replay() async {
+    await seekTo(const Duration(seconds: 0));
+    await play();
+    // if (!mounted) return;
+
+    // if (state.isPlaying) {
+    //   print("---------------pause video---------");
+    //   state = state.copyWith(isPlaying: false);
+    //   await npPlatform.pause(textureId);
+    // }
+  }
+
+  /// Sets the video's current timestamp to be at [moment]. The next
+  /// time the video is played it will resume from the given [moment].
+  ///
+  /// If [moment] is outside of the video's full range it will be automatically
+  /// and silently clamped.
+  Future<void> seekTo(Duration position) async {
+    if (!mounted) return;
+
+    Duration? positionToSeek;
+    if (position > state.duration!) {
+      positionToSeek = state.duration!;
+    } else if (position < Duration.zero) {
+      positionToSeek = Duration.zero;
+    }
+    await npPlatform.seekTo(textureId, Duration.zero);
+    if (!mounted) return;
+    state.isPlaying ? play() : pause();
+  }
+
+  void _eventListener(NPVideoEvent event) {
     if (!mounted) return;
 
     switch (event.eventType) {
@@ -60,6 +118,17 @@ class NPControllerNotifier extends StateNotifier<NPStatus> {
         if (state.isBuffering) {
           state = state.copyWith(isBuffering: false);
         }
+        break;
+      case NPVideoEventType.playingChanged:
+        var isPlaying = event.value == "true";
+        // print("playingChanged, event.value: ${event.value}, isPlaying: $isPlaying");
+        state = state.copyWith(isPlaying: isPlaying);
+        break;
+      case NPVideoEventType.updatePosition:
+        state = state.copyWith(
+          position: event.position,
+          absolutePosition: event.absolutePosition,
+        );
         break;
 
       case NPVideoEventType.play:
@@ -87,12 +156,28 @@ class NPControllerNotifier extends StateNotifier<NPStatus> {
     }
   }
 
-  void errorListener(Object object) {
+  void _errorListener(Object object) {
     if (object is PlatformException) {
       final PlatformException e = object;
       state = state.copyWith(errorDescription: e.message);
     } else {
       state.copyWith(errorDescription: object.toString());
     }
+  }
+
+  void _updatePosition(Timer t) async {
+    if (state.isCompleted || state.duration == null) return;
+    if (!mounted) return;
+
+    /// The position in the current video.
+    final newPosition = await npPlatform.getPosition(textureId);
+
+    /// The absolute position in the current video stream
+    /// (i.e. EXT-X-PROGRAM-DATE-TIME in HLS).
+    // ignore: invariant_booleans
+    if (!mounted) return;
+    state = state.copyWith(
+      position: newPosition,
+    );
   }
 }

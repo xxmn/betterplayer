@@ -180,8 +180,9 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 result.success(null)
             }
             POSITION_METHOD -> {
-                result.success(player.position)
+                player.sendPosition()
                 player.sendBufferingUpdate(false)
+                result.success(player.position)
             }
             ABSOLUTE_POSITION_METHOD -> result.success(player.absolutePosition)
             SET_SPEED_METHOD -> {

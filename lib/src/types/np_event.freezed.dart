@@ -34,13 +34,19 @@ mixin _$NPVideoEvent {
   /// Only used if [eventType] is [NPVideoEventType.initialized].
   Size? get size => throw _privateConstructorUsedError;
 
+  ///其他value
+  String? get value => throw _privateConstructorUsedError;
+
   /// Buffered parts of the video.
   ///
   /// Only used if [eventType] is [NPVideoEventType.bufferingUpdate].
   List<DurationRange>? get buffered => throw _privateConstructorUsedError;
 
-  ///Seek position
+  ///position
   Duration? get position => throw _privateConstructorUsedError;
+
+  ///absolutePosition
+  DateTime? get absolutePosition => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NPVideoEventCopyWith<NPVideoEvent> get copyWith =>
@@ -57,8 +63,10 @@ abstract class $NPVideoEventCopyWith<$Res> {
       String? key,
       Duration? duration,
       Size? size,
+      String? value,
       List<DurationRange>? buffered,
-      Duration? position});
+      Duration? position,
+      DateTime? absolutePosition});
 }
 
 /// @nodoc
@@ -75,8 +83,10 @@ class _$NPVideoEventCopyWithImpl<$Res> implements $NPVideoEventCopyWith<$Res> {
     Object? key = freezed,
     Object? duration = freezed,
     Object? size = freezed,
+    Object? value = freezed,
     Object? buffered = freezed,
     Object? position = freezed,
+    Object? absolutePosition = freezed,
   }) {
     return _then(_value.copyWith(
       eventType: eventType == freezed
@@ -95,6 +105,10 @@ class _$NPVideoEventCopyWithImpl<$Res> implements $NPVideoEventCopyWith<$Res> {
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as Size?,
+      value: value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String?,
       buffered: buffered == freezed
           ? _value.buffered
           : buffered // ignore: cast_nullable_to_non_nullable
@@ -103,6 +117,10 @@ class _$NPVideoEventCopyWithImpl<$Res> implements $NPVideoEventCopyWith<$Res> {
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      absolutePosition: absolutePosition == freezed
+          ? _value.absolutePosition
+          : absolutePosition // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -119,8 +137,10 @@ abstract class _$$_NPVideoEventCopyWith<$Res>
       String? key,
       Duration? duration,
       Size? size,
+      String? value,
       List<DurationRange>? buffered,
-      Duration? position});
+      Duration? position,
+      DateTime? absolutePosition});
 }
 
 /// @nodoc
@@ -140,8 +160,10 @@ class __$$_NPVideoEventCopyWithImpl<$Res>
     Object? key = freezed,
     Object? duration = freezed,
     Object? size = freezed,
+    Object? value = freezed,
     Object? buffered = freezed,
     Object? position = freezed,
+    Object? absolutePosition = freezed,
   }) {
     return _then(_$_NPVideoEvent(
       eventType: eventType == freezed
@@ -160,6 +182,10 @@ class __$$_NPVideoEventCopyWithImpl<$Res>
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as Size?,
+      value: value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String?,
       buffered: buffered == freezed
           ? _value._buffered
           : buffered // ignore: cast_nullable_to_non_nullable
@@ -168,6 +194,10 @@ class __$$_NPVideoEventCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      absolutePosition: absolutePosition == freezed
+          ? _value.absolutePosition
+          : absolutePosition // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -180,8 +210,10 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
       required this.key,
       this.duration,
       this.size,
+      this.value,
       final List<DurationRange>? buffered,
-      this.position})
+      this.position,
+      this.absolutePosition})
       : _buffered = buffered;
 
   /// The type of the event.
@@ -206,6 +238,10 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
   @override
   final Size? size;
 
+  ///其他value
+  @override
+  final String? value;
+
   /// Buffered parts of the video.
   ///
   /// Only used if [eventType] is [NPVideoEventType.bufferingUpdate].
@@ -222,13 +258,17 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
     return EqualUnmodifiableListView(value);
   }
 
-  ///Seek position
+  ///position
   @override
   final Duration? position;
 
+  ///absolutePosition
+  @override
+  final DateTime? absolutePosition;
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NPVideoEvent(eventType: $eventType, key: $key, duration: $duration, size: $size, buffered: $buffered, position: $position)';
+    return 'NPVideoEvent(eventType: $eventType, key: $key, duration: $duration, size: $size, value: $value, buffered: $buffered, position: $position, absolutePosition: $absolutePosition)';
   }
 
   @override
@@ -240,8 +280,10 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
       ..add(DiagnosticsProperty('key', key))
       ..add(DiagnosticsProperty('duration', duration))
       ..add(DiagnosticsProperty('size', size))
+      ..add(DiagnosticsProperty('value', value))
       ..add(DiagnosticsProperty('buffered', buffered))
-      ..add(DiagnosticsProperty('position', position));
+      ..add(DiagnosticsProperty('position', position))
+      ..add(DiagnosticsProperty('absolutePosition', absolutePosition));
   }
 
   @override
@@ -253,8 +295,11 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.duration, duration) &&
             const DeepCollectionEquality().equals(other.size, size) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
             const DeepCollectionEquality().equals(other._buffered, _buffered) &&
-            const DeepCollectionEquality().equals(other.position, position));
+            const DeepCollectionEquality().equals(other.position, position) &&
+            const DeepCollectionEquality()
+                .equals(other.absolutePosition, absolutePosition));
   }
 
   @override
@@ -264,8 +309,10 @@ class _$_NPVideoEvent with DiagnosticableTreeMixin implements _NPVideoEvent {
       const DeepCollectionEquality().hash(key),
       const DeepCollectionEquality().hash(duration),
       const DeepCollectionEquality().hash(size),
+      const DeepCollectionEquality().hash(value),
       const DeepCollectionEquality().hash(_buffered),
-      const DeepCollectionEquality().hash(position));
+      const DeepCollectionEquality().hash(position),
+      const DeepCollectionEquality().hash(absolutePosition));
 
   @JsonKey(ignore: true)
   @override
@@ -279,8 +326,10 @@ abstract class _NPVideoEvent implements NPVideoEvent {
       required final String? key,
       final Duration? duration,
       final Size? size,
+      final String? value,
       final List<DurationRange>? buffered,
-      final Duration? position}) = _$_NPVideoEvent;
+      final Duration? position,
+      final DateTime? absolutePosition}) = _$_NPVideoEvent;
 
   @override
 
@@ -306,14 +355,22 @@ abstract class _NPVideoEvent implements NPVideoEvent {
   Size? get size => throw _privateConstructorUsedError;
   @override
 
+  ///其他value
+  String? get value => throw _privateConstructorUsedError;
+  @override
+
   /// Buffered parts of the video.
   ///
   /// Only used if [eventType] is [NPVideoEventType.bufferingUpdate].
   List<DurationRange>? get buffered => throw _privateConstructorUsedError;
   @override
 
-  ///Seek position
+  ///position
   Duration? get position => throw _privateConstructorUsedError;
+  @override
+
+  ///absolutePosition
+  DateTime? get absolutePosition => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_NPVideoEventCopyWith<_$_NPVideoEvent> get copyWith =>

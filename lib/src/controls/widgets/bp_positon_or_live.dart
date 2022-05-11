@@ -1,7 +1,7 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,8 +37,8 @@ class PositionText extends HookConsumerWidget {
   const PositionText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var position = ref.watch(bpPlayingStatusProvider!.select((v) => v.position));
-    var duration = ref.watch(bpDataSourceProvider!.select((v) => v?.duration ?? Duration.zero));
+    var position = ref.watch(npStatusProvider.select((v) => v.position ?? Duration.zero));
+    var duration = ref.watch(npStatusProvider.select((v) => v.duration ?? Duration.zero));
     var enablePlayPause = ref.watch(bpControlsConfigProvider!.select((v) => v.enablePlayPause));
     var textColor = ref.watch(bpControlsConfigProvider!.select((v) => v.textColor));
 

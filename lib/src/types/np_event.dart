@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:better_player/src/types/duration_range.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'np_event.freezed.dart';
@@ -41,6 +42,12 @@ class NPVideoEvent with _$NPVideoEvent {
 
     ///Seek position
     Duration? position,
+
+    // 通用值
+    String? value,
+
+    //
+    DateTime? absolutePosition,
   }) = _NPVideoEvent;
 }
 
@@ -66,6 +73,8 @@ enum NPVideoEventType {
 
   /// The video is set to play
   play,
+  updatePosition,
+  playingChanged,
 
   /// The video is set to pause
   pause,

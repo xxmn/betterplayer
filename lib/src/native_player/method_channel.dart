@@ -390,6 +390,27 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
             eventType: NPVideoEventType.bufferingEnd,
             key: key,
           );
+        case 'playingChanged':
+          final String? isPlaying = map["value"] as String?;
+          return NPVideoEvent(
+            eventType: NPVideoEventType.playingChanged,
+            key: key,
+            value: isPlaying,
+          );
+        case 'updatePosition':
+          final int? position = map["position"] as int?;
+          // final int? absolutePosition = map["absolutePosition"] as int?;
+
+          return NPVideoEvent(
+            eventType: NPVideoEventType.updatePosition,
+            key: key,
+            position: position != null ? Duration(milliseconds: position) : null,
+
+            // todo: 未弄清楚，可能是absolutePosition:-9223372036854758765
+            // absolutePosition: absolutePosition != null
+            //     ? DateTime.fromMillisecondsSinceEpoch(absolutePosition)
+            //     : null,
+          );
 
         case 'play':
           return NPVideoEvent(

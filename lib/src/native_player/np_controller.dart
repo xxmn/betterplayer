@@ -1,225 +1,131 @@
-// import 'dart:async';
-// import 'package:better_player/src/config/bp_buffering_config.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/services.dart';
-// import 'platform_interface.dart';
+import 'dart:async';
+import 'package:better_player/src/native_player/np_status_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'np_create_provider.dart';
+import 'np_platform_instance.dart';
+import 'platform_interface.dart';
 
-//   int? _textureId;
-//   StreamSubscription<dynamic>? _eventSubscription;
+class _NPControllerNotifier {
+  // /// Sets whether or not the video should loop after playing once. See also
+  // /// [NPValue.isLooping].
+  // Future<void> setLooping(bool looping) async {
+  //   value = value.copyWith(isLooping: looping);
+  //   await _applyLooping();
+  // }
 
-//   Duration? _seekPosition;
+  // /// Pauses the video.
+  // Future<void> pause() async {
+  //   value = value.copyWith(isPlaying: false);
+  //   await _applyPlayPause();
+  // }
 
-//   /// This is just exposed for testing. It shouldn't be used by anyone depending
-//   /// on the plugin.
-//   @visibleForTesting
-//   int? get textureId => _textureId;
+  // Future<void> _applyLooping() async {
+  //   if (!_created || _isDisposed) {
+  //     return;
+  //   }
+  //   await npPlatform.setLooping(_textureId, value.isLooping);
+  // }
 
-//   /// Starts playing the video.
-//   ///
-//   /// This method returns a future that completes as soon as the "play" command
-//   /// has been sent to the platform, not when playback itself is totally
-//   /// finished.
-//   Future<void> play() async {
-//     value = value.copyWith(isPlaying: true);
-//     await _applyPlayPause();
-//   }
+  // Future<void> _applyPlayPause() async {
+  //   if (!mounted) return;
+  //   var isPlaying = read(npStatusProvider.state);
+  //   if (isPlaying) {
+  //     await npPlatform.play(textureId);
+  //   } else {
+  //     await npPlatform.pause(textureId);
+  //   }
+  // }
 
-//   /// Sets whether or not the video should loop after playing once. See also
-//   /// [NPValue.isLooping].
-//   Future<void> setLooping(bool looping) async {
-//     value = value.copyWith(isLooping: looping);
-//     await _applyLooping();
-//   }
+  // Future<void> _applyVolume() async {
+  //   if (!_created || _isDisposed) {
+  //     return;
+  //   }
+  //   await npPlatform.setVolume(_textureId, value.volume);
+  // }
 
-//   /// Pauses the video.
-//   Future<void> pause() async {
-//     value = value.copyWith(isPlaying: false);
-//     await _applyPlayPause();
-//   }
+  // Future<void> _applySpeed() async {
+  //   if (!_created || _isDisposed) {
+  //     return;
+  //   }
+  //   await npPlatform.setSpeed(_textureId, value.speed);
+  // }
 
-//   Future<void> _applyLooping() async {
-//     if (!_created || _isDisposed) {
-//       return;
-//     }
-//     await _videoPlayerPlatform.setLooping(_textureId, value.isLooping);
-//   }
+  // /// Sets the audio volume of [this].
+  // ///
+  // /// [volume] indicates a value between 0.0 (silent) and 1.0 (full volume) on a
+  // /// linear scale.
+  // Future<void> setVolume(double volume) async {
+  //   value = value.copyWith(volume: volume.clamp(0.0, 1.0));
+  //   await _applyVolume();
+  // }
 
-//   Future<void> _applyPlayPause() async {
-//     if (!_created || _isDisposed) {
-//       return;
-//     }
-//     _timer?.cancel();
-//     if (value.isPlaying) {
-//       await _videoPlayerPlatform.play(_textureId);
-//       _timer = Timer.periodic(
-//         const Duration(milliseconds: 300),
-//         (Timer timer) async {
-//           if (_isDisposed) {
-//             return;
-//           }
-//           final Duration? newPosition = await position;
-//           final DateTime? newAbsolutePosition = await absolutePosition;
-//           // ignore: invariant_booleans
-//           if (_isDisposed) {
-//             return;
-//           }
-//           _updatePosition(newPosition, absolutePosition: newAbsolutePosition);
-//           if (_seekPosition != null && newPosition != null) {
-//             final difference = newPosition.inMilliseconds - _seekPosition!.inMilliseconds;
-//             if (difference > 0) {
-//               _seekPosition = null;
-//             }
-//           }
-//         },
-//       );
-//     } else {
-//       await _videoPlayerPlatform.pause(_textureId);
-//     }
-//   }
+  // /// Sets the speed of [this].
+  // ///
+  // /// [speed] indicates a value between 0.0 and 2.0 on a linear scale.
+  // Future<void> setSpeed(double speed) async {
+  //   final double previousSpeed = value.speed;
+  //   try {
+  //     value = value.copyWith(speed: speed);
+  //     await _applySpeed();
+  //   } catch (exception) {
+  //     value = value.copyWith(speed: previousSpeed);
+  //     rethrow;
+  //   }
+  // }
 
-//   Future<void> _applyVolume() async {
-//     if (!_created || _isDisposed) {
-//       return;
-//     }
-//     await _videoPlayerPlatform.setVolume(_textureId, value.volume);
-//   }
+  // /// Sets the video track parameters of [this]
+  // ///
+  // /// [width] specifies width of the selected track
+  // /// [height] specifies height of the selected track
+  // /// [bitrate] specifies bitrate of the selected track
+  // Future<void> setTrackParameters(int? width, int? height, int? bitrate) async {
+  //   await npPlatform.setTrackParameters(_textureId, width, height, bitrate);
+  // }
 
-//   Future<void> _applySpeed() async {
-//     if (!_created || _isDisposed) {
-//       return;
-//     }
-//     await _videoPlayerPlatform.setSpeed(_textureId, value.speed);
-//   }
+  // Future<void> enablePictureInPicture(
+  //     {double? top, double? left, double? width, double? height}) async {
+  //   await npPlatform.enablePictureInPicture(textureId, top, left, width, height);
+  // }
 
-//   /// The position in the current video.
-//   Future<Duration?> get position async {
-//     if (!value.initialized && _isDisposed) {
-//       return null;
-//     }
-//     return _videoPlayerPlatform.getPosition(_textureId);
-//   }
+  // Future<void> disablePictureInPicture() async {
+  //   await npPlatform.disablePictureInPicture(textureId);
+  // }
 
-//   /// The absolute position in the current video stream
-//   /// (i.e. EXT-X-PROGRAM-DATE-TIME in HLS).
-//   Future<DateTime?> get absolutePosition async {
-//     if (!value.initialized && _isDisposed) {
-//       return null;
-//     }
-//     return _videoPlayerPlatform.getAbsolutePosition(_textureId);
-//   }
+  // void _updatePosition(Duration? position, {DateTime? absolutePosition}) {
+  //   value = value.copyWith(position: _seekPosition ?? position);
+  //   if (_seekPosition == null) {
+  //     value = value.copyWith(absolutePosition: absolutePosition);
+  //   }
+  // }
 
-//   /// Sets the video's current timestamp to be at [moment]. The next
-//   /// time the video is played it will resume from the given [moment].
-//   ///
-//   /// If [moment] is outside of the video's full range it will be automatically
-//   /// and silently clamped.
-//   Future<void> seekTo(Duration? position) async {
-//     _timer?.cancel();
-//     bool isPlaying = value.isPlaying;
-//     final int positionInMs = value.position.inMilliseconds;
-//     final int durationInMs = value.duration?.inMilliseconds ?? 0;
+  // Future<bool?> isPictureInPictureSupported() async {
+  //   if (_textureId == null) {
+  //     return false;
+  //   }
+  //   return npPlatform.isPictureInPictureEnabled(_textureId);
+  // }
 
-//     if (positionInMs >= durationInMs && position?.inMilliseconds == 0) {
-//       isPlaying = true;
-//     }
-//     if (_isDisposed) {
-//       return;
-//     }
+  // void refresh() {
+  //   value = value.copyWith();
+  // }
 
-//     Duration? positionToSeek = position;
-//     if (position! > value.duration!) {
-//       positionToSeek = value.duration;
-//     } else if (position < const Duration()) {
-//       positionToSeek = const Duration();
-//     }
-//     _seekPosition = positionToSeek;
+  // void setAudioTrack(String? name, int? index) {
+  //   npPlatform.setAudioTrack(_textureId, name, index);
+  // }
 
-//     await _videoPlayerPlatform.seekTo(_textureId, positionToSeek);
-//     _updatePosition(position);
+  // void setMixWithOthers(bool mixWithOthers) {
+  //   npPlatform.setMixWithOthers(_textureId, mixWithOthers);
+  // }
 
-//     if (isPlaying) {
-//       play();
-//     } else {
-//       pause();
-//     }
-//   }
+  // static Future clearCache() async {
+  //   return npPlatform.clearCache();
+  // }
 
-//   /// Sets the audio volume of [this].
-//   ///
-//   /// [volume] indicates a value between 0.0 (silent) and 1.0 (full volume) on a
-//   /// linear scale.
-//   Future<void> setVolume(double volume) async {
-//     value = value.copyWith(volume: volume.clamp(0.0, 1.0));
-//     await _applyVolume();
-//   }
+  // static Future preCache(DataSource dataSource, int preCacheSize) async {
+  //   return npPlatform.preCache(dataSource, preCacheSize);
+  // }
 
-//   /// Sets the speed of [this].
-//   ///
-//   /// [speed] indicates a value between 0.0 and 2.0 on a linear scale.
-//   Future<void> setSpeed(double speed) async {
-//     final double previousSpeed = value.speed;
-//     try {
-//       value = value.copyWith(speed: speed);
-//       await _applySpeed();
-//     } catch (exception) {
-//       value = value.copyWith(speed: previousSpeed);
-//       rethrow;
-//     }
-//   }
-
-//   /// Sets the video track parameters of [this]
-//   ///
-//   /// [width] specifies width of the selected track
-//   /// [height] specifies height of the selected track
-//   /// [bitrate] specifies bitrate of the selected track
-//   Future<void> setTrackParameters(int? width, int? height, int? bitrate) async {
-//     await _videoPlayerPlatform.setTrackParameters(_textureId, width, height, bitrate);
-//   }
-
-//   Future<void> enablePictureInPicture(
-//       {double? top, double? left, double? width, double? height}) async {
-//     await _videoPlayerPlatform.enablePictureInPicture(textureId, top, left, width, height);
-//   }
-
-//   Future<void> disablePictureInPicture() async {
-//     await _videoPlayerPlatform.disablePictureInPicture(textureId);
-//   }
-
-//   void _updatePosition(Duration? position, {DateTime? absolutePosition}) {
-//     value = value.copyWith(position: _seekPosition ?? position);
-//     if (_seekPosition == null) {
-//       value = value.copyWith(absolutePosition: absolutePosition);
-//     }
-//   }
-
-//   Future<bool?> isPictureInPictureSupported() async {
-//     if (_textureId == null) {
-//       return false;
-//     }
-//     return _videoPlayerPlatform.isPictureInPictureEnabled(_textureId);
-//   }
-
-//   void refresh() {
-//     value = value.copyWith();
-//   }
-
-//   void setAudioTrack(String? name, int? index) {
-//     _videoPlayerPlatform.setAudioTrack(_textureId, name, index);
-//   }
-
-//   void setMixWithOthers(bool mixWithOthers) {
-//     _videoPlayerPlatform.setMixWithOthers(_textureId, mixWithOthers);
-//   }
-
-//   static Future clearCache() async {
-//     return _videoPlayerPlatform.clearCache();
-//   }
-
-//   static Future preCache(DataSource dataSource, int preCacheSize) async {
-//     return _videoPlayerPlatform.preCache(dataSource, preCacheSize);
-//   }
-
-//   static Future stopPreCache(String url, String? cacheKey) async {
-//     return _videoPlayerPlatform.stopPreCache(url, cacheKey);
-//   }
-// }
+  // static Future stopPreCache(String url, String? cacheKey) async {
+  //   return npPlatform.stopPreCache(url, cacheKey);
+  // }
+}

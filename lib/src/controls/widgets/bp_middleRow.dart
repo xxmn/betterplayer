@@ -2,6 +2,9 @@ import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/bp_hit_area_clickable_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/native_player/np_create_provider.dart';
+import 'package:better_player/src/native_player/np_platform_instance.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -97,40 +100,38 @@ class ReplayButton extends HookConsumerWidget {
   const ReplayButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var isPlaying = ref.watch(bpPlayingStatusProvider!.select((v) => v.isPlaying));
-    var isFinished = ref.watch(bpPlayingStatusProvider!.select((v) => v.isFinished));
+    var initialized = ref.watch(npStatusProvider.select((v) => v.initialized));
+    var isPlaying = ref.watch(npStatusProvider.select((v) => v.isPlaying));
+    var isCompleted = ref.watch(npStatusProvider.select((v) => v.isCompleted));
     var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
     var pauseIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.pauseIcon));
     var playIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.playIcon));
     return HitAreaClickableButton(
-      icon: isFinished
+      icon: isCompleted
           ? Icon(
               Icons.replay,
               size: 42,
               color: iconsColor,
             )
-          : Icon(
-              isPlaying ? pauseIcon : playIcon,
-              size: 42,
-              color: iconsColor,
-            ),
+          : isPlaying
+              ? Icon(
+                  pauseIcon,
+                  size: 42,
+                  color: iconsColor,
+                )
+              : Icon(
+                  playIcon,
+                  size: 42,
+                  color: iconsColor,
+                ),
       onClicked: () {
-        print("ReplayButton onClicked");
-        // todo:
-        // if (isFinished) {
-        //   if (_latestValue != null && _latestValue!.isPlaying) {
-        //     if (_displayTapped) {
-        //       changePlayerControlsNotVisible(true);
-        //     } else {
-        //       cancelAndRestartTimer();
-        //     }
-        //   } else {
-        //     _onPlayPause();
-        //     changePlayerControlsNotVisible(true);
-        //   }
-        // } else {
-        //   _onPlayPause();
-        // }
+        if (!initialized) return;
+        var notifier = ref.read(npStatusProvider.notifier);
+        isCompleted
+            ? notifier.replay()
+            : isPlaying
+                ? notifier.pause()
+                : notifier.play();
       },
     );
   }
