@@ -1,8 +1,7 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/bp_material_clickable_widget.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
-import 'package:better_player/src/core/bp_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,27 +14,33 @@ class MaybeMuteButton extends HookConsumerWidget {
   }
 }
 
-class MuteButton extends HookConsumerWidget {
+class MuteButton extends StatefulHookConsumerWidget {
   const MuteButton({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MuteButtonState();
+}
+
+class _MuteButtonState extends ConsumerState<MuteButton> {
+  double? _latestVolume;
+
+  @override
+  Widget build(BuildContext context) {
     var controlsVisible = ref.watch(bpShowControlsProvider);
     var controlsHideTime = ref.watch(bpControlsConfigProvider!.select((v) => v.controlsHideTime));
     var controlBarHeight = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarHeight));
     var muteIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.muteIcon));
     var unMuteIcon = ref.watch(bpControlsConfigProvider!.select((v) => v.unMuteIcon));
     var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
-    var volume = ref.watch(bpPlayingStatusProvider!.select((v) => v.volume));
+    var volume = ref.watch(npStatusProvider.select((v) => v.volume));
     return BPMaterialClickableWidget(
       onTap: () {
-        print("MuteButton on tap");
-        // cancelAndRestartTimer();
-        // if (_latestValue!.volume == 0) {
-        //   _betterPlayerController!.setVolume(_latestVolume ?? 0.5);
-        // } else {
-        //   _latestVolume = controller!.value.volume;
-        //   _betterPlayerController!.setVolume(0.0);
-        // }
+        if (volume < 0.001) {
+          ref.read(npStatusProvider.notifier).setVolume(_latestVolume ?? 0.5);
+        } else {
+          _latestVolume = volume;
+          ref.read(npStatusProvider.notifier).setVolume(0.0);
+        }
       },
       child: AnimatedOpacity(
         opacity: controlsVisible ? 1.0 : 0.0,
@@ -45,7 +50,7 @@ class MuteButton extends HookConsumerWidget {
             height: controlBarHeight,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Icon(
-              volume > 0 ? muteIcon : unMuteIcon,
+              volume > 0.001 ? muteIcon : unMuteIcon,
               color: iconsColor,
             ),
           ),

@@ -450,6 +450,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           );
 
         default:
+          print("--------------unknown event:$event");
           return NPVideoEvent(
             eventType: NPVideoEventType.unknown,
             key: key,

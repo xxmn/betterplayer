@@ -41,37 +41,22 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
   /// has been sent to the platform, not when playback itself is totally
   /// finished.
   Future<void> play() async {
-    await npPlatform.play(textureId);
-    // print("---------------maybe play video, isPlaying: ${state.isPlaying}---------");
-    // if (!mounted) return;
-    // if (!state.isPlaying) {
-    //   print("---------------play video---------");
-    //   state = state.copyWith(isPlaying: true);
-    //   await npPlatform.play(textureId);
-    // }
+    if (!mounted) return;
+    if (!state.isPlaying) {
+      await npPlatform.play(textureId);
+    }
   }
 
   Future<void> pause() async {
-    await npPlatform.pause(textureId);
-    // if (!mounted) return;
-
-    // if (state.isPlaying) {
-    //   print("---------------pause video---------");
-    //   state = state.copyWith(isPlaying: false);
-    //   await npPlatform.pause(textureId);
-    // }
+    if (!mounted) return;
+    if (state.isPlaying) {
+      await npPlatform.pause(textureId);
+    }
   }
 
   Future<void> replay() async {
     await seekTo(const Duration(seconds: 0));
     await play();
-    // if (!mounted) return;
-
-    // if (state.isPlaying) {
-    //   print("---------------pause video---------");
-    //   state = state.copyWith(isPlaying: false);
-    //   await npPlatform.pause(textureId);
-    // }
   }
 
   /// Sets the video's current timestamp to be at [moment]. The next
@@ -81,7 +66,6 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
   /// and silently clamped.
   Future<void> seekTo(Duration position) async {
     if (!mounted) return;
-
     Duration? positionToSeek;
     if (position > state.duration!) {
       positionToSeek = state.duration!;
@@ -89,8 +73,25 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
       positionToSeek = Duration.zero;
     }
     await npPlatform.seekTo(textureId, Duration.zero);
+  }
+
+  Future<void> seekToAndContinue(Duration position) async {
+    var isPlaying = state.isPlaying;
+    if (isPlaying) await pause();
+    await seekTo(position);
+    if (isPlaying) await play();
+  }
+
+  /// Sets the audio volume of [this].
+  ///
+  /// [volume] indicates a value between 0.0 (silent) and 1.0 (full volume) on a
+  /// linear scale.
+  Future<void> setVolume(double volume) async {
     if (!mounted) return;
-    state.isPlaying ? play() : pause();
+    volume = volume.clamp(0.0, 1.0);
+    await npPlatform.setVolume(textureId, volume);
+    if (!mounted) return;
+    state = state.copyWith(volume: volume);
   }
 
   void _eventListener(NPVideoEvent event) {
@@ -135,6 +136,7 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
         state = state.copyWith(isPlayWhenReady: false);
         break;
       case NPVideoEventType.pause:
+        // todo: 作用未知
         state = state.copyWith(isPlayWhenReady: true);
         break;
       case NPVideoEventType.seek:

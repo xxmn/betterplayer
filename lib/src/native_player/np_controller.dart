@@ -13,12 +13,6 @@ class _NPControllerNotifier {
   //   await _applyLooping();
   // }
 
-  // /// Pauses the video.
-  // Future<void> pause() async {
-  //   value = value.copyWith(isPlaying: false);
-  //   await _applyPlayPause();
-  // }
-
   // Future<void> _applyLooping() async {
   //   if (!_created || _isDisposed) {
   //     return;
@@ -26,37 +20,11 @@ class _NPControllerNotifier {
   //   await npPlatform.setLooping(_textureId, value.isLooping);
   // }
 
-  // Future<void> _applyPlayPause() async {
-  //   if (!mounted) return;
-  //   var isPlaying = read(npStatusProvider.state);
-  //   if (isPlaying) {
-  //     await npPlatform.play(textureId);
-  //   } else {
-  //     await npPlatform.pause(textureId);
-  //   }
-  // }
-
-  // Future<void> _applyVolume() async {
-  //   if (!_created || _isDisposed) {
-  //     return;
-  //   }
-  //   await npPlatform.setVolume(_textureId, value.volume);
-  // }
-
   // Future<void> _applySpeed() async {
   //   if (!_created || _isDisposed) {
   //     return;
   //   }
   //   await npPlatform.setSpeed(_textureId, value.speed);
-  // }
-
-  // /// Sets the audio volume of [this].
-  // ///
-  // /// [volume] indicates a value between 0.0 (silent) and 1.0 (full volume) on a
-  // /// linear scale.
-  // Future<void> setVolume(double volume) async {
-  //   value = value.copyWith(volume: volume.clamp(0.0, 1.0));
-  //   await _applyVolume();
   // }
 
   // /// Sets the speed of [this].

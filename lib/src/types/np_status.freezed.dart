@@ -51,6 +51,9 @@ mixin _$NPStatus {
   /// The current volume of the playback.
   double get volume => throw _privateConstructorUsedError;
 
+  /// The previous volume of the playback.
+  double get previousVolume => throw _privateConstructorUsedError;
+
   /// The current speed of the playback
   double get speed => throw _privateConstructorUsedError;
 
@@ -88,6 +91,7 @@ abstract class $NPStatusCopyWith<$Res> {
       bool isBuffering,
       bool isCompleted,
       double volume,
+      double previousVolume,
       double speed,
       String? errorDescription,
       Size? size,
@@ -115,6 +119,7 @@ class _$NPStatusCopyWithImpl<$Res> implements $NPStatusCopyWith<$Res> {
     Object? isBuffering = freezed,
     Object? isCompleted = freezed,
     Object? volume = freezed,
+    Object? previousVolume = freezed,
     Object? speed = freezed,
     Object? errorDescription = freezed,
     Object? size = freezed,
@@ -165,6 +170,10 @@ class _$NPStatusCopyWithImpl<$Res> implements $NPStatusCopyWith<$Res> {
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
               as double,
+      previousVolume: previousVolume == freezed
+          ? _value.previousVolume
+          : previousVolume // ignore: cast_nullable_to_non_nullable
+              as double,
       speed: speed == freezed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
@@ -203,6 +212,7 @@ abstract class _$$_NPStatusCopyWith<$Res> implements $NPStatusCopyWith<$Res> {
       bool isBuffering,
       bool isCompleted,
       double volume,
+      double previousVolume,
       double speed,
       String? errorDescription,
       Size? size,
@@ -232,6 +242,7 @@ class __$$_NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
     Object? isBuffering = freezed,
     Object? isCompleted = freezed,
     Object? volume = freezed,
+    Object? previousVolume = freezed,
     Object? speed = freezed,
     Object? errorDescription = freezed,
     Object? size = freezed,
@@ -282,6 +293,10 @@ class __$$_NPStatusCopyWithImpl<$Res> extends _$NPStatusCopyWithImpl<$Res>
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
               as double,
+      previousVolume: previousVolume == freezed
+          ? _value.previousVolume
+          : previousVolume // ignore: cast_nullable_to_non_nullable
+              as double,
       speed: speed == freezed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
@@ -317,6 +332,7 @@ class _$_NPStatus extends _NPStatus {
       this.isBuffering = false,
       this.isCompleted = false,
       this.volume = 1.0,
+      this.previousVolume = 1.0,
       this.speed = 1.0,
       this.errorDescription,
       this.size,
@@ -384,6 +400,11 @@ class _$_NPStatus extends _NPStatus {
   @JsonKey()
   final double volume;
 
+  /// The previous volume of the playback.
+  @override
+  @JsonKey()
+  final double previousVolume;
+
   /// The current speed of the playback
   @override
   @JsonKey()
@@ -408,7 +429,7 @@ class _$_NPStatus extends _NPStatus {
 
   @override
   String toString() {
-    return 'NPStatus(duration: $duration, position: $position, seekTo: $seekTo, absolutePosition: $absolutePosition, buffered: $buffered, isPlaying: $isPlaying, isPlayWhenReady: $isPlayWhenReady, isLooping: $isLooping, isBuffering: $isBuffering, isCompleted: $isCompleted, volume: $volume, speed: $speed, errorDescription: $errorDescription, size: $size, isPip: $isPip)';
+    return 'NPStatus(duration: $duration, position: $position, seekTo: $seekTo, absolutePosition: $absolutePosition, buffered: $buffered, isPlaying: $isPlaying, isPlayWhenReady: $isPlayWhenReady, isLooping: $isLooping, isBuffering: $isBuffering, isCompleted: $isCompleted, volume: $volume, previousVolume: $previousVolume, speed: $speed, errorDescription: $errorDescription, size: $size, isPip: $isPip)';
   }
 
   @override
@@ -431,6 +452,8 @@ class _$_NPStatus extends _NPStatus {
             const DeepCollectionEquality()
                 .equals(other.isCompleted, isCompleted) &&
             const DeepCollectionEquality().equals(other.volume, volume) &&
+            const DeepCollectionEquality()
+                .equals(other.previousVolume, previousVolume) &&
             const DeepCollectionEquality().equals(other.speed, speed) &&
             const DeepCollectionEquality()
                 .equals(other.errorDescription, errorDescription) &&
@@ -452,6 +475,7 @@ class _$_NPStatus extends _NPStatus {
       const DeepCollectionEquality().hash(isBuffering),
       const DeepCollectionEquality().hash(isCompleted),
       const DeepCollectionEquality().hash(volume),
+      const DeepCollectionEquality().hash(previousVolume),
       const DeepCollectionEquality().hash(speed),
       const DeepCollectionEquality().hash(errorDescription),
       const DeepCollectionEquality().hash(size),
@@ -476,6 +500,7 @@ abstract class _NPStatus extends NPStatus {
       final bool isBuffering,
       final bool isCompleted,
       final double volume,
+      final double previousVolume,
       final double speed,
       final String? errorDescription,
       final Size? size,
@@ -528,6 +553,10 @@ abstract class _NPStatus extends NPStatus {
 
   /// The current volume of the playback.
   double get volume => throw _privateConstructorUsedError;
+  @override
+
+  /// The previous volume of the playback.
+  double get previousVolume => throw _privateConstructorUsedError;
   @override
 
   /// The current speed of the playback

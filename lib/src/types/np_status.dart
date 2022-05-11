@@ -43,6 +43,9 @@ class NPStatus with _$NPStatus {
     /// The current volume of the playback.
     @Default(1.0) double volume,
 
+    // /// The previous volume of the playback.
+    // @Default(1.0) double previousVolume,
+
     /// The current speed of the playback
     @Default(1.0) double speed,
 

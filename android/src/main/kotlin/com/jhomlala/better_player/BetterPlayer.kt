@@ -613,6 +613,15 @@ internal class BetterPlayer(
                 event["value"] = isPlaying.toString()
                 eventSink.success(event)
             }
+//            onDeviceVolumeChanged​(int volume, boolean muted)
+            override fun onDeviceVolumeChanged(volume: Int, muted: Boolean) {
+                print("onDeviceVolumeChanged, volume:$volume, muted: $muted")
+                val event: MutableMap<String, Any?> = HashMap()
+                event["event"] = "deviceVolumeChanged"
+                event["volume"] = volume
+                event["muted"] = muted
+                eventSink.success(event)
+            }
 
             override fun onPlayerError(error: PlaybackException) {
                 eventSink.error("VideoError", "Video player had error $error", "")
