@@ -21,7 +21,8 @@ class BPUtils {
   }
 
   static String formatDuration(Duration position) {
-    final ms = position.inMilliseconds;
+    //四舍五入
+    final ms = position.inMilliseconds + 500;
 
     int seconds = ms ~/ 1000;
     final int hours = seconds ~/ 3600;

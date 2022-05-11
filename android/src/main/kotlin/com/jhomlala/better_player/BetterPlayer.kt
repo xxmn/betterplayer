@@ -95,6 +95,7 @@ internal class BetterPlayer(
     private val customDefaultLoadControl: CustomDefaultLoadControl =
         customDefaultLoadControl ?: CustomDefaultLoadControl()
     private var lastSendBufferedPosition = 0L
+    private var mainLooperHandler: Handler? = Handler(Looper.getMainLooper())
 
     init {
         val loadBuilder = DefaultLoadControl.Builder()
@@ -605,6 +606,7 @@ internal class BetterPlayer(
 
             override fun onIsPlayingChanged(isPlaying: Boolean){
                 sendPosition()
+                cancelOrEnterSendMsgLoop(isPlaying)
 
                 val event: MutableMap<String, Any?> = HashMap()
                 event["event"] = "playingChanged"
@@ -623,14 +625,33 @@ internal class BetterPlayer(
         result.success(reply)
     }
 
+    private fun cancelOrEnterSendMsgLoop(isPlaying: Boolean){
+        if(isPlaying){
+            mainLooperHandler!!.postDelayed({sendMsgLoop()}, getSendMsgDelay())
+        }else{
+            mainLooperHandler?.removeCallbacksAndMessages(null)
+//            handler.removeCallbacksAndMessages(null);
+//            handler = null;
+        }
+    }
+    private fun getSendMsgDelay(): Long{
+        var delay22 = 1000 - position % 1000
+        return if(delay22 < 15)  delay22 + 1000 else delay22
+    }
+
+    private  fun sendMsgLoop(){
+        sendPosition()
+        mainLooperHandler!!.postDelayed({sendMsgLoop()}, getSendMsgDelay())
+    }
+
     fun sendPosition(){
         val event: MutableMap<String, Any?> = HashMap()
         event["event"] = "updatePosition"
         event["position"] = position
         event["absolutePosition"] = absolutePosition
         eventSink.success(event)
+        sendBufferingUpdate(false)
     }
-
     fun sendBufferingUpdate(isFromBufferingStart: Boolean) {
         val bufferedPosition = exoPlayer!!.bufferedPosition
         if (isFromBufferingStart || bufferedPosition != lastSendBufferedPosition) {
@@ -894,6 +915,12 @@ internal class BetterPlayer(
         }
         textureEntry.release()
         eventChannel.setStreamHandler(null)
+
+        mainLooperHandler?.removeCallbacksAndMessages(null)
+        mainLooperHandler = null
+//            handler.removeCallbacksAndMessages(null);
+//            handler = null;
+
         if (surface != null) {
             surface!!.release()
         }

@@ -24,7 +24,6 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
             _eventListener,
             onError: _errorListener,
           );
-      _updatePositionTimer = Timer.periodic(const Duration(milliseconds: 300), _updatePosition);
     }
   }
 
@@ -95,8 +94,8 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
   }
 
   void _eventListener(NPVideoEvent event) {
+    // print("$event");
     if (!mounted) return;
-
     switch (event.eventType) {
       case NPVideoEventType.initialized:
         state = state.copyWith(
@@ -163,21 +162,5 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
     } else {
       state.copyWith(errorDescription: object.toString());
     }
-  }
-
-  void _updatePosition(Timer t) async {
-    if (state.isCompleted || state.duration == null) return;
-    if (!mounted) return;
-
-    /// The position in the current video.
-    final newPosition = await npPlatform.getPosition(textureId);
-
-    /// The absolute position in the current video stream
-    /// (i.e. EXT-X-PROGRAM-DATE-TIME in HLS).
-    // ignore: invariant_booleans
-    if (!mounted) return;
-    state = state.copyWith(
-      position: newPosition,
-    );
   }
 }
