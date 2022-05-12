@@ -1,7 +1,7 @@
 import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/config/bp_cache_config.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
-import 'package:better_player/src/types/bp_drm_config.dart';
+import 'package:better_player/src/defines/bp_drm_config.dart';
 import 'package:better_player/src/config/bp_notification_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'video_format.dart';

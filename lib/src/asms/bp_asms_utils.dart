@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:better_player/src/types/video_format.dart';
+import 'package:better_player/src/defines/video_format.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:better_player/src/dash/better_player_dash_utils.dart';
 import 'package:better_player/src/hls/bp_hls_utils.dart';

@@ -4,9 +4,9 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:better_player/src/config/bp_buffering_config.dart';
-import 'package:better_player/src/types/duration_range.dart';
-import 'package:better_player/src/types/np_data_source.dart';
-import 'package:better_player/src/types/np_event.dart';
+import 'package:better_player/src/defines/duration_range.dart';
+import 'package:better_player/src/defines/np_data_source.dart';
+import 'package:better_player/src/defines/np_event.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';

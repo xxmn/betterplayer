@@ -1,10 +1,9 @@
-import 'dart:ui';
-import 'package:better_player/src/types/duration_range.dart';
+import 'package:better_player/src/defines/duration_range.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'np_event.freezed.dart';
+part '../../generated/defines/np_event.freezed.dart';
 
 /// Event emitted from the platform implementation.
 

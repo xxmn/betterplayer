@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/types/bp_data_source.dart';
-import 'package:better_player/src/types/np_data_source.dart';
-import 'package:better_player/src/types/video_format.dart';
+import 'package:better_player/src/defines/bp_data_source.dart';
+import 'package:better_player/src/defines/np_data_source.dart';
+import 'package:better_player/src/defines/video_format.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';

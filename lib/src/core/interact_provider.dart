@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'interact_provider.freezed.dart';
+part '../../generated/core/interact_provider.freezed.dart';
 
 final interactProvider = StateNotifierProvider<InteractiveNotifier, int>((ref) {
   return InteractiveNotifier();

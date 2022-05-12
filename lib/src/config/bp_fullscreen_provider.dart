@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_fullscreen_provider.freezed.dart';
+part '../../generated/config/bp_fullscreen_provider.freezed.dart';
 
 final bpFullscreenProvider = StateNotifierProvider<_BPFullscreenNotifier, BPFullscreenConfig>(
   (ref) => _BPFullscreenNotifier(),

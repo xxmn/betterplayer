@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'bp_subtitles_config.freezed.dart';
+part '../../generated/subtitles/bp_subtitles_config.freezed.dart';
 
 ///Cfg of subtitles - colors/padding/font. Used in
 ///BPConfiguration.

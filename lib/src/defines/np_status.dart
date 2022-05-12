@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'duration_range.dart';
-part 'np_status.freezed.dart';
+part '../../generated/defines/np_status.freezed.dart';
 
 @freezed
 class NPStatus with _$NPStatus {

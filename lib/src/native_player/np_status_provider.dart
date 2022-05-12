@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:better_player/src/native_player/np_create_provider.dart';
-import 'package:better_player/src/types/np_event.dart';
-import 'package:better_player/src/types/np_status.dart';
+import 'package:better_player/src/defines/np_event.dart';
+import 'package:better_player/src/defines/np_status.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';

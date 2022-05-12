@@ -4,9 +4,9 @@ import 'package:better_player/src/subtitles/bp_asms_subtitle.dart';
 import 'package:better_player/src/asms/bp_asms_track.dart';
 import 'package:better_player/src/asms/bp_asms_utils.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
-import 'package:better_player/src/types/bp_drm_config.dart';
+import 'package:better_player/src/defines/bp_drm_config.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/types/bp_data_source.dart';
+import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

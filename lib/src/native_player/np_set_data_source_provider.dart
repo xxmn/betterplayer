@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:better_player/src/native_player/np_create_provider.dart';
 import 'package:better_player/src/native_player/platform_interface.dart';
-import 'package:better_player/src/types/np_data_source.dart';
+import 'package:better_player/src/defines/np_data_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_data_source_provider.dart';
 

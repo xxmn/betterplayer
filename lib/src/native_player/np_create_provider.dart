@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'np_create_provider.freezed.dart';
+part '../../generated/native_player/np_create_provider.freezed.dart';
 
 StateNotifierProvider<NPCreateNotifier, CreateStatus>? npCreateProvider;
 

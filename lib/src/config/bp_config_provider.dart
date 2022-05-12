@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'bp_config_provider.freezed.dart';
+part '../../generated/config/bp_config_provider.freezed.dart';
 
 StateNotifierProvider<BPConfigNotifier, BPConfig>? bpConfigProvider;
 

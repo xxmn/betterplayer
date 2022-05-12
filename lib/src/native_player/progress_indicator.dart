@@ -1,4 +1,4 @@
-// import 'package:better_player/src/types/duration_range.dart';
+// import 'package:better_player/src/defines/duration_range.dart';
 // import 'package:flutter/material.dart';
 
 // /// Displays the play/buffering status of the video controlled by [controller].

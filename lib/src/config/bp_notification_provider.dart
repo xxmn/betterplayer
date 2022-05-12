@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_notification_provider.freezed.dart';
+part '../../generated/config/bp_notification_provider.freezed.dart';
 
 final bpNotificationProvider = StateNotifierProvider<_BPNtNotifier, BPNtConfig>(
   (ref) => _BPNtNotifier(),

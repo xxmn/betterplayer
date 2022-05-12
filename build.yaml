@@ -1,6 +1,10 @@
 targets:
   $default:
     builders:
+      source_gen|combining_builder:
+        options:
+          build_extensions:
+            '^lib/src/{{}}.dart': 'lib/generated/{{}}.g.dart'
       freezed:
         enabled: true
         generate_for:
@@ -8,14 +12,16 @@ targets:
           #   - test
           #   - example
           include:
-            # - lib/src/*/*
-            # - lib/src/subtitles/*
-            # - lib/src/types/*
-            - lib/src/core/*
-            - lib/src/native_player/*
-            - lib/src/config/*
+            - lib/src/**.dart
+            # - lib/src/zimu/**
+            # - lib/src/defines/**
+            # - lib/src/core/**
+            # - lib/src/native_player/**
+            # - lib/src/config/**
             # - test/integration/*
         options:
+          build_extensions:
+            '^lib/src/{{}}.dart': 'lib/generated/{{}}.freezed.dart'
           # union_key: type
           # union_value_case: pascal
           # Disable the generation of copyWith/== for the entire project

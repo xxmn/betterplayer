@@ -1,7 +1,7 @@
 import 'video_format.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'np_data_source.freezed.dart';
+part '../../generated/defines/np_data_source.freezed.dart';
 
 /// Description of the data source used to create an instance of
 /// the video player.

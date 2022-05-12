@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:better_player/src/types/bp_theme.dart';
+import 'package:better_player/src/defines/bp_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_controls_provider.dart';
 

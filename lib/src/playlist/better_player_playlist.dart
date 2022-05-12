@@ -1,5 +1,5 @@
 // import 'package:better_player/src/config/bp_config_provider.dart';
-// import 'package:better_player/src/types/bp_data_source.dart';
+// import 'package:better_player/src/defines/bp_data_source.dart';
 // import 'package:better_player/src/utils/bp_utils.dart';
 
 // // Flutter imports:

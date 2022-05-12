@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:better_player/src/types/bp_drm_config.dart';
+import 'package:better_player/src/defines/bp_drm_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

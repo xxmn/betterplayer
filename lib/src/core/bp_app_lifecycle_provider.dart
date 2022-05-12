@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_app_lifecycle_provider.freezed.dart';
+part '../../generated/core/bp_app_lifecycle_provider.freezed.dart';
 
 final bpAppLifecycleProvider = StateNotifierProvider<BPAppLifeCycleNotifier, BPAppLifecycle>(
   (ref) => BPAppLifeCycleNotifier(),

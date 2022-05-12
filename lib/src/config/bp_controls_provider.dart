@@ -1,9 +1,9 @@
-import 'package:better_player/src/types/bp_theme.dart';
+import 'package:better_player/src/defines/bp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_controls_provider.freezed.dart';
+part '../../generated/config/bp_controls_provider.freezed.dart';
 
 StateNotifierProvider<BPControlsNotifier, BPControlsConfig>? bpControlsConfigProvider;
 

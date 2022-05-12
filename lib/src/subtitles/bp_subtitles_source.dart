@@ -1,6 +1,6 @@
 import 'package:better_player/src/subtitles/bp_asms_subtitle_segment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'bp_subtitles_source.freezed.dart';
+part '../../generated/subtitles/bp_subtitles_source.freezed.dart';
 
 ///Representation of subtitles source. Used to define subtitles in Better
 /// Player.

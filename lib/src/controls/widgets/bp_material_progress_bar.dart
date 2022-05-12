@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../../types/bp_progress_colors.dart';
+import '../../defines/bp_progress_colors.dart';
 
 class BPMaterialVideoProgressBar extends StatefulWidget {
   BPMaterialVideoProgressBar({

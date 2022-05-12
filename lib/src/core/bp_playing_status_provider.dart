@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part 'bp_playing_status_provider.freezed.dart';
+part '../../generated/core/bp_playing_status_provider.freezed.dart';
 
 StateNotifierProvider<BPPlayingStatusNotifier, BPPlayingStatus>? bpPlayingStatusProvider;
 

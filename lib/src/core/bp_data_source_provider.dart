@@ -1,4 +1,4 @@
-import 'package:better_player/src/types/bp_data_source.dart';
+import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 StateNotifierProvider<BPDataSourceNotifier, BPDataSource?>? bpDataSourceProvider;

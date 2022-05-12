@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-part 'bp_video_sction_provider.freezed.dart';
+part '../../generated/config/bp_video_sction_provider.freezed.dart';
 
 /// Simplest possible model, with just one field.
 ///

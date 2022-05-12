@@ -1,5 +1,5 @@
 import 'package:better_player/src/config/bp_video_sction_provider.dart';
-import 'package:better_player/src/types/section.dart';
+import 'package:better_player/src/defines/section.dart';
 import 'package:better_player/src/utils/bp_utils.dart' show BPUtils;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
