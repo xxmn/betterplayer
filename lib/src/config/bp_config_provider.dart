@@ -4,12 +4,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part '../../generated/config/bp_config_provider.freezed.dart';
 
-StateNotifierProvider<BPConfigNotifier, BPConfig>? bpConfigProvider;
+StateNotifierProvider<_BPConfigNotifier, BPConfig>? bpConfigProvider;
 
 void initBpConfigProvider(BPConfig bpConfig) {
   if (bpConfigProvider == null) {
-    bpConfigProvider = StateNotifierProvider<BPConfigNotifier, BPConfig>(
-      (ref) => BPConfigNotifier(
+    bpConfigProvider = StateNotifierProvider<_BPConfigNotifier, BPConfig>(
+      (ref) => _BPConfigNotifier(
         bpConfig: bpConfig,
       ),
     );
@@ -18,8 +18,8 @@ void initBpConfigProvider(BPConfig bpConfig) {
 
 void disposeBpConfigProvider() => bpConfigProvider = null;
 
-class BPConfigNotifier extends StateNotifier<BPConfig> {
-  BPConfigNotifier({BPConfig? bpConfig}) : super(bpConfig ?? BPConfig());
+class _BPConfigNotifier extends StateNotifier<BPConfig> {
+  _BPConfigNotifier({BPConfig? bpConfig}) : super(bpConfig ?? BPConfig());
 }
 
 ///Config of Better Player. Allows to setup general behavior of player.

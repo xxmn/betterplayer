@@ -623,6 +623,15 @@ internal class BetterPlayer(
                 eventSink.success(event)
             }
 
+            override fun onVolumeChanged(volume: Float) {
+//                println("onVolumeChanged, volume:$volume")
+                val event: MutableMap<String, Any?> = HashMap()
+                event["event"] = "volumeChanged"
+                event["volume"] = volume
+                eventSink.success(event)
+            }
+
+
             override fun onPlayerError(error: PlaybackException) {
                 eventSink.error("VideoError", "Video player had error $error", "")
             }
@@ -717,6 +726,7 @@ internal class BetterPlayer(
     }
 
     fun setVolume(value: Double) {
+//        println("=============exoPlayer set volume: $value")
         val bracketedValue = max(0.0, min(1.0, value))
             .toFloat()
         exoPlayer!!.volume = bracketedValue

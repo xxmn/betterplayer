@@ -397,6 +397,13 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
             key: key,
             value: isPlaying,
           );
+        case 'volumeChanged':
+          final double volume = map["volume"] as double;
+          return NPVideoEvent(
+            eventType: NPVideoEventType.volumeChanged,
+            key: key,
+            dValue: volume,
+          );
         case 'updatePosition':
           final int? position = map["position"] as int?;
           // final int? absolutePosition = map["absolutePosition"] as int?;

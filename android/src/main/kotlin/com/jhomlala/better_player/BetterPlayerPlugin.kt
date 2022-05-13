@@ -155,6 +155,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 result.success(null)
             }
             SET_VOLUME_METHOD -> {
+//                println("*************in plugin")
                 player.setVolume(call.argument(VOLUME_PARAMETER)!!)
                 result.success(null)
             }

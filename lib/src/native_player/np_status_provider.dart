@@ -6,19 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';
 
-final npStatusProvider = StateNotifierProvider<NPStatusNotifier, NPStatus>(
+final npStatusProvider = StateNotifierProvider<_NPStatusNotifier, NPStatus>(
   (ref) {
     var createStatus = ref.watch(npCreateProvider!);
-    return NPStatusNotifier(textureId: createStatus.textureId);
+    return _NPStatusNotifier(textureId: createStatus.textureId);
   },
 );
 
-class NPStatusNotifier extends StateNotifier<NPStatus> {
+class _NPStatusNotifier extends StateNotifier<NPStatus> {
   int? textureId;
   StreamSubscription<NPVideoEvent>? _eventSubscription;
   Timer? _updatePositionTimer;
-  NPStatusNotifier({this.textureId}) : super(NPStatus()) {
-    // print("in NPStatusNotifier constructor, textureId: $textureId");
+  _NPStatusNotifier({this.textureId}) : super(NPStatus()) {
+    // print("in _NPStatusNotifier constructor, textureId: $textureId");
     if (textureId != null) {
       _eventSubscription = npPlatform.videoEventsFor(textureId!).listen(
             _eventListener,
@@ -28,6 +28,7 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
   }
 
   double getAspectRatio() => state.aspectRatio;
+  double getVolume() => state.volume;
 
   @override
   void dispose() async {
@@ -158,6 +159,9 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
         break;
       case NPVideoEventType.screenshot:
         print("recevied a screenshot event: $event");
+        break;
+      case NPVideoEventType.volumeChanged:
+        state = state.copyWith(volume: event.dValue!);
         break;
     }
   }

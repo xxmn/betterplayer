@@ -2,6 +2,8 @@ import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/bp_hit_area_clickable_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/locked/bp_locked_provider.dart';
+import 'package:better_player/src/locked/buttons.dart';
 import 'package:better_player/src/native_player/np_create_provider.dart';
 import 'package:better_player/src/native_player/np_platform_instance.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
@@ -15,6 +17,7 @@ class MiddleRow extends HookConsumerWidget {
     var controlBarColor = ref.watch(bpControlsConfigProvider!.select((v) => v.controlBarColor));
     var enableSkips = ref.watch(bpControlsConfigProvider!.select((v) => v.enableSkips));
     var isLiveStream = ref.watch(bpDataSourceProvider!.select((v) => v?.isLiveStream ?? false));
+
     return Container(
       color: controlBarColor,
       width: double.infinity,

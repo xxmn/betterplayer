@@ -5,12 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part '../../generated/config/bp_controls_provider.freezed.dart';
 
-StateNotifierProvider<BPControlsNotifier, BPControlsConfig>? bpControlsConfigProvider;
+StateNotifierProvider<_BPControlsNotifier, BPControlsConfig>? bpControlsConfigProvider;
 
 void initBpControlsProvider(BPControlsConfig controlsConfig) {
   if (bpControlsConfigProvider == null) {
-    bpControlsConfigProvider = StateNotifierProvider<BPControlsNotifier, BPControlsConfig>(
-      (ref) => BPControlsNotifier(
+    bpControlsConfigProvider = StateNotifierProvider<_BPControlsNotifier, BPControlsConfig>(
+      (ref) => _BPControlsNotifier(
         bpControlsConfig: controlsConfig,
       ),
     );
@@ -19,8 +19,8 @@ void initBpControlsProvider(BPControlsConfig controlsConfig) {
 
 void disposeBpControlsProvider() => bpControlsConfigProvider = null;
 
-class BPControlsNotifier extends StateNotifier<BPControlsConfig> {
-  BPControlsNotifier({
+class _BPControlsNotifier extends StateNotifier<BPControlsConfig> {
+  _BPControlsNotifier({
     BPControlsConfig? bpControlsConfig,
   }) : super(bpControlsConfig ?? BPControlsConfig());
 }

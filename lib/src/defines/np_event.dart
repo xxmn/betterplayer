@@ -44,6 +44,8 @@ class NPVideoEvent with _$NPVideoEvent {
 
     // 通用值
     String? value,
+    double? dValue,
+    int? iValue,
 
     //
     DateTime? absolutePosition,
@@ -74,6 +76,7 @@ enum NPVideoEventType {
   play,
   updatePosition,
   playingChanged,
+  volumeChanged,
 
   /// The video is set to pause
   pause,

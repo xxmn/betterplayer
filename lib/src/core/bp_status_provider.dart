@@ -32,30 +32,18 @@ final bpSizeProvider = Provider<Size>((ref) {
 ///播放器是否可见
 ///
 
-final bpIsVisibleProvider = StateNotifierProvider<IsVisibleNotifier, bool>(
-  (ref) => IsVisibleNotifier(true),
+final bpIsVisibleProvider = StateNotifierProvider<_IsVisibleNotifier, bool>(
+  (ref) => _IsVisibleNotifier(true),
 );
 
-class IsVisibleNotifier extends StateNotifier<bool> {
-  IsVisibleNotifier(bool isVisible) : super(isVisible);
+class _IsVisibleNotifier extends StateNotifier<bool> {
+  _IsVisibleNotifier(bool isVisible) : super(isVisible);
 
   void setIsVisible(double visibilityFraction) {
     var isVisible = visibilityFraction > 0;
     if (state != isVisible) {
       state = isVisible;
     }
-  }
-}
-
-class ControlsVisible extends StateNotifier<bool> {
-  ControlsVisible(bool isVisible) : super(isVisible);
-
-  void setVisible(bool isVisible) {
-    state = isVisible;
-  }
-
-  void toggle() {
-    state = !state;
   }
 }
 

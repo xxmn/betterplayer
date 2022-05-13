@@ -7,15 +7,15 @@ const _hideControlsTimerId = 'hideControlsTimer';
 ///
 ///Has Controls Visible.
 ///
-final bpShowControlsProvider = StateNotifierProvider<ShowControlsNotifier, bool>(
+final bpShowControlsProvider = StateNotifierProvider<_ShowControlsNotifier, bool>(
   (ref) {
     var showControls = ref.watch(bpControlsConfigProvider!.select((v) => v.showControls));
-    return ShowControlsNotifier(showControls);
+    return _ShowControlsNotifier(showControls);
   },
 );
 
-class ShowControlsNotifier extends StateNotifier<bool> {
-  ShowControlsNotifier(bool isShow) : super(isShow) {
+class _ShowControlsNotifier extends StateNotifier<bool> {
+  _ShowControlsNotifier(bool isShow) : super(isShow) {
     debounceHideControls();
   }
 
