@@ -27,6 +27,8 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
     }
   }
 
+  double getAspectRatio() => state.aspectRatio;
+
   @override
   void dispose() async {
     _updatePositionTimer?.cancel();
@@ -122,7 +124,10 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
       case NPVideoEventType.playingChanged:
         var isPlaying = event.value == "true";
         // print("playingChanged, event.value: ${event.value}, isPlaying: $isPlaying");
-        state = state.copyWith(isPlaying: isPlaying);
+
+        state = isPlaying
+            ? state.copyWith(isPlaying: isPlaying, isCompleted: false)
+            : state.copyWith(isPlaying: isPlaying);
         break;
       case NPVideoEventType.updatePosition:
         state = state.copyWith(
@@ -165,4 +170,26 @@ class NPStatusNotifier extends StateNotifier<NPStatus> {
       state.copyWith(errorDescription: object.toString());
     }
   }
+}
+
+///Latest value can be null
+bool npStatusIsLoading(NPStatus state) {
+  if (!state.isPlaying && state.duration == null) return true;
+
+  final Duration position = state.position ?? Duration.zero;
+  Duration? bufferedEndPosition;
+  if (state.buffered?.isNotEmpty == true) {
+    bufferedEndPosition = state.buffered!.last.end;
+  }
+
+  if (bufferedEndPosition != null) {
+    final difference = bufferedEndPosition - position;
+
+    ///Min. time of buffered video to hide loading timer (in milliseconds)
+    const int _bufferingInterval = 20000;
+    if (!state.isPlaying && state.isBuffering && difference.inMilliseconds < _bufferingInterval) {
+      return true;
+    }
+  }
+  return false;
 }

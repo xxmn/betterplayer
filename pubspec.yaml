@@ -17,7 +17,6 @@ dependencies:
   flutter_hooks: ^0.18.3
   hooks_riverpod: ^1.0.3
   freezed_annotation: ^2.0.3
-  # freezed_annotation: ^1.1.0
   cupertino_icons: ^1.0.4
   wakelock: ^0.6.1+2
   meta: ^1.7.0
@@ -37,14 +36,12 @@ dependencies:
   #   path: ../dart-event-bus
 
 dev_dependencies:
-  # lint: ^1.8.1
   flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   freezed: ^2.0.3
-  # freezed: ^1.1.1
   build_runner: ^2.1.10
 
 flutter:

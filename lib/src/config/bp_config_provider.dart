@@ -57,9 +57,6 @@ class BPConfig with _$BPConfig {
     /// A widget which is placed between the video and the controls
     Widget? overlay,
 
-    // /// Defines a custom RoutePageBuilder for the fullscreen
-    // final BPRoutePageBuilder? routePageBuilder;
-
     // /// Defines a event listener where video player events will be send
     // final Function(BPEvent)? eventListener;
 

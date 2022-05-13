@@ -2,6 +2,7 @@ import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/controls/widgets/bp_hitArea.dart';
 import 'package:better_player/src/controls/widgets/bp_loading.dart';
 import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'widgets/bp_bottomBars.dart';
@@ -38,7 +39,7 @@ class _ControlsMainPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // todo: watch 不能使用notifier，不能及时更新
     var showControls = ref.watch(bpShowControlsProvider);
-    var isLoading = ref.watch(bpPlayingStatusProvider!.select((v) => v.isLoading));
+    var isLoading = ref.watch(npStatusProvider.select((v) => npStatusIsLoading(v)));
     //todo: 手势事件处理
     return GestureDetector(
       onTap: ref.read(bpShowControlsProvider.notifier).toggle,

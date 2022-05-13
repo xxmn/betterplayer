@@ -1,15 +1,22 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-part '../../generated/config/bp_fullscreen_provider.freezed.dart';
+part '../../generated/fullscreen/bp_config_provider.freezed.dart';
 
-final bpFullscreenProvider = StateNotifierProvider<_BPFullscreenNotifier, BPFullscreenConfig>(
+final bpFullscreenConfigProvider = StateNotifierProvider<_BPFullscreenNotifier, BPFullscreenConfig>(
   (ref) => _BPFullscreenNotifier(),
 );
 
 class _BPFullscreenNotifier extends StateNotifier<BPFullscreenConfig> {
   _BPFullscreenNotifier() : super(BPFullscreenConfig());
+
+  List<SystemUiOverlay> getOverlaysAfter() => state.systemOverlaysAfterFullScreen;
+  List<DeviceOrientation> getOrientationsAfter() => state.deviceOrientationsAfterFullScreen;
+  List<DeviceOrientation> getOrientations() => state.deviceOrientationsOnFullScreen;
+  bool autoDetectOrientations() => state.autoDetectFullscreenDeviceOrientation;
+  bool allowedSleep() => state.allowedScreenSleep;
 }
 
 ///Configuration of notification which is displayed once user moves app to
@@ -17,6 +24,9 @@ class _BPFullscreenNotifier extends StateNotifier<BPFullscreenConfig> {
 @freezed
 class BPFullscreenConfig with _$BPFullscreenConfig {
   const factory BPFullscreenConfig({
+    /// Defines a custom RoutePageBuilder for the fullscreen
+    final BPRoutePageBuilder? routePageBuilder,
+
     ///Flag used to enable/disable fullscreen
     @Default(true)
         bool enableFullscreen,
@@ -55,7 +65,7 @@ class BPFullscreenConfig with _$BPFullscreenConfig {
     ///then video will be played horizontally. If this parameter is true, then
     ///[deviceOrientationsOnFullScreen] and [fullScreenAspectRatio] value will be
     /// ignored.
-    @Default(false)
+    @Default(true)
         bool autoDetectFullscreenDeviceOrientation,
 
     /// Defines aspect ratio which will be used in fullscreen
@@ -67,3 +77,10 @@ class BPFullscreenConfig with _$BPFullscreenConfig {
         bool autoDetectFullscreenAspectRatio,
   }) = _BPFullscreenConfig;
 }
+
+///Page route builder used in fullscreen mode.
+typedef BPRoutePageBuilder = Widget Function(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+);

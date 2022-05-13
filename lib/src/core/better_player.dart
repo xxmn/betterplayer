@@ -2,7 +2,6 @@ import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_app_lifecycle_provider.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:better_player/src/native_player/np_create_provider.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_config.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_config_provider.dart';
@@ -10,10 +9,9 @@ import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import '../config/bp_config_provider.dart';
 import 'bp_playing_status_provider.dart';
-import 'bp_with_controls.dart';
+import 'bp_visibility_detector.dart';
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -66,7 +64,7 @@ class BetterPlayer extends StatefulWidget {
 class _BetterPlayerState extends State<BetterPlayer> {
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(child: _BPInitProviders(widget._bpInitConfig));
+    return _BPInitProviders(widget._bpInitConfig);
   }
 }
 
@@ -192,39 +190,7 @@ class __BPAppLifecycleState extends ConsumerState<_BPAppLifecycle> with WidgetsB
       WidgetsBinding.instance!.addObserver(this);
       return () => WidgetsBinding.instance!.removeObserver(this);
     }, const []);
-    return _BPVisibilityDetector();
-  }
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-///可见性回掉函数
-///disposed状态
-///
-////////////////////////////////////////////////////////////////////////
-class _BPVisibilityDetector extends HookConsumerWidget {
-  _BPVisibilityDetector({Key? key}) : super(key: key);
-  final Key id = UniqueKey();
-  bool _isDisposed = false;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      return () {
-        _isDisposed = true;
-        // ref.read(bpIsDisposedProvider.notifier).state = true;
-      };
-    }, const []);
-
-    return VisibilityDetector(
-      // key: Key("${widget.controller.hashCode}_key"),
-      key: id,
-      onVisibilityChanged: (VisibilityInfo info) {
-        if (!_isDisposed) {
-          ref.read(bpIsVisibleProvider.notifier).setIsVisible(info.visibleFraction);
-        }
-      },
-      child: BPWithControls(),
-    );
+    return BPVisibilityDetector();
+    // return _BPRoute();
   }
 }

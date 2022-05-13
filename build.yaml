@@ -12,15 +12,17 @@ targets:
           #   - test
           #   - example
           include:
-            - lib/src/**.dart
-            # - lib/src/zimu/**
-            # - lib/src/defines/**
-            # - lib/src/core/**
-            # - lib/src/native_player/**
-            # - lib/src/config/**
+            # - lib/src/**.dart
+            - "lib/src/subtitles/**.dart"
+            - "lib/src/defines/**.dart"
+            - "lib/src/core/**.dart"
+            - "lib/src/native_player/**.dart"
+            - "lib/src/config/**.dart"
+            - "lib/src/fullscreen/**.dart"
             # - test/integration/*
         options:
           build_extensions:
+            # https://github.com/dart-lang/build/blob/master/docs/writing_a_builder.md
             '^lib/src/{{}}.dart': 'lib/generated/{{}}.freezed.dart'
           # union_key: type
           # union_value_case: pascal
@@ -61,3 +63,19 @@ targets:
 #     build_to: cache
 #     # build_to: cache  # source
 #     applies_builders: ["source_gen|combining_builder"]
+
+
+# https://github.com/dart-lang/build/blob/master/docs/faq.md
+# targets:
+#   $default:
+#     builders:
+#       build_web_compilers:entrypoint:
+#         generate_for:
+#         - test/multiplatform/**_test.dart
+#         - test/web/**_test.dart
+#         - web/**.dart
+#       build_vm_compilers:entrypoint:
+#         generate_for:
+#         - test/multiplatform/**_test.dart
+#         - test/vm/**_test.dart
+#         - bin/**.dart
