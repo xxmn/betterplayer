@@ -6,7 +6,7 @@ import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'bp_expandButton.dart';
+import '../../fullscreen/bp_expandButton.dart';
 import 'bp_play_or_pause.dart';
 import 'bp_positon_or_live.dart';
 import 'bp_progressBar.dart';

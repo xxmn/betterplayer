@@ -66,3 +66,62 @@ class _FullScreenPageState extends ConsumerState<FullScreenPage> {
     );
   }
 }
+
+void exitFullscreenPage(BuildContext ctx) {
+  Navigator.of(ctx, rootNavigator: true).pop();
+}
+
+Future<dynamic> enterFullScreenPage(BuildContext context, Reader read) async {
+  final TransitionRoute<void> route = PageRouteBuilder<void>(
+    settings: const RouteSettings(),
+    pageBuilder: _fullScreenRoutePageBuilder,
+  );
+
+  // 放在这里，以便跟exit对应
+  read(bpFullscreenProvider.notifier).enter();
+
+  // push动作同步执行，阻塞在push，等待pop页面才之后之后的动作
+  await Navigator.of(context, rootNavigator: true).push(route);
+  // print("after push fullscreen");
+  // ref.read动作不能在dispose回调里面执行，所以放在这里
+  read(bpFullscreenProvider.notifier).exit();
+
+  // 异步执行，不会阻塞
+  // 不等退出全屏模式，而直接执行read(bpFullscreenProvider.notifier).exit();，所以不用
+  // GoRouter.of(context).push('/bpFullscreen');
+  // read(bpFullscreenProvider.notifier).exit();
+}
+
+Widget _fullScreenRoutePageBuilder(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+) {
+  // final routePageBuilder = _betterPlayerConfiguration.routePageBuilder;
+  final BPRoutePageBuilder? routePageBuilder = null;
+  if (routePageBuilder == null) {
+    return _DefaultFullscreenPage(animation: animation, secondaryAnimation: secondaryAnimation);
+  } else {
+    return routePageBuilder(context, animation, secondaryAnimation);
+  }
+}
+
+class _DefaultFullscreenPage extends StatelessWidget {
+  final Animation<double> animation;
+  final Animation<double> secondaryAnimation;
+  const _DefaultFullscreenPage({
+    Key? key,
+    required this.animation,
+    required this.secondaryAnimation,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return FullScreenPage();
+      },
+    );
+  }
+}
