@@ -29,6 +29,9 @@ class _NPStatusNotifier extends StateNotifier<NPStatus> {
 
   double getAspectRatio() => state.aspectRatio;
   double getVolume() => state.volume;
+  Duration getPosition() => state.position ?? Duration.zero;
+  Duration getDuration() => state.duration ?? Duration.zero;
+  bool isPlaying() => state.isPlaying;
 
   @override
   void dispose() async {
@@ -69,13 +72,12 @@ class _NPStatusNotifier extends StateNotifier<NPStatus> {
   /// and silently clamped.
   Future<void> seekTo(Duration position) async {
     if (!mounted) return;
-    Duration? positionToSeek;
     if (position > state.duration!) {
-      positionToSeek = state.duration!;
+      position = state.duration!;
     } else if (position < Duration.zero) {
-      positionToSeek = Duration.zero;
+      position = Duration.zero;
     }
-    await npPlatform.seekTo(textureId, Duration.zero);
+    await npPlatform.seekTo(textureId, position);
   }
 
   Future<void> seekToAndContinue(Duration position) async {

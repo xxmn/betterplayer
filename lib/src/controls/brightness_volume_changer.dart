@@ -9,20 +9,18 @@ class BrightnessVolumeChanger {
     required this.size,
     required this.isLocked,
     required this.read,
-  })  : _width = size.width,
-        _height = size.height;
+  }) : _width = size.width;
   Reader read;
   Size size;
   bool isLocked;
   bool _brightnessOk = false;
   bool _volumeOk = false;
   double _width;
-  double _height;
 
   double _newVolume = 0;
   double _newBrightness = 0;
 
-  void onVerticalStart(DragStartDetails details) {
+  void onStart(DragStartDetails details) {
     // debugPrint("onVerticalStart");
     // print("size: ${size.width}, ${size.height}");
     if (isLocked) return;
@@ -38,7 +36,7 @@ class BrightnessVolumeChanger {
     }
   }
 
-  void onVerticalUpdate(DragUpdateDetails details) async {
+  void onUpdate(DragUpdateDetails details) async {
     if (isLocked) return;
     // 累计计算偏移量(下滑减少百分比，上滑增加百分比)
     var dy = (-details.delta.dy);
@@ -48,7 +46,7 @@ class BrightnessVolumeChanger {
       // _percentageWidget.percentageCallback("亮度：${(b * 100).toInt()}%");
       // VideoPlayerUtils.setBrightness(b);
       var bn = await BVUtils.brightness;
-      _newBrightness = _getVerticalNewValue(dy * 2, bn);
+      _newBrightness = _getVerticalNewValue(dy, bn);
       // debugPrint("-----------------_newBrightness: ${_newBrightness}, lastBrightness: $bn, dy:$dy");
       BVUtils.setBrightness(_newBrightness);
     }
@@ -56,7 +54,7 @@ class BrightnessVolumeChanger {
       // 这个方法获取的volume不稳定，未知原因
       // var lastVolume = await BVUtils.volume;
       var lastVolume = await read(npStatusProvider.notifier).getVolume();
-      _newVolume = _getVerticalNewValue(dy * 2, lastVolume);
+      _newVolume = _getVerticalNewValue(dy, lastVolume);
       // percentageWidget.percentageCallback("音量：${(_newVolume * 100).toInt()}%");
       // debugPrint("-----------------_newVolume: ${_newVolume}, lastVolume: $lastVolume, dy:$dy");
       await read(npStatusProvider.notifier).setVolume(_newVolume);
@@ -64,7 +62,7 @@ class BrightnessVolumeChanger {
     }
   }
 
-  void onVerticalEnd(DragEndDetails _) async {
+  void onEnd(DragEndDetails _) async {
     // debugPrint("onVerticalEnd");
     if (isLocked) return;
     // 隐藏
@@ -78,7 +76,7 @@ class BrightnessVolumeChanger {
 
   // 计算亮度百分比
   double _getVerticalNewValue(double dh, double lastV) {
-    double value = double.parse(((dh / _height) + lastV).toStringAsFixed(2));
+    double value = double.parse(((dh / 300) + lastV).toStringAsFixed(2));
     if (value >= 1.00) {
       value = 1.00;
     } else if (value <= 0.00) {

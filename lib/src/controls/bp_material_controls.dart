@@ -1,14 +1,13 @@
 import 'package:better_player/src/controls/show_controls_provider.dart';
-import 'package:better_player/src/controls/widgets/bp_hitArea.dart';
 import 'package:better_player/src/controls/widgets/bp_loading.dart';
 import 'package:better_player/src/core/bp_playing_status_provider.dart';
 import 'package:better_player/src/locked/bp_locked_provider.dart';
-import 'package:better_player/src/locked/buttons.dart';
 import 'package:better_player/src/locked/page.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'brightness_volume_changer.dart';
+import 'position_changer.dart';
 import 'widgets/bp_bottomBars.dart';
 import 'widgets/bp_error_page.dart';
 import 'widgets/bp_topBar.dart';
@@ -50,12 +49,17 @@ class _ControlsMainPage extends HookConsumerWidget {
       isLocked: isLocked,
       read: ref.read,
     );
+    var positionChanger = PositionChanger(isLocked: isLocked, read: ref.read);
+
     return GestureDetector(
       onTap: ref.read(bpShowControlsProvider.notifier).show,
       onDoubleTap: ref.read(bpShowControlsProvider.notifier).toggle,
-      onVerticalDragStart: bvChanger.onVerticalStart,
-      onVerticalDragUpdate: bvChanger.onVerticalUpdate,
-      onVerticalDragEnd: bvChanger.onVerticalEnd,
+      onVerticalDragStart: bvChanger.onStart,
+      onVerticalDragUpdate: bvChanger.onUpdate,
+      onVerticalDragEnd: bvChanger.onEnd,
+      onHorizontalDragStart: positionChanger.onStart,
+      onHorizontalDragUpdate: positionChanger.onUpdate,
+      onHorizontalDragEnd: positionChanger.onEnd,
       onLongPress: () {
         // print("GestureDetector onLongPress");
       },
