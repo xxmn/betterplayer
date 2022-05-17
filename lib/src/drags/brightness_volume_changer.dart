@@ -1,8 +1,11 @@
+import 'package:better_player/src/drags/brightness_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:brightness_volume/brightness_volume.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'volumn_provider.dart';
 
 class BrightnessVolumeChanger {
   BrightnessVolumeChanger({
@@ -21,18 +24,18 @@ class BrightnessVolumeChanger {
   double _newBrightness = 0;
 
   void onStart(DragStartDetails details) {
-    // debugPrint("onVerticalStart");
-    // print("size: ${size.width}, ${size.height}");
     if (isLocked) return;
-    // if(!VideoPlayerUtils.isInitialized) return; // 视频是否已经完成初始化
+    // todo: 视频是否初始化判断
 
     var _startPanOffset = details.globalPosition;
     if (_startPanOffset.dx < _width * 0.5) {
       // 左边调整亮度
       _brightnessOk = true;
+      read(dragIsShowBrightnessProvider.state).state = true;
     } else {
       // 右边调整声音
       _volumeOk = true;
+      read(dragIsShowVolumnProvider.state).state = true;
     }
   }
 
@@ -40,37 +43,36 @@ class BrightnessVolumeChanger {
     if (isLocked) return;
     // 累计计算偏移量(下滑减少百分比，上滑增加百分比)
     var dy = (-details.delta.dy);
-    // print("------------------------_movePan: $_movePan, -details.delta.dy: ${-details.delta.dy}");
     if (_brightnessOk) {
-      // double b = _getNewValue(_movePan, );
-      // _percentageWidget.percentageCallback("亮度：${(b * 100).toInt()}%");
-      // VideoPlayerUtils.setBrightness(b);
       var bn = await BVUtils.brightness;
       _newBrightness = _getVerticalNewValue(dy, bn);
-      // debugPrint("-----------------_newBrightness: ${_newBrightness}, lastBrightness: $bn, dy:$dy");
+
+      //todo: 亮度过高提示
       BVUtils.setBrightness(_newBrightness);
+      read(dragChangeBrightnessProvider.notifier).setBrightness(_newBrightness);
     }
     if (_volumeOk) {
       // 这个方法获取的volume不稳定，未知原因
       // var lastVolume = await BVUtils.volume;
       var lastVolume = await read(npStatusProvider.notifier).getVolume();
       _newVolume = _getVerticalNewValue(dy, lastVolume);
-      // percentageWidget.percentageCallback("音量：${(_newVolume * 100).toInt()}%");
-      // debugPrint("-----------------_newVolume: ${_newVolume}, lastVolume: $lastVolume, dy:$dy");
       await read(npStatusProvider.notifier).setVolume(_newVolume);
+
+      read(dragChangeVolumnProvider.notifier).setVolumn(_newVolume);
       // await BVUtils.setVolume(_newVolume);
     }
   }
 
   void onEnd(DragEndDetails _) async {
-    // debugPrint("onVerticalEnd");
     if (isLocked) return;
-    // 隐藏
-    // _percentageWidget.offstageCallback(true);
+
     if (_volumeOk) {
       _volumeOk = false;
-    } else if (_brightnessOk) {
+      read(dragIsShowVolumnProvider.state).state = false;
+    }
+    if (_brightnessOk) {
       _brightnessOk = false;
+      read(dragIsShowBrightnessProvider.state).state = false;
     }
   }
 
@@ -85,35 +87,6 @@ class BrightnessVolumeChanger {
     return value;
   }
 }
-
-// class PercentageWidget extends StatefulWidget {
-//   PercentageWidget({Key? key}) : super(key: key);
-//   late Function(String) percentageCallback; // 百分比
-//   late Function(bool) offstageCallback;
-
-//   @override
-//   _PercentageWidgetState createState() => _PercentageWidgetState();
-// }
-
-// class _PercentageWidgetState extends State<PercentageWidget> {
-//   String _percentage = ""; // 具体的百分比信息
-//   bool _offstage = true;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     widget.percentageCallback = (percentage) {
-//       _percentage = percentage;
-//       _offstage = false;
-//       if (!mounted) return;
-//       setState(() {});
-//     };
-//     widget.offstageCallback = (offstage) {
-//       _offstage = offstage;
-//       if (!mounted) return;
-//       setState(() {});
-//     };
-//   }
 
 //   @override
 //   Widget build(BuildContext context) {

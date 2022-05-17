@@ -7,6 +7,9 @@ import 'package:better_player/src/config/bp_placeholder_provider.dart';
 import 'package:better_player/src/config/bp_theme_provider.dart';
 import 'package:better_player/src/controls/bp_material_controls.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
+import 'package:better_player/src/drags/brightness_message.dart';
+import 'package:better_player/src/drags/position_message.dart';
+import 'package:better_player/src/drags/volumn_message.dart';
 import 'package:better_player/src/native_player/native_player.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_drawer.dart';
@@ -79,6 +82,9 @@ class _PlayerWithControls extends HookConsumerWidget {
           BPSubtitlesDrawer(),
           if (!placeholderOnTop) placeholder,
           _MaybeShowControls(),
+          MaybeShowVolumnMessage(),
+          MaybeShowBrightnessMessage(),
+          MaybeShowPositionMessage(),
         ],
       ),
     );
