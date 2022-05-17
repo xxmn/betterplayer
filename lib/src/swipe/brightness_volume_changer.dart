@@ -1,4 +1,4 @@
-import 'package:better_player/src/drags/brightness_provider.dart';
+import 'package:better_player/src/swipe/brightness_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:brightness_volume/brightness_volume.dart';
 import 'package:flutter/material.dart';

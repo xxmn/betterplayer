@@ -1,4 +1,4 @@
-import 'package:better_player/src/drags/position_provider.dart';
+import 'package:better_player/src/swipe/position_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
