@@ -16,7 +16,7 @@ class PositonOrLive extends HookConsumerWidget {
     if (isLiveStream)
       return LiveText();
     else
-      return enableProgressText ? Expanded(child: PositionText()) : const SizedBox();
+      return enableProgressText ? PositionText() : const SizedBox();
   }
 }
 
@@ -44,26 +44,27 @@ class PositionText extends HookConsumerWidget {
 
     return Padding(
       padding: enablePlayPause
-          ? const EdgeInsets.only(right: 24)
+          ? const EdgeInsets.only(right: 8)
           : const EdgeInsets.symmetric(horizontal: 22),
       child: RichText(
         text: TextSpan(
-            text: BPUtils.formatDuration(position),
-            style: TextStyle(
-              fontSize: 10.0,
-              color: textColor,
-              decoration: TextDecoration.none,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: ' / ${BPUtils.formatDuration(duration)}',
-                style: TextStyle(
-                  fontSize: 10.0,
-                  color: textColor,
-                  decoration: TextDecoration.none,
-                ),
-              )
-            ]),
+          text: BPUtils.formatDuration(position),
+          style: TextStyle(
+            fontSize: 10.0,
+            color: textColor,
+            decoration: TextDecoration.none,
+          ),
+          children: <TextSpan>[
+            TextSpan(
+              text: ' / ${BPUtils.formatDuration(duration)}',
+              style: TextStyle(
+                fontSize: 10.0,
+                color: textColor,
+                decoration: TextDecoration.none,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

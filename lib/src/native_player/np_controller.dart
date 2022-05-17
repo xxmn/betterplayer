@@ -20,27 +20,6 @@ class _NPControllerNotifier {
   //   await npPlatform.setLooping(_textureId, value.isLooping);
   // }
 
-  // Future<void> _applySpeed() async {
-  //   if (!_created || _isDisposed) {
-  //     return;
-  //   }
-  //   await npPlatform.setSpeed(_textureId, value.speed);
-  // }
-
-  // /// Sets the speed of [this].
-  // ///
-  // /// [speed] indicates a value between 0.0 and 2.0 on a linear scale.
-  // Future<void> setSpeed(double speed) async {
-  //   final double previousSpeed = value.speed;
-  //   try {
-  //     value = value.copyWith(speed: speed);
-  //     await _applySpeed();
-  //   } catch (exception) {
-  //     value = value.copyWith(speed: previousSpeed);
-  //     rethrow;
-  //   }
-  // }
-
   // /// Sets the video track parameters of [this]
   // ///
   // /// [width] specifies width of the selected track

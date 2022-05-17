@@ -99,6 +99,25 @@ class _NPStatusNotifier extends StateNotifier<NPStatus> {
     state = state.copyWith(volume: volume);
   }
 
+  Future<void> _applySpeed() async {
+    if (!mounted) return;
+    await npPlatform.setSpeed(textureId, state.speed);
+  }
+
+  /// Sets the speed of [this].
+  ///
+  /// [speed] indicates a value between 0.0 and 2.0 on a linear scale.
+  Future<void> setSpeed(double speed) async {
+    final double previousSpeed = state.speed;
+    try {
+      state = state.copyWith(speed: speed);
+      await _applySpeed();
+    } catch (exception) {
+      state = state.copyWith(speed: previousSpeed);
+      rethrow;
+    }
+  }
+
   void _eventListener(NPVideoEvent event) {
     // print("$event");
     if (!mounted) return;

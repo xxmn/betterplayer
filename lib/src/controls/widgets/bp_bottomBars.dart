@@ -3,13 +3,13 @@ import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/controls/widgets/bp_mute_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/core/bp_status_provider.dart';
+import 'package:better_player/src/progress/bp_progressBar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../fullscreen/bp_expandButton.dart';
 import 'bp_play_or_pause.dart';
 import 'bp_positon_or_live.dart';
-import 'bp_progressBar.dart';
+import 'speed_button.dart';
 
 class MaybeBottomBars extends HookConsumerWidget {
   const MaybeBottomBars({Key? key}) : super(key: key);
@@ -38,18 +38,28 @@ class _BottomBars extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-              flex: 75,
+              flex: 1,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   MaybePlayOrPause(),
-                  PositonOrLive(),
-                  const Spacer(),
+                  // PositonOrLive(),
+                  // const Spacer(),
+                  if (isLiveStream)
+                    const Spacer()
+                  else
+                    Expanded(
+                      flex: 1,
+                      child: MaybeProgressBar(),
+                    ),
+                  SpeedButton(),
                   MaybeMuteButton(),
                   MaybeExpandButton(),
                 ],
               ),
             ),
-            if (isLiveStream) const SizedBox() else MaybeProgressBar(),
+            // if (isLiveStream) const SizedBox() else MaybeProgressBar(),
           ],
         ),
       ),
