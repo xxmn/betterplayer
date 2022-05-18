@@ -32,6 +32,18 @@ class _ShowControlsNotifier extends StateNotifier<bool> {
     debounceHideControls();
   }
 
+  void showNoHide() {
+    // print("1.show");
+    EasyDebounce.cancel(_hideControlsTimerId);
+    state = true;
+  }
+
+  void toggleNoHide() {
+    // print("3.toggle");
+    EasyDebounce.cancel(_hideControlsTimerId);
+    state = !state;
+  }
+
   //切换显示状态
   void toggle() {
     // print("3.toggle");
@@ -54,18 +66,6 @@ class _ShowControlsNotifier extends StateNotifier<bool> {
         }, // todo: 需要mounted判断？
       );
     }
-  }
-
-  void _show() {
-    // print("1.show");
-    EasyDebounce.cancel(_hideControlsTimerId);
-    state = true;
-  }
-
-  void _toggle() {
-    // print("3.toggle");
-    EasyDebounce.cancel(_hideControlsTimerId);
-    state = !state;
   }
 
   @override
