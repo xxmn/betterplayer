@@ -1,7 +1,7 @@
 import 'package:better_player/src/config/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,7 +11,7 @@ class ErrorPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var errorBuilder = ref.watch(bpConfigProvider!.select((v) => v.errorBuilder));
     if (errorBuilder != null) {
-      var errorDesc = ref.watch(bpPlayingStatusProvider!.select((v) => v.errorDescription));
+      var errorDesc = ref.watch(npStatusProvider.select((v) => v.errorDescription));
       return errorBuilder(context, errorDesc);
     } else {
       return _DefaultErrorPage();

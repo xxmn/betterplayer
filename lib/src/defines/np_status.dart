@@ -34,6 +34,9 @@ class NPStatus with _$NPStatus {
     /// True if the video is looping.
     @Default(false) bool isLooping,
 
+    /// Play the video as soon as it's displayed  false
+    @Default(false) bool isAutoPlay,
+
     /// True if the video is currently buffering.
     @Default(false) bool isBuffering,
 

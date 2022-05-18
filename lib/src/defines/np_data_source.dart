@@ -67,7 +67,9 @@ class NPDataSource with _$NPDataSource {
     String? imageUrl,
     String? notificationChannelName,
     Duration? overriddenDuration,
-    int? start,
+
+    /// Start video at a certain position
+    Duration? startAt,
     String? licenseUrl,
     String? certificateUrl,
     Map<String, String>? drmHeaders,

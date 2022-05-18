@@ -73,7 +73,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
-          'start': dataSource.start,
+          'startAt': dataSource.startAt?.inMilliseconds,
           'activityName': dataSource.activityName
         };
         break;
@@ -94,7 +94,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
-          'start': dataSource.start,
+          'startAt': dataSource.startAt?.inMilliseconds,
           'licenseUrl': dataSource.licenseUrl,
           'certificateUrl': dataSource.certificateUrl,
           'drmHeaders': dataSource.drmHeaders,
@@ -117,7 +117,7 @@ class NativePlayerMethodChannel extends NativePlayerPlatform {
           'imageUrl': dataSource.imageUrl,
           'notificationChannelName': dataSource.notificationChannelName,
           'overriddenDuration': dataSource.overriddenDuration?.inMilliseconds,
-          'start': dataSource.start,
+          'startAt': dataSource.startAt?.inMilliseconds,
           'activityName': dataSource.activityName,
           'clearKey': dataSource.clearKey
         };

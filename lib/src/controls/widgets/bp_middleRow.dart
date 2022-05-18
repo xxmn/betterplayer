@@ -1,11 +1,6 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/bp_hit_area_clickable_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
-import 'package:better_player/src/locked/bp_locked_provider.dart';
-import 'package:better_player/src/locked/buttons.dart';
-import 'package:better_player/src/native_player/np_create_provider.dart';
-import 'package:better_player/src/native_player/np_platform_instance.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

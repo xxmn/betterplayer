@@ -1,6 +1,5 @@
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/controls/widgets/bp_loading.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
 import 'package:better_player/src/locked/bp_locked_provider.dart';
 import 'package:better_player/src/locked/page.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
@@ -29,7 +28,7 @@ class _ControlsMainOrErrorPage extends HookConsumerWidget {
   const _ControlsMainOrErrorPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var hasError = ref.watch(bpPlayingStatusProvider!.select((v) => v.hasError));
+    var hasError = ref.watch(npStatusProvider.select((v) => v.hasError));
     return hasError ? ErrorPage() : _ControlsMainPage();
   }
 }

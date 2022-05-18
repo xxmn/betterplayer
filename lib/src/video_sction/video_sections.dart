@@ -1,9 +1,10 @@
-import 'package:better_player/src/config/bp_video_sction_provider.dart';
-import 'package:better_player/src/defines/section.dart';
+import 'package:better_player/src/video_sction/section.dart';
 import 'package:better_player/src/utils/bp_utils.dart' show BPUtils;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'provider.dart';
 
 class VideoSections extends HookConsumerWidget {
   final List<Section> sections;

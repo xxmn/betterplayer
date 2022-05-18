@@ -65,6 +65,7 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
     case BPDataSourceType.network:
       return _getNetworkDataSource(
         bpDataSource.url,
+        audioUri: bpDataSource.audioUri,
         headers: getHeaders(bpDataSource.headers, drmConfig),
         useCache: cacheConfig?.useCache ?? false,
         maxCacheSize: cacheConfig?.maxCacheSize ?? 0,
@@ -76,6 +77,7 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
         imageUrl: ntConfig?.imageUrl,
         notificationChannelName: ntConfig?.channelName,
         overriddenDuration: bpDataSource.overriddenDuration,
+        startAt: bpDataSource.startAt,
         formatHint: bpDataSource.videoFormat,
         licenseUrl: drmConfig?.licenseUrl,
         certificateUrl: drmConfig?.certificateUrl,
@@ -92,15 +94,26 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
             "you're acessing file from native path and Flutter doesn't "
             "recognize this path.");
       }
+      File? fileAudio;
+      if (bpDataSource.audioUri != null) {
+        fileAudio = File(bpDataSource.audioUri!);
+        if (!fileAudio.existsSync()) {
+          BPUtils.log("File ${fileAudio.path} doesn't exists. This may be because "
+              "you're acessing file from native path and Flutter doesn't "
+              "recognize this path.");
+        }
+      }
 
       return _getFileDataSource(
-        File(bpDataSource.url),
+        'file://${file.path}',
+        audioUri: fileAudio != null ? 'file://${fileAudio.path}' : null,
         showNotification: ntConfig?.isShow,
         title: ntConfig?.title,
         author: ntConfig?.author,
         imageUrl: ntConfig?.imageUrl,
         notificationChannelName: ntConfig?.channelName,
         overriddenDuration: bpDataSource.overriddenDuration,
+        startAt: bpDataSource.startAt,
         activityName: ntConfig?.activityName,
         clearKey: drmConfig?.clearKey,
       );
@@ -111,13 +124,14 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
       if (file.existsSync()) {
         fn(file);
         return _getFileDataSource(
-          file,
+          'file://${file.path}',
           showNotification: ntConfig?.isShow,
           title: ntConfig?.title,
           author: ntConfig?.author,
           imageUrl: ntConfig?.imageUrl,
           notificationChannelName: ntConfig?.channelName,
           overriddenDuration: bpDataSource.overriddenDuration,
+          startAt: bpDataSource.startAt,
           activityName: ntConfig?.activityName,
           clearKey: drmConfig?.clearKey,
         );
@@ -144,6 +158,7 @@ NPDataSource _getAssetDataSource(
   String? imageUrl,
   String? notificationChannelName,
   Duration? overriddenDuration,
+  Duration? startAt,
   String? activityName,
 }) {
   return NPDataSource(
@@ -156,6 +171,7 @@ NPDataSource _getAssetDataSource(
     imageUrl: imageUrl,
     notificationChannelName: notificationChannelName,
     overriddenDuration: overriddenDuration,
+    startAt: startAt,
     activityName: activityName,
   );
 }
@@ -170,6 +186,7 @@ NPDataSource _getAssetDataSource(
 /// ClearKey DRM only supported on Android.
 NPDataSource _getNetworkDataSource(
   String dataSource, {
+  String? audioUri,
   VideoFormat? formatHint,
   Map<String, String?>? headers,
   bool useCache = false,
@@ -182,6 +199,7 @@ NPDataSource _getNetworkDataSource(
   String? imageUrl,
   String? notificationChannelName,
   Duration? overriddenDuration,
+  Duration? startAt,
   String? licenseUrl,
   String? certificateUrl,
   Map<String, String>? drmHeaders,
@@ -192,6 +210,7 @@ NPDataSource _getNetworkDataSource(
   return NPDataSource(
     sourceType: NPDataSourceType.network,
     uri: dataSource,
+    audioUri: audioUri,
     formatHint: formatHint,
     headers: headers,
     useCache: useCache,
@@ -204,6 +223,7 @@ NPDataSource _getNetworkDataSource(
     imageUrl: imageUrl,
     notificationChannelName: notificationChannelName,
     overriddenDuration: overriddenDuration,
+    startAt: startAt,
     licenseUrl: licenseUrl,
     certificateUrl: certificateUrl,
     drmHeaders: drmHeaders,
@@ -218,25 +238,29 @@ NPDataSource _getNetworkDataSource(
 /// This will load the file from the file-URI given by:
 /// `'file://${file.path}'`.
 NPDataSource _getFileDataSource(
-  File file, {
+  String uri, {
+  String? audioUri,
   bool? showNotification,
   String? title,
   String? author,
   String? imageUrl,
   String? notificationChannelName,
   Duration? overriddenDuration,
+  Duration? startAt,
   String? activityName,
   String? clearKey,
 }) {
   return NPDataSource(
     sourceType: NPDataSourceType.file,
-    uri: 'file://${file.path}',
+    uri: uri,
+    audioUri: audioUri,
     showNotification: showNotification,
     title: title,
     author: author,
     imageUrl: imageUrl,
     notificationChannelName: notificationChannelName,
     overriddenDuration: overriddenDuration,
+    startAt: startAt,
     activityName: activityName,
     clearKey: clearKey,
   );

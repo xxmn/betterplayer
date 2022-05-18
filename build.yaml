@@ -19,6 +19,7 @@ targets:
             - "lib/src/native_player/**.dart"
             - "lib/src/config/**.dart"
             - "lib/src/fullscreen/**.dart"
+            - "lib/src/video_sction/**.dart"
             # - test/integration/*
         options:
           build_extensions:

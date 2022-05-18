@@ -1,8 +1,9 @@
+import 'package:better_player/better_player.dart';
 import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/config/bp_cache_config.dart';
+import 'package:better_player/src/config/bp_notification.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
 import 'package:better_player/src/defines/bp_drm_config.dart';
-import 'package:better_player/src/config/bp_notification_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'video_format.dart';
 
@@ -18,6 +19,8 @@ class BPDataSource {
 
   ///Subtitles configuration
   final List<BPSubtitlesSource>? subtitlesSources;
+
+  final List<Section>? sections;
 
   ///Flag to determine if current data source is live stream
   final bool? isLiveStream;
@@ -123,6 +126,7 @@ class BPDataSource {
     this.errorDescription,
     this.bytes,
     this.subtitlesSources,
+    this.sections,
     this.isLiveStream = false,
     this.headers,
     this.useAsmsSubtitles = true,
@@ -148,6 +152,7 @@ class BPDataSource {
   factory BPDataSource.network(
     String url, {
     List<BPSubtitlesSource>? subtitlesSources,
+    List<Section>? sections,
     bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
@@ -167,6 +172,7 @@ class BPDataSource {
       BPDataSourceType.network,
       url,
       subtitlesSources: subtitlesSources,
+      sections: sections,
       isLiveStream: isLiveStream,
       headers: headers,
       useAsmsSubtitles: useAsmsSubtitles,
@@ -176,7 +182,7 @@ class BPDataSource {
       cacheConfig: cacheConfig,
       notificationConfig: notificationConfig,
       overriddenDuration: overriddenDuration,
-      startAt: startAt ?? Duration(),
+      startAt: startAt,
       videoFormat: videoFormat,
       drmConfig: drmConfig,
       placeholder: placeholder,
@@ -189,6 +195,7 @@ class BPDataSource {
   factory BPDataSource.file(
     String url, {
     List<BPSubtitlesSource>? subtitlesSources,
+    List<Section>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
@@ -202,13 +209,14 @@ class BPDataSource {
       BPDataSourceType.file,
       url,
       subtitlesSources: subtitlesSources,
+      sections: sections,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
       // cacheConfig: cacheConfig,
       notificationConfig: notificationConfig = const BPNtConfig(isShow: false),
       overriddenDuration: overriddenDuration,
-      startAt: startAt ?? Duration(),
+      startAt: startAt,
       placeholder: placeholder,
     );
   }
@@ -219,6 +227,7 @@ class BPDataSource {
     List<int> bytes, {
     String? videoExtension,
     List<BPSubtitlesSource>? subtitlesSources,
+    List<Section>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
@@ -233,6 +242,7 @@ class BPDataSource {
       videoExtension: videoExtension,
       bytes: bytes,
       subtitlesSources: subtitlesSources,
+      sections: sections,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,

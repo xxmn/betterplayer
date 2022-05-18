@@ -520,7 +520,7 @@ class BetterPlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         private const val IMAGE_URL_PARAMETER = "imageUrl"
         private const val NOTIFICATION_CHANNEL_NAME_PARAMETER = "notificationChannelName"
         private const val OVERRIDDEN_DURATION_PARAMETER = "overriddenDuration"
-        private const val START_PARAMETER = "start"
+        private const val START_PARAMETER = "startAt"
         private const val NAME_PARAMETER = "name"
         private const val INDEX_PARAMETER = "index"
         private const val LICENSE_URL_PARAMETER = "licenseUrl"

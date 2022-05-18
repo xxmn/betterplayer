@@ -1,7 +1,7 @@
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/controls/bp_material_clickable_widget.dart';
-import 'package:better_player/src/core/bp_playing_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -335,7 +335,7 @@ class SpeedRow extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var overflowModalTextColor =
         ref.watch(bpControlsConfigProvider!.select((v) => v.overflowModalTextColor));
-    var speed = ref.watch(bpPlayingStatusProvider!.select((v) => v.speed));
+    var speed = ref.watch(npStatusProvider.select((v) => v.speed));
     final bool isSelected = speed == value;
 
     return BPMaterialClickableWidget(

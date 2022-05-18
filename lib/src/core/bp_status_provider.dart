@@ -46,10 +46,3 @@ class _IsVisibleNotifier extends StateNotifier<bool> {
     }
   }
 }
-
-
-// /// Play the video as soon as it's displayed  false
-//   @Default(false) bool autoPlay;
-
-//   /// Whether or not the video should loop
-//   @Default(false) bool looping;

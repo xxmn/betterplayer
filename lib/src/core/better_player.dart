@@ -1,3 +1,6 @@
+import 'package:better_player/src/config/bp_config.dart';
+import 'package:better_player/src/config/bp_config_provider.dart';
+import 'package:better_player/src/config/bp_controls.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_app_lifecycle_provider.dart';
@@ -9,8 +12,6 @@ import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../config/bp_config_provider.dart';
-import 'bp_playing_status_provider.dart';
 import 'bp_visibility_detector.dart';
 
 ////////////////////////////////////////////////////////////////////////
@@ -109,7 +110,6 @@ void _initProviders(_BPInitConfig _bpInitConfig) {
   initBpControlsProvider(_bpInitConfig.controlsConfig);
   initNpCreateProvider();
   // initNpControllerProvider();
-  initBpPlayingStatusProvider();
 }
 
 void _disposeProviders() {
@@ -119,7 +119,6 @@ void _disposeProviders() {
   disposeBpControlsProvider();
   disposeNpCreateProvider();
   // disposeNpControllerProvider();
-  disposeBpPlayingStatusProvider();
 }
 
 void _initTranslation(BuildContext context) {
