@@ -51,6 +51,9 @@ class BPConfig with _$BPConfig {
     ///values here: https://api.flutter.dev/flutter/painting/BoxFit-class.html
     @Default(BoxFit.contain) BoxFit fit,
 
+    /// 强制指定比例
+    double? aspectRatio,
+
     ///Flag which causes to player expand to fill all remaining space. Set to false
     ///to use minimum constraints
     @Default(true) bool expandToFill,

@@ -10,11 +10,12 @@ import 'package:better_player/src/swipe/brightness_message.dart';
 import 'package:better_player/src/swipe/position_message.dart';
 import 'package:better_player/src/swipe/volumn_message.dart';
 import 'package:better_player/src/native_player/native_player.dart';
-import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_drawer.dart';
 import 'package:better_player/src/defines/bp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'aspect_ratio_provider.dart';
 
 class BPWithControls extends HookConsumerWidget {
   const BPWithControls({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _InnerContainer extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var backgroundColor = ref.watch(bpControlsConfigProvider!.select((v) => v.backgroundColor));
-    var aspectRatio = ref.watch(npStatusProvider.select((v) => v.aspectRatio));
+    var aspectRatio = ref.watch(bpAspectRatioProvider);
     return Container(
       width: double.infinity,
       color: backgroundColor,

@@ -65,15 +65,14 @@ class BPFullscreenConfig with _$BPFullscreenConfig {
     ///then video will be played horizontally. If this parameter is true, then
     ///[deviceOrientationsOnFullScreen] and [fullScreenAspectRatio] value will be
     /// ignored.
+    /// 自动检查全屏方向
     @Default(true)
         bool autoDetectFullscreenDeviceOrientation,
 
-    /// Defines aspect ratio which will be used in fullscreen
-    double? fullScreenAspectRatio,
-
     ///Defines if player should auto detect full screen aspect ration of the video.
     ///If [deviceOrientationsOnFullScreen] is true this is done automaticaly also.
-    @Default(false)
+    /// 自动检查全屏时的比例
+    @Default(true)
         bool autoDetectFullscreenAspectRatio,
   }) = _BPFullscreenConfig;
 }
