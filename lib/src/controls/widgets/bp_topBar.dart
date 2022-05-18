@@ -1,7 +1,6 @@
 import 'package:better_player/src/config/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_controls_provider.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
-import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_more_button.dart';
@@ -13,9 +12,7 @@ class MaybeTopBar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var controlsEnabled = ref.watch(bpConfigProvider!.select((v) => v.controlsEnabled));
 
-    if (!controlsEnabled) {
-      return const SizedBox();
-    }
+    if (!controlsEnabled) return const SizedBox();
 
     var enableOverflowMenu =
         ref.watch(bpControlsConfigProvider!.select((v) => v.enableOverflowMenu));
