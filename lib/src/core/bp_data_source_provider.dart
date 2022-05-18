@@ -1,11 +1,11 @@
 import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-StateNotifierProvider<BPDataSourceNotifier, BPDataSource?>? bpDataSourceProvider;
+AutoDisposeStateNotifierProvider<BPDataSourceNotifier, BPDataSource?>? bpDataSourceProvider;
 
 void initBpDataSourceProvider(BPDataSource bpDataSource) {
   if (bpDataSourceProvider == null) {
-    bpDataSourceProvider = StateNotifierProvider<BPDataSourceNotifier, BPDataSource?>(
+    bpDataSourceProvider = StateNotifierProvider.autoDispose<BPDataSourceNotifier, BPDataSource?>(
       (ref) {
         return BPDataSourceNotifier(bpDataSource: bpDataSource);
       },

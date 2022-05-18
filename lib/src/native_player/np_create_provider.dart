@@ -6,11 +6,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part '../../generated/native_player/np_create_provider.freezed.dart';
 
-StateNotifierProvider<NPCreateNotifier, CreateStatus>? npCreateProvider;
+AutoDisposeStateNotifierProvider<NPCreateNotifier, CreateStatus>? npCreateProvider;
 
 void initNpCreateProvider({BPBufferingConfig? bufferingConfig}) {
   if (npCreateProvider == null) {
-    npCreateProvider = StateNotifierProvider<NPCreateNotifier, CreateStatus>((ref) {
+    npCreateProvider = StateNotifierProvider.autoDispose<NPCreateNotifier, CreateStatus>((ref) {
       var bConfig = bufferingConfig ?? const BPBufferingConfig();
       return NPCreateNotifier(bufferingConfig: bConfig);
     });

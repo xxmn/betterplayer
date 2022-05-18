@@ -3,7 +3,7 @@ import 'package:better_player/src/subtitles/bp_subtitle.dart';
 import 'package:better_player/src/subtitles/bp_subtitles_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bpCurrentSubtitleProvider = Provider<BPSubtitle?>(
+final bpCurrentSubtitleProvider = Provider.autoDispose<BPSubtitle?>(
   (ref) {
     var position = ref.watch(npStatusProvider.select((v) => v.position ?? Duration.zero));
     return ref.watch(bpSubtitlesProvider.select((v) {

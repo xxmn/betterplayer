@@ -1,11 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_config.dart';
 
-StateNotifierProvider<_BPConfigNotifier, BPConfig>? bpConfigProvider;
+AutoDisposeStateNotifierProvider<_BPConfigNotifier, BPConfig>? bpConfigProvider;
 
 void initBpConfigProvider(BPConfig bpConfig) {
   if (bpConfigProvider == null) {
-    bpConfigProvider = StateNotifierProvider<_BPConfigNotifier, BPConfig>(
+    bpConfigProvider = StateNotifierProvider.autoDispose<_BPConfigNotifier, BPConfig>(
       (ref) => _BPConfigNotifier(
         bpConfig: bpConfig,
       ),

@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bpLockedProvider = StateNotifierProvider<_LockedNotifier, bool>((ref) {
+final bpLockedProvider = StateNotifierProvider.autoDispose<_LockedNotifier, bool>((ref) {
   return _LockedNotifier();
 });
 

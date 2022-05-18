@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';
 
-final npStatusProvider = StateNotifierProvider<_NPStatusNotifier, NPStatus>(
+final npStatusProvider = StateNotifierProvider.autoDispose<_NPStatusNotifier, NPStatus>(
   (ref) {
     var createStatus = ref.watch(npCreateProvider!);
     return _NPStatusNotifier(textureId: createStatus.textureId);

@@ -2,12 +2,12 @@ import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-StateProvider<Locale>? bpLocaleProvider;
-Provider<BPTranslations>? bpTranslationsProvider;
+AutoDisposeStateProvider<Locale>? bpLocaleProvider;
+AutoDisposeProvider<BPTranslations>? bpTranslationsProvider;
 
 void initBpLocaleProvider(BuildContext context) {
   if (bpLocaleProvider == null) {
-    bpLocaleProvider = StateProvider((ref) {
+    bpLocaleProvider = StateProvider.autoDispose((ref) {
       //Default locale
       var locale = const Locale("en", "US");
       try {
@@ -25,7 +25,7 @@ void disposeBpLocaleProvider() => bpLocaleProvider = null;
 
 void initBpTranslationsProvider() {
   if (bpTranslationsProvider == null) {
-    bpTranslationsProvider = Provider(
+    bpTranslationsProvider = Provider.autoDispose(
       (ref) {
         var locale = ref.watch(bpLocaleProvider!);
         return getDefaultTranslations(locale);

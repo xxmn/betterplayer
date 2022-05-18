@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final dragChangeBrightnessProvider = StateNotifierProvider<_BrightnessNotifier, double>((ref) {
+final dragChangeBrightnessProvider =
+    StateNotifierProvider.autoDispose<_BrightnessNotifier, double>((ref) {
   return _BrightnessNotifier();
 });
 
@@ -10,6 +11,6 @@ class _BrightnessNotifier extends StateNotifier<double> {
   void setBrightness(double v) => state = v;
 }
 
-final dragIsShowBrightnessProvider = StateProvider<bool>((ref) {
+final dragIsShowBrightnessProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
 });

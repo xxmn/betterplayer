@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final dragChangePositionProvider = StateNotifierProvider<_PositionNotifier, Duration>((ref) {
+final dragChangePositionProvider =
+    StateNotifierProvider.autoDispose<_PositionNotifier, Duration>((ref) {
   return _PositionNotifier();
 });
 
@@ -10,6 +11,6 @@ class _PositionNotifier extends StateNotifier<Duration> {
   void setPosition(Duration v) => state = v;
 }
 
-final dragIsShowPositionProvider = StateProvider<bool>((ref) {
+final dragIsShowPositionProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
 });

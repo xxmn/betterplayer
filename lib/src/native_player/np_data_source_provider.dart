@@ -7,7 +7,8 @@ import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-final npDataSourceProvider = StateNotifierProvider<NPDataSourceNotifier, NPDataSourceStatus>(
+final npDataSourceProvider =
+    StateNotifierProvider.autoDispose<NPDataSourceNotifier, NPDataSourceStatus>(
   (ref) {
     var bpDataSource = ref.watch(bpDataSourceProvider!);
     return NPDataSourceNotifier(bpDataSource: bpDataSource);

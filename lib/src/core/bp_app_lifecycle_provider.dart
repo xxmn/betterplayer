@@ -5,7 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part '../../generated/core/bp_app_lifecycle_provider.freezed.dart';
 
-final bpAppLifecycleProvider = StateNotifierProvider<BPAppLifeCycleNotifier, BPAppLifecycle>(
+final bpAppLifecycleProvider =
+    StateNotifierProvider.autoDispose<BPAppLifeCycleNotifier, BPAppLifecycle>(
   (ref) => BPAppLifeCycleNotifier(),
 );
 

@@ -5,7 +5,7 @@ import 'package:better_player/src/defines/np_data_source.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_data_source_provider.dart';
 
-final npSetDataSourceProvider = StateNotifierProvider<NPDataSourceNotifier, bool>(
+final npSetDataSourceProvider = StateNotifierProvider.autoDispose<NPDataSourceNotifier, bool>(
   (ref) {
     var npDataSource = ref.watch(npDataSourceProvider.select((v) => v.npDataSource));
     var textureId = ref.watch(npCreateProvider!.select((v) => v.textureId));

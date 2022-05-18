@@ -7,7 +7,8 @@ import 'config.dart';
 /// [ChangeNotifier] is a class in `flutter:foundation`. [Counter] does
 /// _not_ depend on Provider.
 
-final bpVideoSectionProvider = StateNotifierProvider<_BPVideoSctionNotifier, BPVideoSctionConfig>(
+final bpVideoSectionProvider =
+    StateNotifierProvider.autoDispose<_BPVideoSctionNotifier, BPVideoSctionConfig>(
   (ref) => _BPVideoSctionNotifier(10),
 );
 

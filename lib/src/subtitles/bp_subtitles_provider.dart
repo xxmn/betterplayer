@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'bp_subtitles_source.dart';
 
-final bpSubtitlesProvider = StateNotifierProvider<BPSubtitlesNotifier, SubtitlesDatas>(
+final bpSubtitlesProvider = StateNotifierProvider.autoDispose<BPSubtitlesNotifier, SubtitlesDatas>(
   (ref) {
     var ds = ref.watch(bpDataSourceProvider!.select((v) => v!.subtitlesSources ?? []));
     var asmsDs = ref.watch(bpAsmsDatasProvider.select((v) => v.subtitlesSources));

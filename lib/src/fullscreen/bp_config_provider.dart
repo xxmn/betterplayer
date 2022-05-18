@@ -5,7 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part '../../generated/fullscreen/bp_config_provider.freezed.dart';
 
-final bpFullscreenConfigProvider = StateNotifierProvider<_BPFullscreenNotifier, BPFullscreenConfig>(
+final bpFullscreenConfigProvider =
+    StateNotifierProvider.autoDispose<_BPFullscreenNotifier, BPFullscreenConfig>(
   (ref) => _BPFullscreenNotifier(),
 );
 

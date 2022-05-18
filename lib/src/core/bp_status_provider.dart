@@ -7,12 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 ///
 ///Has player been init.
 ///
-final bpIsInitializedProvider = StateProvider(
+final bpIsInitializedProvider = StateProvider.autoDispose(
   (ref) => ref.watch(npStatusProvider.select((v) => v.initialized)),
 );
 
 /// 显示 _MaybeBPVideoFitWidget-->NativePlayer，观看视频
-final bpShouldShowVideoProvider = StateProvider((ref) {
+final bpShouldShowVideoProvider = StateProvider.autoDispose((ref) {
   var showholder = ref.watch(bpConfigProvider!.select((v) => v.showPlaceholderUntilPlay));
   // if (!showholder) return true;
   var setDS = ref.watch(npSetDataSourceProvider);
@@ -22,7 +22,7 @@ final bpShouldShowVideoProvider = StateProvider((ref) {
 ///
 /// better player width、 height
 ///
-final bpSizeProvider = Provider<Size>((ref) {
+final bpSizeProvider = Provider.autoDispose<Size>((ref) {
   var size = ref.watch(npStatusProvider.select((v) => v.size));
   return size == null ? Size(0, 0) : size;
 });
@@ -32,7 +32,7 @@ final bpSizeProvider = Provider<Size>((ref) {
 ///播放器是否可见
 ///
 
-final bpIsVisibleProvider = StateNotifierProvider<_IsVisibleNotifier, bool>(
+final bpIsVisibleProvider = StateNotifierProvider.autoDispose<_IsVisibleNotifier, bool>(
   (ref) => _IsVisibleNotifier(true),
 );
 

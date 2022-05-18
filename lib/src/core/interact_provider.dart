@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part '../../generated/core/interact_provider.freezed.dart';
 
-final interactProvider = StateNotifierProvider<InteractiveNotifier, int>((ref) {
+final interactProvider = StateNotifierProvider.autoDispose<InteractiveNotifier, int>((ref) {
   return InteractiveNotifier();
 });
 

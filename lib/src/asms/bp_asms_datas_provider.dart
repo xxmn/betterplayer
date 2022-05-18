@@ -10,7 +10,7 @@ import 'package:better_player/src/defines/bp_data_source.dart';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bpAsmsDatasProvider = StateNotifierProvider<BPAsmsNotifier, AsmsDatas>((ref) {
+final bpAsmsDatasProvider = StateNotifierProvider.autoDispose<BPAsmsNotifier, AsmsDatas>((ref) {
   var ds = ref.watch(bpDataSourceProvider!);
   return BPAsmsNotifier(bpDataSource: ds!);
 });

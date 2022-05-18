@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 ///Check if picture in picture mode is supported in this device.
 ///
-final bpFullscreenProvider = StateNotifierProvider<_BPFullscreenNotifier, bool>(
+final bpFullscreenProvider = StateNotifierProvider.autoDispose<_BPFullscreenNotifier, bool>(
   (ref) => _BPFullscreenNotifier(),
 );
 

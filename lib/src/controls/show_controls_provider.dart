@@ -7,7 +7,7 @@ const _hideControlsTimerId = 'hideControlsTimer';
 ///
 ///Has Controls Visible.
 ///
-final bpShowControlsProvider = StateNotifierProvider<_ShowControlsNotifier, bool>(
+final bpShowControlsProvider = StateNotifierProvider.autoDispose<_ShowControlsNotifier, bool>(
   (ref) {
     var showControls = ref.watch(bpControlsConfigProvider!.select((v) => v.showControls));
     return _ShowControlsNotifier(showControls);

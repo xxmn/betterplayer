@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_notification.dart';
 
-final bpNotificationProvider = StateNotifierProvider<_BPNtNotifier, BPNtConfig>(
+final bpNotificationProvider = StateNotifierProvider.autoDispose<_BPNtNotifier, BPNtConfig>(
   (ref) => _BPNtNotifier(),
 );
 
