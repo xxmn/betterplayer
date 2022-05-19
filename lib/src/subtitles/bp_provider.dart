@@ -1,25 +1,23 @@
 import 'package:better_player/src/asms/bp_asms_datas_provider.dart';
+import 'package:better_player/src/subtitles/bp_config_provider.dart';
 import 'package:better_player/src/subtitles/bp_subtitle.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_factory.dart';
-import 'package:better_player/src/core/bp_data_source_provider.dart';
+import 'package:better_player/src/subtitles/bp_factory.dart';
 import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'bp_subtitles_source.dart';
+import 'bp_source.dart';
 
-final bpSubtitlesProvider = StateNotifierProvider.autoDispose<BPSubtitlesNotifier, SubtitlesDatas>(
+final bpSubtitlesProvider = StateNotifierProvider.autoDispose<_Notifier, SubtitlesDatas>(
   (ref) {
-    var ds = ref.watch(bpDataSourceProvider!.select((v) => v!.subtitlesSources ?? []));
+    var ds = ref.watch(bpSubtitlesConfigProvider!.select((v) => v.subtitlesSources ?? []));
     var asmsDs = ref.watch(bpAsmsDatasProvider.select((v) => v.subtitlesSources));
-    ds.addAll(asmsDs);
-    var source = _selectSubtitlesSource(ds);
-    return BPSubtitlesNotifier(source: source);
+    var source = _selectSubtitlesSource([...ds, ...asmsDs]);
+    return _Notifier(source: source);
   },
 );
 
-class BPSubtitlesNotifier extends StateNotifier<SubtitlesDatas> {
-  BPSubtitlesNotifier({required BPSubtitlesSource source})
-      : super(SubtitlesDatas(subtitlesSource: source)) {
+class _Notifier extends StateNotifier<SubtitlesDatas> {
+  _Notifier({required BPSubtitlesSource source}) : super(SubtitlesDatas(subtitlesSource: source)) {
     fetchSubtitles(source).then((d) => state = d);
   }
 }

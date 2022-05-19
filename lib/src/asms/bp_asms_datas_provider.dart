@@ -3,7 +3,7 @@ import 'package:better_player/src/asms/bp_asms_data_holder.dart';
 import 'package:better_player/src/subtitles/bp_asms_subtitle.dart';
 import 'package:better_player/src/asms/bp_asms_track.dart';
 import 'package:better_player/src/asms/bp_asms_utils.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
+import 'package:better_player/src/subtitles/bp_source.dart';
 import 'package:better_player/src/defines/bp_drm_config.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/defines/bp_data_source.dart';
@@ -37,9 +37,9 @@ class AsmsDatas {
 
   AsmsDatas({
     this.isDataSourceAsms = false,
-    this.asmsTracks = const [],
-    this.subtitlesSources = const [],
-    this.asmsAudioTracks = const [],
+    this.asmsTracks = const <BPAsmsTrack>[],
+    this.subtitlesSources = const <BPSubtitlesSource>[],
+    this.asmsAudioTracks = const <BPAsmsAudioTrack>[],
   });
 
   AsmsDatas copyWith({

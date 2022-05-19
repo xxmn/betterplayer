@@ -1,6 +1,6 @@
 import 'package:better_player/src/core/bp_status_provider.dart';
-import 'package:better_player/src/subtitles/bp_current_subtitle_providers.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_config_provider.dart';
+import 'package:better_player/src/subtitles/bp_current_providers.dart';
+import 'package:better_player/src/subtitles/bp_config_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

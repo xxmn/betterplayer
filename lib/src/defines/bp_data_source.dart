@@ -2,7 +2,6 @@ import 'package:better_player/better_player.dart';
 import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/config/bp_cache_config.dart';
 import 'package:better_player/src/config/bp_notification.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_source.dart';
 import 'package:better_player/src/defines/bp_drm_config.dart';
 import 'package:flutter/widgets.dart';
 import 'video_format.dart';
@@ -16,9 +15,6 @@ class BPDataSource {
   ///Url of the video
   final String url;
   final String? audioUri;
-
-  ///Subtitles configuration
-  final List<BPSubtitlesSource>? subtitlesSources;
 
   final List<Section>? sections;
 
@@ -125,7 +121,6 @@ class BPDataSource {
     this.size,
     this.errorDescription,
     this.bytes,
-    this.subtitlesSources,
     this.sections,
     this.isLiveStream = false,
     this.headers,
@@ -151,7 +146,6 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.network(
     String url, {
-    List<BPSubtitlesSource>? subtitlesSources,
     List<Section>? sections,
     bool? isLiveStream,
     Map<String, String>? headers,
@@ -171,7 +165,6 @@ class BPDataSource {
     return BPDataSource(
       BPDataSourceType.network,
       url,
-      subtitlesSources: subtitlesSources,
       sections: sections,
       isLiveStream: isLiveStream,
       headers: headers,
@@ -194,7 +187,6 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.file(
     String url, {
-    List<BPSubtitlesSource>? subtitlesSources,
     List<Section>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
@@ -208,7 +200,6 @@ class BPDataSource {
     return BPDataSource(
       BPDataSourceType.file,
       url,
-      subtitlesSources: subtitlesSources,
       sections: sections,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
@@ -226,7 +217,6 @@ class BPDataSource {
   factory BPDataSource.memory(
     List<int> bytes, {
     String? videoExtension,
-    List<BPSubtitlesSource>? subtitlesSources,
     List<Section>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
@@ -241,7 +231,6 @@ class BPDataSource {
       "",
       videoExtension: videoExtension,
       bytes: bytes,
-      subtitlesSources: subtitlesSources,
       sections: sections,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,

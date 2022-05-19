@@ -22,10 +22,11 @@ class BPCacheConfig {
   ///Cache key to re-use same cached data between app sessions.
   final String? key;
 
-  const BPCacheConfig(
-      {this.useCache = false,
-      this.maxCacheSize = 10 * 1024 * 1024,
-      this.maxCacheFileSize = 10 * 1024 * 1024,
-      this.preCacheSize = 3 * 1024 * 1024,
-      this.key});
+  const BPCacheConfig({
+    this.useCache = false,
+    this.maxCacheSize = 10 * 1024 * 1024,
+    this.maxCacheFileSize = 10 * 1024 * 1024,
+    this.preCacheSize = 3 * 1024 * 1024,
+    this.key,
+  });
 }

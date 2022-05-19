@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:better_player/src/utils/bp_utils.dart';
 import 'bp_subtitle.dart';
-import 'bp_subtitles_source.dart';
+import 'bp_source.dart';
 
 class BPSubtitlesFactory {
   static Future<List<BPSubtitle>> parseSubtitles(BPSubtitlesSource source) async {

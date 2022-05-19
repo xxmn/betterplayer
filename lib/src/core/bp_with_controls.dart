@@ -10,7 +10,7 @@ import 'package:better_player/src/swipe/brightness_message.dart';
 import 'package:better_player/src/swipe/position_message.dart';
 import 'package:better_player/src/swipe/volumn_message.dart';
 import 'package:better_player/src/native_player/native_player.dart';
-import 'package:better_player/src/subtitles/bp_subtitles_drawer.dart';
+import 'package:better_player/src/subtitles/bp_drawer.dart';
 import 'package:better_player/src/defines/bp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

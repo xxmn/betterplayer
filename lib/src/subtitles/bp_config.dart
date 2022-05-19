@@ -1,8 +1,9 @@
 // Flutter imports:
+import 'package:better_player/src/subtitles/bp_source.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../../generated/subtitles/bp_subtitles_config.freezed.dart';
+part '../../generated/subtitles/bp_config.freezed.dart';
 
 ///Cfg of subtitles - colors/padding/font. Used in
 ///BPConfiguration.
@@ -10,6 +11,9 @@ part '../../generated/subtitles/bp_subtitles_config.freezed.dart';
 @freezed
 class BPSubtitlesConfig with _$BPSubtitlesConfig {
   const factory BPSubtitlesConfig({
+    ///Subtitles configuration
+    List<BPSubtitlesSource>? subtitlesSources,
+
     ///Subtitle font size
     @Default(14) double fontSize,
 

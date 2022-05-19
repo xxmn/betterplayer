@@ -13,3 +13,5 @@ export 'src/config/bp_config.dart';
 export 'src/controls/controls.dart';
 
 export 'src/fullscreen/bp_config.dart';
+
+export 'src/subtitles/subtitles.dart';
