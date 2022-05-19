@@ -39,6 +39,8 @@ class MoreOptionsList extends HookConsumerWidget {
         ref.watch(bpControlsConfigProvider!.select((v) => v.enablePlaybackSpeed));
     final playbackSpeedIcon =
         ref.watch(bpControlsConfigProvider!.select((v) => v.playbackSpeedIcon));
+    final customItems =
+        ref.watch(bpControlsConfigProvider!.select((v) => v.overflowMenuCustomItems));
     return SingleChildScrollView(
       // ignore: avoid_unnecessary_containers
       child: Container(
@@ -73,17 +75,17 @@ class MoreOptionsList extends HookConsumerWidget {
             //     Navigator.of(context).pop();
             //     _showAudioTracksSelectionWidget();
             //   }),
-            // if (betterPlayerControlsConfiguration.overflowMenuCustomItems.isNotEmpty)
-            //   ...betterPlayerControlsConfiguration.overflowMenuCustomItems.map(
-            //     (customItem) => MoreOptionsListRow(
-            //       customItem.icon,
-            //       customItem.title,
-            //       () {
-            //         Navigator.of(context).pop();
-            //         customItem.onClicked.call();
-            //       },
-            //     ),
-            //   )
+            if (customItems.isNotEmpty)
+              ...customItems.map(
+                (customItem) => MoreOptionsListRow(
+                  customItem.icon,
+                  customItem.title,
+                  () {
+                    Navigator.of(context).pop();
+                    customItem.onClicked.call();
+                  },
+                ),
+              )
           ],
         ),
       ),

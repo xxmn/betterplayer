@@ -12,7 +12,7 @@ void initBpLocaleProvider(BuildContext context) {
       var locale = const Locale("en", "US");
       try {
         locale = Localizations.localeOf(context);
-        print("----------context locale-----------: $context");
+        print("----------context locale-----------locale: $locale");
       } catch (exception) {
         BPUtils.log(exception.toString());
       }
