@@ -1,3 +1,4 @@
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,12 +17,13 @@ class _SpeedButtonState extends ConsumerState<SpeedButton> {
   @override
   Widget build(BuildContext context) {
     var speed = ref.watch(npStatusProvider.select((v) => v.speed));
+    var iconsColor = ref.watch(bpControlsConfigProvider!.select((v) => v.iconsColor));
     playbackSpeedIndex = playbackSpeeds.indexOf(speed);
     return Stack(
       children: [
         IconButton(
           icon: Icon(Icons.timer),
-          color: Colors.white,
+          color: iconsColor,
           onPressed: () => _cyclePlaybackSpeed(ref.read(npStatusProvider.notifier).setSpeed),
         ),
         Positioned(

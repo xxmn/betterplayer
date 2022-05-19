@@ -8,10 +8,6 @@ part '../../generated/config/bp_config.freezed.dart';
 ///of player.
 @freezed
 class BPConfig with _$BPConfig {
-  // ///Flag which causes to player use the root navigator to open new pages.
-  // ///Default value is false.
-  // final bool useRootNavigator;
-
   @Assert('rotation <= 360')
   @Assert('rotation % 90 == 0')
   const factory BPConfig({
@@ -43,6 +39,10 @@ class BPConfig with _$BPConfig {
 
     /// A widget which is placed between the video and the controls
     Widget? overlay,
+
+    ///Flag which causes to player use the root navigator to open new pages.
+    ///Default value is false.
+    @Default(false) bool useRootNavigator,
 
     // /// Defines a event listener where video player events will be send
     // final Function(BPEvent)? eventListener;
