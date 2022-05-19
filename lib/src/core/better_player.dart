@@ -173,7 +173,7 @@ class __BPAppLifecycleState extends ConsumerState<_BPAppLifecycle> with WidgetsB
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    ref.read(bpAppLifecycleProvider.notifier).appLifecycleState = state;
+    ref.read(bpAppLifecycleProvider.notifier).setState(state);
   }
 
   @override
