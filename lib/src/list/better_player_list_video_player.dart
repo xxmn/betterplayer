@@ -48,7 +48,7 @@
 //     super.initState();
 //     _bpController = BPController(
 //       widget.configuration.copyWith(playerVisibilityChangedBehavior: onVisibilityChanged),
-//       bpDataSource: widget.dataSource,
+//       dataSource: widget.dataSource,
 //       bpPlaylistCfg: const BPPlaylistCfg(),
 //     );
 

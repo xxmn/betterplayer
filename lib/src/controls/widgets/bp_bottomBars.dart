@@ -1,5 +1,5 @@
 import 'package:better_player/src/config/bp_config_provider.dart';
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/controls/widgets/bp_mute_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';

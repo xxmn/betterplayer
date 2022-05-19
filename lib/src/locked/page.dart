@@ -1,4 +1,4 @@
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/locked/buttons.dart';
 import 'package:flutter/widgets.dart';

@@ -21,14 +21,14 @@
 
 //       test("Create controller without data source", () {
 //         final BPMockController bpMockController = BPMockController(const BPConfiguration());
-//         expect(bpMockController.bpDataSource, null);
+//         expect(bpMockController.dataSource, null);
 //         expect(bpMockController.videoPlayerController, null);
 //       });
 
 //       test("Setup data source in controller", () async {
 //         final BPMockController bpMockController = BPMockController(const BPConfiguration());
 //         await bpMockController.setupDataSource(BPDataSource.network(BPTestUtils.forBiggerBlazesUrl));
-//         expect(bpMockController.bpDataSource != null, true);
+//         expect(bpMockController.dataSource != null, true);
 //         expect(bpMockController.videoPlayerController != null, true);
 //       });
 

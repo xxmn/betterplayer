@@ -1,4 +1,4 @@
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/bp_material_clickable_widget.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/bp_hit_area_clickable_button.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/locked/bp_locked_provider.dart';

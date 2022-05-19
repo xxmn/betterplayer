@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:better_player/src/config/bp_config_provider.dart';
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/config/bp_placeholder_provider.dart';
 import 'package:better_player/src/config/bp_theme_provider.dart';
@@ -54,9 +54,9 @@ class _CheckDataSource extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var bpDataSource = ref.watch(bpDataSourceProvider!);
+    var dataSource = ref.watch(bpDataSourceProvider!);
 
-    return bpDataSource == null ? SizedBox() : _PlayerWithControls();
+    return dataSource == null ? SizedBox() : _PlayerWithControls();
   }
 }
 

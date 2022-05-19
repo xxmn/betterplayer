@@ -1,4 +1,4 @@
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 

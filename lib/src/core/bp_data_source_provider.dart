@@ -3,11 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 AutoDisposeStateNotifierProvider<BPDataSourceNotifier, BPDataSource?>? bpDataSourceProvider;
 
-void initBpDataSourceProvider(BPDataSource bpDataSource) {
+void initBpDataSourceProvider(BPDataSource dataSource) {
   if (bpDataSourceProvider == null) {
     bpDataSourceProvider = StateNotifierProvider.autoDispose<BPDataSourceNotifier, BPDataSource?>(
       (ref) {
-        return BPDataSourceNotifier(bpDataSource: bpDataSource);
+        return BPDataSourceNotifier(dataSource: dataSource);
       },
     );
   }
@@ -16,10 +16,10 @@ void initBpDataSourceProvider(BPDataSource bpDataSource) {
 void disposeBpDataSourceProvider() => bpDataSourceProvider = null;
 
 class BPDataSourceNotifier extends StateNotifier<BPDataSource?> {
-  BPDataSourceNotifier({BPDataSource? bpDataSource}) : super(bpDataSource);
+  BPDataSourceNotifier({BPDataSource? dataSource}) : super(dataSource);
 
-  void setBpDataSource(BPDataSource bpDataSource) {
-    state = bpDataSource;
+  void setBpDataSource(BPDataSource dataSource) {
+    state = dataSource;
   }
 }
 

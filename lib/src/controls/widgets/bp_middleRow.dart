@@ -1,4 +1,4 @@
-import 'package:better_player/src/config/bp_controls_provider.dart';
+import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/bp_hit_area_clickable_button.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/native_player/np_status_provider.dart';

@@ -18,7 +18,7 @@ class BPAsmsUtils {
   ///Check if given url is HLS / DASH-type data source.
   static bool isDataSourceAsms(String url) => isDataSourceHls(url) || isDataSourceDash(url);
 
-  ///Check if given [bpDataSource] is HLS / DASH-type data source.
+  ///Check if given [dataSource] is HLS / DASH-type data source.
   static bool isDataSourceAsms2(String url, VideoFormat? videoFormat) =>
       (BPAsmsUtils.isDataSourceHls(url) || videoFormat == VideoFormat.hls) ||
       (BPAsmsUtils.isDataSourceDash(url) || videoFormat == VideoFormat.dash);

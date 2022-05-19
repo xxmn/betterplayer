@@ -10,16 +10,16 @@ import 'package:path_provider/path_provider.dart';
 final npDataSourceProvider =
     StateNotifierProvider.autoDispose<NPDataSourceNotifier, NPDataSourceStatus>(
   (ref) {
-    var bpDataSource = ref.watch(bpDataSourceProvider!);
-    return NPDataSourceNotifier(bpDataSource: bpDataSource);
+    var dataSource = ref.watch(bpDataSourceProvider!);
+    return NPDataSourceNotifier(dataSource: dataSource);
   },
 );
 
 class NPDataSourceNotifier extends StateNotifier<NPDataSourceStatus> {
-  NPDataSourceNotifier({BPDataSource? bpDataSource}) : super(NPDataSourceStatus()) {
-    if (bpDataSource != null) {
+  NPDataSourceNotifier({BPDataSource? dataSource}) : super(NPDataSourceStatus()) {
+    if (dataSource != null) {
       _getDataSource(
-        bpDataSource,
+        dataSource,
         (file) => state.tempFiles.add(file), // todo: 有待测试
       ).then(
         (ds) => state = state.copyWith(npDataSource: ds),
@@ -58,16 +58,16 @@ class NPDataSourceStatus {
 }
 
 ///Internal method which invokes videoPlayerController source setup.
-Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(File) fn) async {
-  var ntConfig = bpDataSource.notificationConfig;
-  var cacheConfig = bpDataSource.cacheConfig;
-  var drmConfig = bpDataSource.drmConfig;
-  switch (bpDataSource.type) {
+Future<NPDataSource?> _getDataSource(BPDataSource dataSource, void Function(File) fn) async {
+  var ntConfig = dataSource.notificationConfig;
+  var cacheConfig = dataSource.cacheConfig;
+  var drmConfig = dataSource.drmConfig;
+  switch (dataSource.type) {
     case BPDataSourceType.network:
       return _getNetworkDataSource(
-        bpDataSource.url,
-        audioUri: bpDataSource.audioUri,
-        headers: getHeaders(bpDataSource.headers, drmConfig),
+        dataSource.url,
+        audioUri: dataSource.audioUri,
+        headers: getHeaders(dataSource.headers, drmConfig),
         useCache: cacheConfig?.useCache ?? false,
         maxCacheSize: cacheConfig?.maxCacheSize ?? 0,
         maxCacheFileSize: cacheConfig?.maxCacheFileSize ?? 0,
@@ -77,27 +77,27 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
         author: ntConfig?.author,
         imageUrl: ntConfig?.imageUrl,
         notificationChannelName: ntConfig?.channelName,
-        overriddenDuration: bpDataSource.overriddenDuration,
-        startAt: bpDataSource.startAt,
-        formatHint: bpDataSource.videoFormat,
+        overriddenDuration: dataSource.overriddenDuration,
+        startAt: dataSource.startAt,
+        formatHint: dataSource.videoFormat,
         licenseUrl: drmConfig?.licenseUrl,
         certificateUrl: drmConfig?.certificateUrl,
         drmHeaders: drmConfig?.headers,
         activityName: ntConfig?.activityName,
         clearKey: drmConfig?.clearKey,
-        videoExtension: bpDataSource.videoExtension,
+        videoExtension: dataSource.videoExtension,
       );
 
     case BPDataSourceType.file:
-      final file = File(bpDataSource.url);
+      final file = File(dataSource.url);
       if (!file.existsSync()) {
         BPUtils.log("File ${file.path} doesn't exists. This may be because "
             "you're acessing file from native path and Flutter doesn't "
             "recognize this path.");
       }
       File? fileAudio;
-      if (bpDataSource.audioUri != null) {
-        fileAudio = File(bpDataSource.audioUri!);
+      if (dataSource.audioUri != null) {
+        fileAudio = File(dataSource.audioUri!);
         if (!fileAudio.existsSync()) {
           BPUtils.log("File ${fileAudio.path} doesn't exists. This may be because "
               "you're acessing file from native path and Flutter doesn't "
@@ -113,14 +113,14 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
         author: ntConfig?.author,
         imageUrl: ntConfig?.imageUrl,
         notificationChannelName: ntConfig?.channelName,
-        overriddenDuration: bpDataSource.overriddenDuration,
-        startAt: bpDataSource.startAt,
+        overriddenDuration: dataSource.overriddenDuration,
+        startAt: dataSource.startAt,
         activityName: ntConfig?.activityName,
         clearKey: drmConfig?.clearKey,
       );
 
     case BPDataSourceType.memory:
-      final file = await _createFile(bpDataSource.bytes!, extension: bpDataSource.videoExtension);
+      final file = await _createFile(dataSource.bytes!, extension: dataSource.videoExtension);
 
       if (file.existsSync()) {
         fn(file);
@@ -131,8 +131,8 @@ Future<NPDataSource?> _getDataSource(BPDataSource bpDataSource, void Function(Fi
           author: ntConfig?.author,
           imageUrl: ntConfig?.imageUrl,
           notificationChannelName: ntConfig?.channelName,
-          overriddenDuration: bpDataSource.overriddenDuration,
-          startAt: bpDataSource.startAt,
+          overriddenDuration: dataSource.overriddenDuration,
+          startAt: dataSource.startAt,
           activityName: ntConfig?.activityName,
           clearKey: drmConfig?.clearKey,
         );

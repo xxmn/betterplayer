@@ -12,13 +12,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final bpAsmsDatasProvider = StateNotifierProvider.autoDispose<BPAsmsNotifier, AsmsDatas>((ref) {
   var ds = ref.watch(bpDataSourceProvider!);
-  return BPAsmsNotifier(bpDataSource: ds!);
+  return BPAsmsNotifier(dataSource: ds!);
 });
 
 class BPAsmsNotifier extends StateNotifier<AsmsDatas> {
-  BPAsmsNotifier({required BPDataSource bpDataSource}) : super(AsmsDatas()) {
-    if (BPAsmsUtils.isDataSourceAsms2(bpDataSource.url, bpDataSource.videoFormat)) {
-      _setupAsmsDataSource(bpDataSource).then((d) => state = d);
+  BPAsmsNotifier({required BPDataSource dataSource}) : super(AsmsDatas()) {
+    if (BPAsmsUtils.isDataSourceAsms2(dataSource.url, dataSource.videoFormat)) {
+      _setupAsmsDataSource(dataSource).then((d) => state = d);
     }
   }
 }
@@ -60,25 +60,25 @@ class AsmsDatas {
 ///Configure HLS / DASH data source based on provided data source and configuration.
 ///This method configures tracks, subtitles and audio tracks from given
 ///master playlist.
-Future<AsmsDatas> _setupAsmsDataSource(BPDataSource bpDataSource) async {
+Future<AsmsDatas> _setupAsmsDataSource(BPDataSource dataSource) async {
   List<BPAsmsTrack> bpAsmsTracks = [];
   List<BPSubtitlesSource> bpSubtitlesSources = [];
   List<BPAsmsAudioTrack> bpAsmsAudioTracks = [];
 
   final String? data = await BPAsmsUtils.getDataFromUrl(
-    bpDataSource.url,
-    getHeaders(bpDataSource.headers, bpDataSource.drmConfig),
+    dataSource.url,
+    getHeaders(dataSource.headers, dataSource.drmConfig),
   );
   if (data != null) {
-    final BPAsmsDataHolder _response = await BPAsmsUtils.parse(data, bpDataSource.url);
+    final BPAsmsDataHolder _response = await BPAsmsUtils.parse(data, dataSource.url);
 
     /// Load tracks
-    if (bpDataSource.useAsmsTracks == true) {
+    if (dataSource.useAsmsTracks == true) {
       bpAsmsTracks = _response.tracks ?? [];
     }
 
     /// Load subtitles
-    if (bpDataSource.useAsmsSubtitles == true) {
+    if (dataSource.useAsmsSubtitles == true) {
       final List<BPAsmsSubtitle> asmsSubtitles = _response.subtitles ?? [];
       asmsSubtitles.forEach((BPAsmsSubtitle asmsSubtitle) {
         bpSubtitlesSources.add(
@@ -96,7 +96,7 @@ Future<AsmsDatas> _setupAsmsDataSource(BPDataSource bpDataSource) async {
     }
 
     ///Load audio tracks
-    if (bpDataSource.useAsmsAudioTracks == true) {
+    if (dataSource.useAsmsAudioTracks == true) {
       bpAsmsAudioTracks = _response.audios ?? [];
     }
   }

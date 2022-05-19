@@ -2,7 +2,9 @@ import 'package:better_player/src/defines/bp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../../generated/config/bp_controls.freezed.dart';
+import 'more/bp_overflow_menu_item.dart';
+
+part '../../generated/controls/bp_config.freezed.dart';
 
 ///UI configuration of Better Player. Allows to change colors/icons/behavior
 ///of controls. Used in BPConfig. Config applies only
@@ -120,7 +122,9 @@ class BPControlsConfig with _$BPControlsConfig {
 
     ///Flag used to enable/disable retry feature
     @Default(true) bool enableRetry,
-    // this.overflowMenuCustomItems = const [],
+
+    ///Custom items of overflow menu more菜单中显示
+    @Default(<BPOverflowMenuItem>[]) List<BPOverflowMenuItem> overflowMenuCustomItems,
 
     ///Icon of the overflow menu
     @Default(Icons.more_vert_outlined) IconData overflowMenuIcon,

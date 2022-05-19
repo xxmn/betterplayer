@@ -2,24 +2,19 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'bp_subtitles_config.dart';
 
-AutoDisposeStateNotifierProvider<BPSubtitlesConfigNotifier, BPSubtitlesConfig>?
-    bpSubtitlesConfigProvider;
+AutoDisposeStateNotifierProvider<_Notifier, BPSubtitlesConfig>? bpSubtitlesConfigProvider;
 
-void initBpSubtitlesConfigProvider(BPSubtitlesConfig subtitlesConfig) {
+void initBpSubtitlesConfigProvider(BPSubtitlesConfig? subtitlesConfig) {
   if (bpSubtitlesConfigProvider == null) {
-    bpSubtitlesConfigProvider =
-        StateNotifierProvider.autoDispose<BPSubtitlesConfigNotifier, BPSubtitlesConfig>(
-      (ref) => BPSubtitlesConfigNotifier(
-        bpSubtitlesConfig: subtitlesConfig,
-      ),
+    bpSubtitlesConfigProvider = StateNotifierProvider.autoDispose<_Notifier, BPSubtitlesConfig>(
+      (ref) => _Notifier(bpSubtitlesConfig: subtitlesConfig),
     );
   }
 }
 
 void disposeBpSubtitlesConfigProvider() => bpSubtitlesConfigProvider = null;
 
-class BPSubtitlesConfigNotifier extends StateNotifier<BPSubtitlesConfig> {
-  BPSubtitlesConfigNotifier({
-    BPSubtitlesConfig? bpSubtitlesConfig,
-  }) : super(bpSubtitlesConfig ?? BPSubtitlesConfig());
+class _Notifier extends StateNotifier<BPSubtitlesConfig> {
+  _Notifier({BPSubtitlesConfig? bpSubtitlesConfig})
+      : super(bpSubtitlesConfig ?? BPSubtitlesConfig());
 }

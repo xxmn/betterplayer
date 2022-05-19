@@ -454,7 +454,7 @@
 //       ),
 //       child: Row(
 //         children: <Widget>[
-//           if (_controlsCfg.enableFullscreen)
+//           if (_controlsCfg.enableFullScreen)
 //             _buildExpandButton(
 //               backgroundColor,
 //               iconColor,
@@ -624,7 +624,7 @@
 //       cancelAndRestartTimer();
 
 //       if (!_controller!.value.initialized) {
-//         if (_bpController!.bpDataSource?.liveStream == true) {
+//         if (_bpController!.dataSource?.liveStream == true) {
 //           _bpController!.play();
 //           _bpController!.cancelNextVideoTimer();
 //         }
