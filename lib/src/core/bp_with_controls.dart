@@ -6,6 +6,7 @@ import 'package:better_player/src/config/bp_placeholder_provider.dart';
 import 'package:better_player/src/config/bp_theme_provider.dart';
 import 'package:better_player/src/controls/bp_material_controls.dart';
 import 'package:better_player/src/core/bp_status_provider.dart';
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:better_player/src/swipe/brightness_message.dart';
 import 'package:better_player/src/swipe/position_message.dart';
 import 'package:better_player/src/swipe/volumn_message.dart';
@@ -65,22 +66,23 @@ class _PlayerWithControls extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var rotation = ref.watch(bpConfigProvider!.select((v) => v.rotation));
-    var placeholderOnTop = ref.watch(bpConfigProvider!.select((v) => v.placeholderOnTop));
     var overlay = ref.watch(bpConfigProvider!.select((v) => v.overlay));
 
-    Widget placeholder = ref.watch(bpPlaceholderProvider);
+    var placeholderOnTop = ref.watch(bpConfigProvider!.select((v) => v.placeholderOnTop));
+    var isPlaying = ref.watch(npStatusProvider.select((v) => v.isPlaying));
+    var placeholder = ref.watch(bpPlaceholderProvider);
     return Container(
       child: Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
-          if (placeholderOnTop) placeholder,
+          if (!placeholderOnTop && !isPlaying) placeholder,
           Transform.rotate(
             angle: rotation * pi / 180,
             child: _MaybeBPVideoFitWidget(),
           ),
           overlay ?? SizedBox(),
           BPSubtitlesDrawer(),
-          if (!placeholderOnTop) placeholder,
+          if (placeholderOnTop && !isPlaying) placeholder,
           _MaybeShowControls(),
           MaybeShowVolumnMessage(),
           MaybeShowBrightnessMessage(),
