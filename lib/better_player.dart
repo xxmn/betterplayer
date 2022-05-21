@@ -6,7 +6,7 @@ export 'src/core/bp_controller.dart';
 
 export 'src/defines/bp_data_source.dart';
 
-export 'src/video_sction/section.dart';
+export 'src/video_segment/video_segment.dart';
 
 export 'src/config/bp_config.dart';
 

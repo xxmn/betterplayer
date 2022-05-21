@@ -3,6 +3,7 @@ import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/config/bp_cache_config.dart';
 import 'package:better_player/src/config/bp_notification.dart';
 import 'package:better_player/src/defines/bp_drm_config.dart';
+import 'package:better_player/src/video_segment/list/segment.dart';
 import 'package:flutter/widgets.dart';
 import 'video_format.dart';
 
@@ -16,7 +17,7 @@ class BPDataSource {
   final String url;
   final String? audioUri;
 
-  final List<Section>? sections;
+  final List<Segment>? sections;
 
   ///Flag to determine if current data source is live stream
   final bool? isLiveStream;
@@ -146,7 +147,7 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.network(
     String url, {
-    List<Section>? sections,
+    List<Segment>? sections,
     bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
@@ -187,7 +188,7 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.file(
     String url, {
-    List<Section>? sections,
+    List<Segment>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
@@ -217,7 +218,7 @@ class BPDataSource {
   factory BPDataSource.memory(
     List<int> bytes, {
     String? videoExtension,
-    List<Section>? sections,
+    List<Segment>? sections,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,

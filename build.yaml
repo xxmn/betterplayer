@@ -20,7 +20,7 @@ targets:
             - "lib/src/config/**.dart"
             - "lib/src/controls/**.dart"
             - "lib/src/fullscreen/**.dart"
-            - "lib/src/video_sction/**.dart"
+            - "lib/src/video_segment/*/**.dart"
             # - test/integration/*
         options:
           build_extensions:

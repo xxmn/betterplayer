@@ -1,4 +1,4 @@
-class Section {
+class Segment {
   int start; // in millisecond
   int? end; // in millisecond
   int? duration; // in millisecond
@@ -7,7 +7,7 @@ class Section {
   String? desc;
   String? imgUrl;
 
-  Section(this.title, {required this.start, this.duration, this.end, this.imgUrl, this.desc})
+  Segment(this.title, {required this.start, this.duration, this.end, this.imgUrl, this.desc})
       : assert(duration != null || end != null, "duration or end must be filled."),
         assert(
           !(duration != null && end != null && end - start != duration),

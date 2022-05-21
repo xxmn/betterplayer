@@ -1,15 +1,15 @@
-import 'package:better_player/src/video_sction/section.dart';
 import 'package:better_player/src/utils/bp_utils.dart' show BPUtils;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'buttons.dart';
+import 'status_provider.dart';
+import 'segment.dart';
 
-import 'provider.dart';
+class VideoSegmentListPage extends HookConsumerWidget {
+  final List<Segment> sections;
 
-class VideoSections extends HookConsumerWidget {
-  final List<Section> sections;
-
-  VideoSections(this.sections, {Key? key}) : super(key: key);
+  VideoSegmentListPage(this.sections, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -27,11 +27,12 @@ class VideoSections extends HookConsumerWidget {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
+              ListButtons(),
               Expanded(child: SizedBox()),
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  onPressed: () => ref.read(bpVideoSectionProvider.notifier).setIsShow(false),
+                  onPressed: () => ref.read(listStatusProvider.notifier).setIsShow(false),
                   icon: Icon(Icons.close),
                 ),
               ),
@@ -54,7 +55,7 @@ class VideoSections extends HookConsumerWidget {
 class _VideoSection extends StatelessWidget {
   const _VideoSection({Key? key, required this.section, required this.index}) : super(key: key);
 
-  final Section section;
+  final Segment section;
   final int index;
 
   @override
