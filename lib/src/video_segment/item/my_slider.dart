@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:fluttericon/mfg_labs_icons.dart';
+import 'current_provider.dart';
 import 'status_provider.dart';
 
 class MySlider extends StatefulHookConsumerWidget {
-  final double min;
-  final double max;
-  final double totalWidth = 300;
-  late double rate;
-  MySlider({required this.min, required this.max, Key? key}) : super(key: key) {
-    rate = totalWidth / max;
-  }
+  MySlider({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => __MySlider2State();
@@ -17,7 +13,8 @@ class MySlider extends StatefulHookConsumerWidget {
 
 class __MySlider2State extends ConsumerState<MySlider> {
   final double height = 6;
-  double top = 32;
+  final double top = 36;
+  final double left = 20;
   final GlobalKey startKey = GlobalKey();
   final GlobalKey endKey = GlobalKey();
   double w = 0;
@@ -36,12 +33,12 @@ class __MySlider2State extends ConsumerState<MySlider> {
   }
 
   void _getContainerHeight(Duration d) {
+    //TODO: 需优化， 动态获取icon的宽度
+
     var w21 = startKey.currentContext?.size?.width;
     var w22 = endKey.currentContext?.size?.width;
 
     setState(() {
-      // top = startKey.currentContext?.size?.height ?? 32;
-      // print("_getContainerHeight --------------- top:$top");
       w = w21 ?? 0;
       w2 = w22 ?? 0;
     });
@@ -49,61 +46,101 @@ class __MySlider2State extends ConsumerState<MySlider> {
 
   @override
   Widget build(BuildContext context) {
-    var r = ref.watch(itemStatusProvider);
-    // print("MySlider rebuilding..................r:$r");
-    return Stack(
-      alignment: AlignmentDirectional.topCenter,
-      // alignment: Alignment.center,
-      children: [
-        // Container(height: height, width: r.start * rate, color: Colors.grey),
-        Positioned(
-          top: top,
-          left: 0,
-          child: Container(height: height, width: r.start * widget.rate, color: Colors.grey),
-        ),
-        Positioned(
-          key: startKey,
-          top: 0,
-          left: r.start * widget.rate - w / 2,
-          child: Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              var selected = ref.watch(itemStatusProvider.select((v) => v.selectStart));
-              return IconButton(
-                color: selected ? Colors.blue : Colors.black,
-                icon: const Icon(Icons.arrow_downward),
-                onPressed: () => ref.read(itemStatusProvider.notifier).toggleStart(),
-              );
-            },
+    var progressStart = ref.watch(itemStatusProvider.select(
+      (v) => v.progressStart.inMilliseconds / 1000,
+    ));
+    var progressMaxTime = ref.watch(itemStatusProvider.select(
+      (v) => v.progressDuration.inMilliseconds / 1000,
+    ));
+
+    print("progressMaxTime: $progressMaxTime");
+
+    var itemStart = ref.watch(itemCurrentProvider.select((v) => v.start.inMilliseconds / 1000));
+    var itemEnd = ref.watch(itemCurrentProvider.select((v) => v.end.inMilliseconds / 1000));
+    var start = itemStart - progressStart;
+    var end = itemEnd - progressStart;
+    // print("MySlider rebuilding..................start:$start, end: $end");
+    print("start: $start, end:$end, (progressMaxTime - end): ${(progressMaxTime - end)}");
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var rate = (constraints.maxWidth - left * 2) / progressMaxTime;
+        return SizedBox(
+          height: 48,
+          child: Stack(
+            alignment: AlignmentDirectional.topCenter,
+            // alignment: Alignment.center,
+            children: [
+              Positioned(
+                top: top,
+                left: left,
+                child: Container(
+                  height: height,
+                  width: start * rate,
+                  color: Colors.grey,
+                ),
+              ),
+              Positioned(
+                top: top,
+                left: left + start * rate,
+                child: Container(
+                  height: height,
+                  width: (end - start) * rate,
+                  color: Colors.blue,
+                ),
+              ),
+              Positioned(
+                top: top,
+                left: left + end * rate,
+                child: Container(
+                  height: height,
+                  width: (progressMaxTime - end) * rate,
+                  color: Colors.grey,
+                ),
+              ),
+              Positioned(
+                key: startKey,
+                top: 0,
+                left: left + start * rate - w / 2,
+                child: _DownArrowStart(),
+              ),
+              Positioned(
+                key: endKey,
+                top: 0,
+                left: left + end * rate - w2 / 2,
+                child: _DownArrowEnd(),
+              ),
+            ],
           ),
-        ),
-        Positioned(
-          top: top,
-          left: r.start * widget.rate,
-          child:
-              Container(height: height, width: (r.end - r.start) * widget.rate, color: Colors.blue),
-        ),
-        Positioned(
-          key: endKey,
-          top: 0,
-          left: r.end * widget.rate - w2 / 2,
-          child: Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              var selected = ref.watch(itemStatusProvider.select((v) => v.selectEnd));
-              return IconButton(
-                color: selected ? Colors.blue : Colors.black,
-                icon: Icon(Icons.arrow_downward),
-                onPressed: () => ref.read(itemStatusProvider.notifier).toggleEnd(),
-              );
-            },
-          ),
-        ),
-        Positioned(
-          top: top,
-          left: r.end * widget.rate,
-          child: Container(
-              height: height, width: (widget.max - r.end) * widget.rate, color: Colors.grey),
-        ),
-      ],
+        );
+      },
+    );
+  }
+}
+
+class _DownArrowStart extends HookConsumerWidget {
+  const _DownArrowStart({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var selected = ref.watch(itemStatusProvider.select((v) => v.selectStart));
+    return IconButton(
+      color: selected ? Colors.blue : Colors.black,
+      // icon: Icon(Icons.arrow_downward),
+      icon: const Icon(MfgLabs.down_fat),
+      onPressed: ref.read(itemStatusProvider.notifier).toggleStart,
+    );
+  }
+}
+
+class _DownArrowEnd extends HookConsumerWidget {
+  const _DownArrowEnd({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var selected = ref.watch(itemStatusProvider.select((v) => v.selectEnd));
+    return IconButton(
+      color: selected ? Colors.blue : Colors.black,
+      // icon: Icon(Icons.arrow_downward),
+      icon: const Icon(MfgLabs.down_fat),
+      onPressed: ref.read(itemStatusProvider.notifier).toggleEnd,
     );
   }
 }

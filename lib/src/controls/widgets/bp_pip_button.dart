@@ -2,7 +2,6 @@ import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/controls/bp_material_clickable_widget.dart';
 import 'package:better_player/src/controls/show_controls_provider.dart';
 import 'package:better_player/src/core/bp_pip_provider.dart';
-import 'package:better_player/src/core/bp_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

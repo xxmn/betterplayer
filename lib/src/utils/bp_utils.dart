@@ -20,9 +20,19 @@ class BPUtils {
     return formatDuration(Duration(milliseconds: ms));
   }
 
+  static String formatDurationMs(Duration position) {
+    var f = _formatDuration(position);
+    return "$f.${position.inMilliseconds % 1000}";
+  }
+
   static String formatDuration(Duration position) {
+    var ms = position.inMilliseconds + 500;
+    return _formatDuration(Duration(milliseconds: ms));
+  }
+
+  static String _formatDuration(Duration position) {
     //四舍五入
-    final ms = position.inMilliseconds + 500;
+    final ms = position.inMilliseconds;
 
     int seconds = ms ~/ 1000;
     final int hours = seconds ~/ 3600;

@@ -1,13 +1,10 @@
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/config/bp_config_provider.dart';
-import 'package:better_player/src/controls/bp_config_provider.dart';
 import 'package:better_player/src/config/bp_translations.dart';
 import 'package:better_player/src/core/bp_app_lifecycle_provider.dart';
 import 'package:better_player/src/core/bp_data_source_provider.dart';
 import 'package:better_player/src/fullscreen/bp_config_provider.dart';
 import 'package:better_player/src/native_player/np_create_provider.dart';
-import 'package:better_player/src/subtitles/bp_config.dart';
-import 'package:better_player/src/subtitles/bp_config_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

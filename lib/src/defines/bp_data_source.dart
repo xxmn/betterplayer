@@ -3,7 +3,7 @@ import 'package:better_player/src/config/bp_buffering_config.dart';
 import 'package:better_player/src/config/bp_cache_config.dart';
 import 'package:better_player/src/config/bp_notification.dart';
 import 'package:better_player/src/defines/bp_drm_config.dart';
-import 'package:better_player/src/video_segment/list/segment.dart';
+import 'package:better_player/src/video_segment/segment.dart';
 import 'package:flutter/widgets.dart';
 import 'video_format.dart';
 
@@ -17,7 +17,7 @@ class BPDataSource {
   final String url;
   final String? audioUri;
 
-  final List<Segment>? sections;
+  final List<Segment>? segments;
 
   ///Flag to determine if current data source is live stream
   final bool? isLiveStream;
@@ -122,7 +122,7 @@ class BPDataSource {
     this.size,
     this.errorDescription,
     this.bytes,
-    this.sections,
+    this.segments,
     this.isLiveStream = false,
     this.headers,
     this.useAsmsSubtitles = true,
@@ -147,7 +147,7 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.network(
     String url, {
-    List<Segment>? sections,
+    List<Segment>? segments,
     bool? isLiveStream,
     Map<String, String>? headers,
     bool? useAsmsSubtitles,
@@ -166,7 +166,7 @@ class BPDataSource {
     return BPDataSource(
       BPDataSourceType.network,
       url,
-      sections: sections,
+      segments: segments,
       isLiveStream: isLiveStream,
       headers: headers,
       useAsmsSubtitles: useAsmsSubtitles,
@@ -188,7 +188,7 @@ class BPDataSource {
   ///Bytes parameter is not used in this data source.
   factory BPDataSource.file(
     String url, {
-    List<Segment>? sections,
+    List<Segment>? segments,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
@@ -201,7 +201,7 @@ class BPDataSource {
     return BPDataSource(
       BPDataSourceType.file,
       url,
-      sections: sections,
+      segments: segments,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
@@ -218,7 +218,7 @@ class BPDataSource {
   factory BPDataSource.memory(
     List<int> bytes, {
     String? videoExtension,
-    List<Segment>? sections,
+    List<Segment>? segments,
     bool? useAsmsSubtitles,
     bool? useAsmsTracks,
     Map<String, String>? qualities,
@@ -232,7 +232,7 @@ class BPDataSource {
       "",
       videoExtension: videoExtension,
       bytes: bytes,
-      sections: sections,
+      segments: segments,
       useAsmsSubtitles: useAsmsSubtitles,
       useAsmsTracks: useAsmsTracks,
       resolutions: qualities,
