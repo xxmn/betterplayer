@@ -1,3 +1,4 @@
+import 'package:better_player/src/native_player/np_status_provider.dart';
 import 'package:better_player/src/video_segment/segment.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,19 +18,26 @@ class _Notifier extends StateNotifier<Segment> {
   }
 
   void newSegment() {
+    var start = Duration(seconds: 30);
     var newSegment = Segment(
       id: 9,
       title: "新章节...",
-      start: Duration(seconds: 30),
+      start: start,
       end: Duration(seconds: 80),
     );
     setItem(newSegment);
-    read(itemStatusProvider.notifier).setNew(true);
+    read(npStatusProvider.notifier).seekToAndContinue(start);
+    read(itemStatusProvider.notifier)
+      ..setNew(true)
+      ..setStart();
   }
 
   void modifySegment(Segment s) {
     setItem(s);
-    read(itemStatusProvider.notifier).setNew(false);
+    read(npStatusProvider.notifier).seekToAndContinue(s.start);
+    read(itemStatusProvider.notifier)
+      ..setNew(false)
+      ..setStart();
   }
 
   void setItem(Segment s) {
@@ -52,6 +60,7 @@ class _Notifier extends StateNotifier<Segment> {
     state = state.copyWith(start: state.start - Duration(milliseconds: 100));
   }
 
+  Duration get start => state.start;
   void setStart(Duration start) {
     read(itemStatusProvider.notifier).setUpdated();
     state = state.copyWith(start: start);
@@ -67,6 +76,7 @@ class _Notifier extends StateNotifier<Segment> {
     state = state.copyWith(end: state.end - Duration(milliseconds: 100));
   }
 
+  Duration get end => state.end;
   void setEnd(Duration end) {
     read(itemStatusProvider.notifier).setUpdated();
     state = state.copyWith(end: end);

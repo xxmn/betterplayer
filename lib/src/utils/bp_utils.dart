@@ -22,7 +22,13 @@ class BPUtils {
 
   static String formatDurationMs(Duration position) {
     var f = _formatDuration(position);
-    return "$f.${position.inMilliseconds % 1000}";
+    var ms = position.inMilliseconds % 1000;
+    final str = ms >= 100
+        ? '$ms'
+        : ms >= 10
+            ? '0$ms'
+            : '00$ms';
+    return "$f.$str";
   }
 
   static String formatDuration(Duration position) {

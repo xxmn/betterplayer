@@ -6,19 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'np_platform_instance.dart';
 
-final npStatusProvider = StateNotifierProvider.autoDispose<_NPStatusNotifier, NPStatus>(
+final npStatusProvider = StateNotifierProvider.autoDispose<_Notifier, NPStatus>(
   (ref) {
     var createStatus = ref.watch(npCreateProvider!);
-    return _NPStatusNotifier(textureId: createStatus.textureId);
+    return _Notifier(textureId: createStatus.textureId);
   },
 );
 
-class _NPStatusNotifier extends StateNotifier<NPStatus> {
+class _Notifier extends StateNotifier<NPStatus> {
   int? textureId;
   StreamSubscription<NPVideoEvent>? _eventSubscription;
   Timer? _updatePositionTimer;
-  _NPStatusNotifier({this.textureId}) : super(NPStatus()) {
-    // print("in _NPStatusNotifier constructor, textureId: $textureId");
+  _Notifier({this.textureId}) : super(NPStatus()) {
+    // print("in _Notifier constructor, textureId: $textureId");
     if (textureId != null) {
       _eventSubscription = npPlatform.videoEventsFor(textureId!).listen(
             _eventListener,
@@ -78,6 +78,13 @@ class _NPStatusNotifier extends StateNotifier<NPStatus> {
       position = Duration.zero;
     }
     await npPlatform.seekTo(textureId, position);
+  }
+
+  Future<void> seekToAndPlay(Duration position) async {
+    var isPlaying = state.isPlaying;
+    if (isPlaying) await pause();
+    await seekTo(position);
+    await play();
   }
 
   Future<void> seekToAndContinue(Duration position) async {

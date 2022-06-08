@@ -12,14 +12,11 @@ class _Notifier extends StateNotifier<VideoSegmentItemStatus> {
   void setNew(bool isNew) => state = VideoSegmentItemStatus(isNew: isNew);
 
   // bool get isSelected => state.selectStart || state.selectEnd;
-  bool getSelectStart() => state.selectStart;
   void setUpdated() => state.isUpdated ? null : state = state.copyWith(isUpdated: true);
-  void toggleStart() {
-    state = state.copyWith(
-      selectStart: !state.selectStart,
-      selectEnd: false,
-    );
-  }
+
+  bool getSelectStart() => state.selectStart;
+  void toggleStart() => state = state.copyWith(selectStart: !state.selectStart, selectEnd: false);
+  void setStart() => state = state.copyWith(selectStart: true, selectEnd: false);
 
   bool getSelectEnd() => state.selectEnd;
   void toggleEnd() {

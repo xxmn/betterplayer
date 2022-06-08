@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'item/current_provider.dart';
 import 'item/status_provider.dart';
 import 'segment.dart';
 

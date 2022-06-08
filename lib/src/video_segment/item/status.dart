@@ -13,5 +13,7 @@ class VideoSegmentItemStatus with _$VideoSegmentItemStatus {
     // 是否新增segment
     @Default(false) bool isNew,
     @Default(false) bool isUpdated,
+    // @Default(true) bool hasStartSetted,
+    // @Default(true) bool hasEndSetted,
   }) = _VideoSegmentItemStatus;
 }
